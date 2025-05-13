@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar Component - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb::before {
+            content: '🏠';
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+        
+        .content-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .content-section h2::before {
+            content: '📱';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .content-section h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+        
+        .content-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .code-block::before {
+            content: 'Code Example';
+            display: block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #b8c2cc;
+        }
+        
+        .sidebar-demo {
+            display: flex;
+            margin: 2rem 0;
+            box-shadow: var(--card-shadow);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .sidebar-collapsed, .sidebar-expanded {
+            background-color: #2b2d42;
+            color: white;
+            padding: 1rem;
+        }
+        
+        .sidebar-collapsed {
+            width: 70px;
+        }
+        
+        .sidebar-expanded {
+            width: 250px;
+        }
+        
+        .sidebar-collapsed-content, .sidebar-expanded-content {
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-logo {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .sidebar-toggle {
+            width: 24px;
+            height: 24px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .nav-item {
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.75rem;
+        }
+        
+        .collapsed-nav-item {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.05);
+            transition: background-color 0.2s;
+        }
+        
+        .collapsed-nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .collapsed-nav-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .sidebar-footer {
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+        }
+        
+        .prop-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .prop-table th, 
+        .prop-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        .prop-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .prop-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .back-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .state-diagram {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .state-box {
+            background-color: var(--light-bg);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            width: 200px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            margin: 1rem;
+        }
+        
+        .state-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 1rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .arrow-label {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar-demo {
+                flex-direction: column;
+            }
+            
+            .sidebar-collapsed, .sidebar-expanded {
+                width: 100%;
+            }
+            
+            .sidebar-collapsed-content, .sidebar-expanded-content {
+                height: 200px;
+            }
+            
+            .state-diagram {
+                flex-direction: column;
+            }
+            
+            .state-arrow {
+                transform: rotate(90deg);
+                margin: 1rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sidebar Component</h1>
+        <p class="subtitle">Navigation sidebar with collapsible functionality</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Components</a> &gt; Sidebar
+        </div>
+        
+        <section class="content-section">
+            <h2>Sidebar Overview</h2>
+            <p>
+                The <code>Sidebar</code> component provides the main navigation for the ESTLM application. 
+                It includes links to all main sections of the application and can be collapsed to save space on smaller screens.
+            </p>
+            <p>
+                The sidebar's collapsed state is persisted in localStorage, so it remembers the user's preference across sessions.
+            </p>
+            
+            <div class="sidebar-demo">
+                <div class="sidebar-collapsed">
+                    <div class="sidebar-collapsed-content">
+                        <div class="sidebar-header">
+                            <div class="sidebar-toggle">▶</div>
+                        </div>
+                        <div class="collapsed-nav-item active">🏠</div>
+                        <div class="collapsed-nav-item">📊</div>
+                        <div class="collapsed-nav-item">👥</div>
+                        <div class="collapsed-nav-item">✓</div>
+                        <div class="collapsed-nav-item">📝</div>
+                        <div class="collapsed-nav-item">🏢</div>
+                        <div class="collapsed-nav-item">🔍</div>
+                        <div class="sidebar-footer">
+                            <div class="collapsed-nav-item">⚙️</div>
+                            <div class="collapsed-nav-item" style="color: #e74c3c;">⎋</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar-expanded">
+                    <div class="sidebar-expanded-content">
+                        <div class="sidebar-header">
+                            <div class="sidebar-logo">ESTLAMS</div>
+                            <div class="sidebar-toggle">◀</div>
+                        </div>
+                        <div class="nav-item active">
+                            <div class="nav-icon">🏠</div>
+                            <div>Dashboard</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon">📊</div>
+                            <div>Reports</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon">👥</div>
+                            <div>Students</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon">✓</div>
+                            <div>Attendance</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon">📝</div>
+                            <div>Subjects</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon">🏢</div>
+                            <div>Departments</div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="nav-icon">🔍</div>
+                            <div>AI Search</div>
+                        </div>
+                        <div class="sidebar-footer">
+                            <div class="nav-item">
+                                <div class="nav-icon">⚙️</div>
+                                <div>Settings</div>
+                            </div>
+                            <div class="nav-item" style="color: #e74c3c;">
+                                <div class="nav-icon">⎋</div>
+                                <div>Logout</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="content-section">
+            <h2>Implementation</h2>
+            <p>
+                The Sidebar component is implemented in <code>client/src/components/layout/Sidebar.jsx</code>. 
+                It uses React's useState and useEffect hooks to manage the collapsed state and persist it to localStorage.
+            </p>
+            
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Collapsible Interface</strong>: Can be toggled between expanded and collapsed states</li>
+                <li><strong>State Persistence</strong>: Remembers the collapsed state in localStorage</li>
+                <li><strong>Active Route Highlighting</strong>: Uses React Router's NavLink to highlight the active route</li>
+                <li><strong>Tooltips in Collapsed Mode</strong>: Shows tooltips when hovering over icons in collapsed mode</li>
+                <li><strong>Lucide React Icons</strong>: Uses consistent icons from the Lucide React library</li>
+                <li><strong>Quick Access Footer</strong>: Provides quick access to settings and logout</li>
+            </ul>
+            
+            <h3>State Management</h3>
+            <p>
+                The sidebar uses React's useState hook to track whether it's collapsed or expanded:
+            </p>
+            
+            <div class="code-block">
+<pre>// From Sidebar.jsx - State management for collapsed state
+const [collapsed, setCollapsed] = useState(() => {
+  const savedState = localStorage.getItem('sidebarCollapsed');
+  return savedState ? JSON.parse(savedState) : false;
+});
+
+// Save collapsed state to localStorage whenever it changes
+useEffect(() => {
+  localStorage.setItem('sidebarCollapsed', JSON.stringify(collapsed));
+}, [collapsed]);</pre>
+            </div>
+            
+            <div class="state-diagram">
+                <div class="state-box">
+                    <strong>Expanded State</strong>
+                    <p>Shows full text and icons</p>
+                    <p><small>collapsed = false</small></p>
+                </div>
+                <div class="state-arrow">
+                    →
+                    <div class="arrow-label">Click toggle</div>
+                </div>
+                <div class="state-box">
+                    <strong>Collapsed State</strong>
+                    <p>Shows icons only</p>
+                    <p><small>collapsed = true</small></p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="content-section">
+            <h2>NavLink Integration</h2>
+            <p>
+                The sidebar uses React Router's <code>NavLink</code> component to create navigation links with active state styling:
+            </p>
+            
+            <div class="code-block">
+<pre>{routes.map((route) => {
+  const IconComponent = Icons[route.icon] || Icons.Package;
+  return (
+    &lt;NavLink
+      key={route.path}
+      to={route.path}
+      title={collapsed ? route.name : undefined}
+      className={({ isActive }) => cn(
+        "flex items-center p-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-all duration-200",
+        isActive ? "bg-accent/20 text-primary font-medium border-l-4 border-primary pl-[10px]" : "text-muted-foreground hover:text-foreground",
+        collapsed ? "justify-center" : "justify-start",
+        isActive && collapsed && "border-l-4 border-primary"
+      )}
+    &gt;
+      {IconComponent && &lt;IconComponent className="w-5 h-5" /&gt;}
+      {!collapsed && &lt;span className="ml-2 whitespace-nowrap"&gt;{route.name}&lt;/span&gt;}
+    &lt;/NavLink&gt;
+  );
+})}</pre>
+            </div>
+            
+            <p>
+                This implementation:
+            </p>
+            <ul>
+                <li>Maps over the centralized routes configuration to create navigation links</li>
+                <li>Uses the <code>isActive</code> state from NavLink to style active routes</li>
+                <li>Conditionally renders text labels based on the collapsed state</li>
+                <li>Adds tooltips (via title attribute) when in collapsed mode</li>
+                <li>Uses Lucide React icons specified in the route configuration</li>
+            </ul>
+        </section>
+        
+        <section class="content-section">
+            <h2>Usage</h2>
+            <p>
+                The Sidebar component is used in the Layout component to provide navigation for the entire application:
+            </p>
+            
+            <div class="code-block">
+<pre>// From Layout.jsx
+import React from 'react';
+import { Sidebar } from './Sidebar';
+import { Navbar } from './Navbar';
+
+function Layout({ children }) {
+  return (
+    &lt;div className="flex h-screen overflow-hidden bg-background"&gt;
+      &lt;Sidebar /&gt;
+      &lt;div className="flex flex-col flex-1 overflow-hidden"&gt;
+        &lt;Navbar /&gt;
+        &lt;main className="flex-1 overflow-auto p-4"&gt;
+          {children}
+        &lt;/main&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+            </div>
+            
+            <p>
+                The Sidebar doesn't require any props as it gets all its required data from:
+            </p>
+            <ul>
+                <li>The centralized routes configuration in <code>routes.jsx</code></li>
+                <li>The authentication context via <code>useAuth()</code> hook for the logout functionality</li>
+                <li>localStorage for persisting the collapsed state</li>
+            </ul>
+        </section>
+        
+        <section class="content-section">
+            <h2>Related Components and Files</h2>
+            <p>
+                The Sidebar component works with these other components and files:
+            </p>
+            <ul>
+                <li><a href="layout.html">Layout</a> - The parent component that renders the Sidebar</li>
+                <li><code>routes.jsx</code> - The centralized route configuration used to generate navigation links</li>
+                <li><code>context/AuthContext.jsx</code> - Provides the logout function for the sidebar's logout button</li>
+            </ul>
+        </section>
+        
+        <div class="back-section">
+            <a href="index.html" class="back-button">Back to Components</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+    </footer>
+</body>
+</html>

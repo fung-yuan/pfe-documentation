@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management - Documentation</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --accent-color: #4fc3f7;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --info-color: #3498db;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumbs a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--secondary-color);
+        }
+
+        .breadcrumbs .separator {
+            margin: 0 0.5rem;
+            color: #ccc;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-color);
+            display: inline-block;
+        }
+
+        .card h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem;
+        }
+
+        .card-icon {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            color: var(--accent-color);
+            opacity: 0.3;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-item h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-icon {
+            margin-right: 0.75rem;
+            background-color: var(--accent-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .code-block {
+            background-color: #272822;
+            color: #f8f8f2;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block pre {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .code-header {
+            background-color: #20211c;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.8rem;
+            color: #75715e;
+            margin-top: -1.5rem;
+            margin-left: -1.5rem;
+            margin-right: -1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .student-diagram {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .entity-box {
+            background-color: white;
+            border: 2px solid var(--accent-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            min-width: 200px;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+        }
+
+        .entity-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .entity-attributes {
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .relationship-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 1rem;
+        }
+
+        .line {
+            height: 2px;
+            width: 50px;
+            background-color: var(--accent-color);
+        }
+
+        .relationship-label {
+            font-size: 0.8rem;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            margin: 0 0.5rem;
+        }
+
+        .note {
+            background-color: #fff8e1;
+            border-left: 4px solid var(--warning-color);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .note-title {
+            font-weight: 600;
+            color: var(--warning-color);
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .note-title i {
+            margin-right: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        thead {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        @media (max-width: 768px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content animate__animated animate__fadeIn">
+            <h1><i class="fas fa-user-graduate"></i> Student Management</h1>
+            <p>Comprehensive documentation on managing student information and academic records</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a>
+            <span class="separator"><i class="fas fa-chevron-right"></i></span>
+            <span>Student Management</span>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp">
+            <i class="fas fa-info-circle card-icon"></i>
+            <h2>Overview</h2>
+            <p>
+                The Student Management module provides comprehensive functionality for managing student information, academic records, and enrollment data. This foundational component is essential for tracking attendance, managing course registrations, and generating reports on student performance.
+            </p>
+            <p>
+                Students are the core entities in the educational system, associated with departments, subjects, and attendance records. The student management system provides tools to handle student lifecycle from enrollment to graduation.
+            </p>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <i class="fas fa-database card-icon"></i>
+            <h2>Data Model</h2>
+            
+            <p>The Student entity is connected to multiple other components in the system:</p>
+            
+            <div class="student-diagram">
+                <div class="entity-box">
+                    <div class="entity-title">Department</div>
+                    <div class="entity-attributes">
+                        - departmentId<br>
+                        - name<br>
+                        - code
+                    </div>
+                </div>
+                
+                <div class="relationship-line">
+                    <div class="line"></div>
+                    <div class="relationship-label">belongs to</div>
+                    <div class="line"></div>
+                </div>
+                
+                <div class="entity-box">
+                    <div class="entity-title">Student</div>
+                    <div class="entity-attributes">
+                        - studentId<br>
+                        - firstName<br>
+                        - lastName<br>
+                        - email<br>
+                        - registrationNumber<br>
+                        - dateOfBirth
+                    </div>
+                </div>
+                
+                <div class="relationship-line">
+                    <div class="line"></div>
+                    <div class="relationship-label">has</div>
+                    <div class="line"></div>
+                </div>
+                
+                <div class="entity-box">
+                    <div class="entity-title">Attendance</div>
+                    <div class="entity-attributes">
+                        - attendanceId<br>
+                        - date<br>
+                        - status<br>
+                        - hours
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Core Student Attributes</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Description</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>studentId</td>
+                        <td>Unique identifier for each student</td>
+                        <td>Long</td>
+                    </tr>
+                    <tr>
+                        <td>registrationNumber</td>
+                        <td>Academic registration number (unique)</td>
+                        <td>String</td>
+                    </tr>
+                    <tr>
+                        <td>firstName</td>
+                        <td>Student's first name</td>
+                        <td>String</td>
+                    </tr>
+                    <tr>
+                        <td>lastName</td>
+                        <td>Student's last name</td>
+                        <td>String</td>
+                    </tr>
+                    <tr>
+                        <td>email</td>
+                        <td>Student's email address</td>
+                        <td>String</td>
+                    </tr>
+                    <tr>
+                        <td>dateOfBirth</td>
+                        <td>Student's date of birth</td>
+                        <td>Date</td>
+                    </tr>
+                    <tr>
+                        <td>department</td>
+                        <td>Department the student belongs to</td>
+                        <td>Entity</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="note">
+                <div class="note-title"><i class="fas fa-info-circle"></i> Note</div>
+                <p>
+                    The Student entity serves as a core component for the attendance tracking system. Each attendance record is linked to a specific student, allowing for detailed absence reports and statistics.
+                </p>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+            <i class="fas fa-list-ul card-icon"></i>
+            <h2>Features & Functionality</h2>
+            
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>
+                        <div class="feature-icon"><i class="fas fa-user-plus"></i></div>
+                        Student Registration
+                    </h3>
+                    <p>
+                        The system provides functionality to register new students with all relevant personal and academic information. Each student is assigned a unique registration number for identification.
+                    </p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>
+                        <div class="feature-icon"><i class="fas fa-sync-alt"></i></div>
+                        Profile Management
+                    </h3>
+                    <p>
+                        Update and maintain student profiles with current contact information, academic status, and department affiliation as needed throughout their academic journey.
+                    </p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>
+                        <div class="feature-icon"><i class="fas fa-search"></i></div>
+                        Advanced Search
+                    </h3>
+                    <p>
+                        Powerful search capabilities allow administrators to find students by various criteria including name, registration number, department, or enrollment status.
+                    </p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>
+                        <div class="feature-icon"><i class="fas fa-clipboard-list"></i></div>
+                        Attendance Tracking
+                    </h3>
+                    <p>
+                        Track student attendance across all subjects and generate reports to identify attendance patterns and address excessive absences.
+                    </p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>
+                        <div class="feature-icon"><i class="fas fa-graduation-cap"></i></div>
+                        Academic Records
+                    </h3>
+                    <p>
+                        Maintain comprehensive academic records including enrolled subjects, attendance history, and academic progress throughout the student's educational journey.
+                    </p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>
+                        <div class="feature-icon"><i class="fas fa-file-export"></i></div>
+                        Reporting
+                    </h3>
+                    <p>
+                        Generate detailed reports about student enrollment, attendance statistics, and performance metrics by department, subject, or individual student.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
+            <i class="fas fa-code card-icon"></i>
+            <h2>Implementation</h2>
+            <p>
+                The Student Management module is implemented using a combination of React components for the frontend and Spring Boot services for the backend.
+            </p>
+            
+            <h3>Backend Model</h3>
+            <div class="code-block">
+                <div class="code-header">Student.java</div>
+<pre>@Entity
+@Table(name = "students")
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(unique = true)
+    private String registrationNumber;
+    
+    private String firstName;
+    private String lastName;
+    private String email;
+    private Date dateOfBirth;
+    
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+    
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List&lt;Attendance&gt; attendanceRecords = new ArrayList&lt;&gt;();
+    
+    // Getters and setters
+}</pre>
+            </div>
+            
+            <h3>Frontend Service</h3>
+            <div class="code-block">
+                <div class="code-header">StudentService.js</div>
+<pre>import axiosInstance from '@/lib/axiosInstance';
+
+const getAllStudents = async () => {
+    const response = await axiosInstance.get('/students');
+    return response.data;
+};
+
+const getStudentById = async (id) => {
+    const response = await axiosInstance.get(`/students/${id}`);
+    return response.data;
+};
+
+const createStudent = async (studentData) => {
+    const response = await axiosInstance.post('/students', studentData);
+    return response.data;
+};
+
+const updateStudent = async (id, studentData) => {
+    const response = await axiosInstance.put(`/students/${id}`, studentData);
+    return response.data;
+};
+
+const deleteStudent = async (id) => {
+    const response = await axiosInstance.delete(`/students/${id}`);
+    return response.data;
+};
+
+const getStudentsByDepartment = async (departmentId) => {
+    const response = await axiosInstance.get(`/students/department/${departmentId}`);
+    return response.data;
+};
+
+const getStudentAttendance = async (studentId) => {
+    const response = await axiosInstance.get(`/students/${studentId}/attendance`);
+    return response.data;
+};
+
+export default {
+    getAllStudents,
+    getStudentById,
+    createStudent,
+    updateStudent,
+    deleteStudent,
+    getStudentsByDepartment,
+    getStudentAttendance
+};</pre>
+            </div>
+            
+            <h3>React Component</h3>
+            <div class="code-block">
+                <div class="code-header">StudentList.jsx</div>
+<pre>import React, { useState, useEffect } from 'react';
+import StudentService from '@/services/StudentService';
+import { Table, Button, Input, Space } from 'antd';
+import { SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+
+const StudentList = () => {
+    const [students, setStudents] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [searchText, setSearchText] = useState('');
+    
+    useEffect(() => {
+        const fetchStudents = async () => {
+            try {
+                setLoading(true);
+                const data = await StudentService.getAllStudents();
+                setStudents(data);
+            } catch (error) {
+                console.error('Error fetching students:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        fetchStudents();
+    }, []);
+    
+    const columns = [
+        {
+            title: 'Registration Number',
+            dataIndex: 'registrationNumber',
+            key: 'registrationNumber',
+            sorter: (a, b) => a.registrationNumber.localeCompare(b.registrationNumber),
+        },
+        {
+            title: 'Name',
+            key: 'name',
+            render: (text, record) => `${record.firstName} ${record.lastName}`,
+            sorter: (a, b) => `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`),
+        },
+        {
+            title: 'Department',
+            dataIndex: ['department', 'name'],
+            key: 'department',
+            sorter: (a, b) => a.department.name.localeCompare(b.department.name),
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+        },
+        {
+            title: 'Actions',
+            key: 'actions',
+            render: (text, record) => (
+                &lt;Space size="middle"&gt;
+                    &lt;Button 
+                        icon={&lt;EditOutlined /&gt;} 
+                        onClick={() => handleEdit(record.id)}
+                    /&gt;
+                    &lt;Button 
+                        danger 
+                        icon={&lt;DeleteOutlined /&gt;} 
+                        onClick={() => handleDelete(record.id)}
+                    /&gt;
+                &lt;/Space&gt;
+            ),
+        },
+    ];
+    
+    const handleSearch = (e) => {
+        setSearchText(e.target.value);
+    };
+    
+    const filteredStudents = students.filter(student => {
+        const fullName = `${student.firstName} ${student.lastName}`.toLowerCase();
+        const search = searchText.toLowerCase();
+        return fullName.includes(search) || 
+               student.registrationNumber.toLowerCase().includes(search) ||
+               student.email.toLowerCase().includes(search) ||
+               student.department.name.toLowerCase().includes(search);
+    });
+    
+    return (
+        &lt;div className="student-list"&gt;
+            &lt;div className="table-header"&gt;
+                &lt;Input 
+                    placeholder="Search students..." 
+                    prefix={&lt;SearchOutlined /&gt;}
+                    value={searchText}
+                    onChange={handleSearch}
+                    style={{ width: 300, marginBottom: 16 }}
+                /&gt;
+            &lt;/div&gt;
+            
+            &lt;Table 
+                columns={columns}
+                dataSource={filteredStudents}
+                rowKey="id"
+                loading={loading}
+                pagination={{ pageSize: 10 }}
+            /&gt;
+        &lt;/div&gt;
+    );
+};
+
+export default StudentList;</pre>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.8s;">
+            <i class="fas fa-handshake card-icon"></i>
+            <h2>Integration with Attendance Management</h2>
+            <p>
+                The Student Management module integrates closely with the Attendance Management system to provide a comprehensive solution for tracking student attendance:
+            </p>
+            
+            <ul>
+                <li><strong>Student Selection</strong>: When recording attendance, teachers can select from the list of students enrolled in their subjects.</li>
+                <li><strong>Absence Records</strong>: Each absence record is associated with a specific student, allowing for detailed tracking and reporting.</li>
+                <li><strong>Student Reports</strong>: Generate individualized attendance reports for each student showing their attendance patterns across subjects.</li>
+                <li><strong>Natural Language Search</strong>: The system supports natural language queries to find students with specific attendance patterns, such as "Show me students with zero absences" or "List students with more than 5 absences in Computer Science."</li>
+            </ul>
+            
+            <div class="note">
+                <div class="note-title"><i class="fas fa-link"></i> Related Documentation</div>
+                <p>
+                    For more details on how student data is used in attendance tracking, see the <a href="attendance-management.html">Attendance Management</a> documentation.
+                </p>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 1s;">
+            <i class="fas fa-shield-alt card-icon"></i>
+            <h2>Best Practices</h2>
+            <p>
+                When working with the Student Management module, consider the following best practices:
+            </p>
+            
+            <ol>
+                <li><strong>Data Validation</strong>: Always validate student data, especially email addresses and registration numbers, to ensure data integrity.</li>
+                <li><strong>Regular Backups</strong>: Implement regular backups of student data to prevent loss of critical information.</li>
+                <li><strong>Privacy Compliance</strong>: Ensure compliance with relevant data protection regulations when handling student personal information.</li>
+                <li><strong>Consistent Naming</strong>: Use consistent naming conventions for student records to facilitate searching and reporting.</li>
+                <li><strong>Department Assignment</strong>: Always assign students to the appropriate department to ensure proper organization and reporting.</li>
+            </ol>
+        </div>
+        
+        <footer style="text-align: center; margin-top: 3rem;">
+            <p>© 2025 Educational Management System Documentation</p>
+            <p>Last Updated: May 13, 2025</p>
+        </footer>
+    </div>

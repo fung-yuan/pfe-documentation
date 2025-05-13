@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Context - State Management</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --dark-bg: #121212;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb::before {
+            content: '🏠';
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+        
+        .content-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .content-section h2::before {
+            content: '🔐';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .content-section h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+        
+        .content-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .code-block::before {
+            content: 'Code Example';
+            display: block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #b8c2cc;
+        }
+        
+        .usage-example {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            background-color: rgba(67, 97, 238, 0.05);
+            padding: 1rem;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .usage-example h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .note::before {
+            content: '📝 Note';
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .security-note {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .security-note::before {
+            content: '🔒 Security Consideration';
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .back-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Authentication Context</h1>
+        <p class="subtitle">Managing user authentication state</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../../index.html">Home</a> &gt; <a href="../index.html">State Management</a> &gt; Authentication Context
+        </div>
+        
+        <section class="content-section">
+            <h2>Overview</h2>
+            <p>
+                The <code>AuthContext</code> is a central piece of the application's state management, providing authentication 
+                state and functions throughout the component tree. It uses React's Context API to make authentication data 
+                available to any component in the application without prop drilling.
+            </p>
+            
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Persistent Authentication:</strong> Uses localStorage to maintain the authentication state across page reloads</li>
+                <li><strong>User Role Management:</strong> Tracks the user's role for role-based access control</li>
+                <li><strong>Loading & Error States:</strong> Manages loading and error states for authentication operations</li>
+                <li><strong>Authentication API:</strong> Provides login and logout functions that update the global state</li>
+            </ul>
+        </section>
+        
+        <section class="content-section">
+            <h2>Implementation</h2>
+            <p>
+                The AuthContext is implemented as a React Context with a provider component that wraps the application.
+            </p>
+            
+            <div class="code-block">
+<pre>// AuthContext.jsx
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import { authService } from '@/services/authService';
+
+const AuthContext = createContext(null);
+
+// Key for storing the token in localStorage
+const AUTH_TOKEN_KEY = 'authToken';
+
+export const AuthProvider = ({ children }) =&gt; {
+  const [authToken, setAuthToken] = useState(() =&gt; localStorage.getItem(AUTH_TOKEN_KEY));
+  const [isAuthenticated, setIsAuthenticated] = useState(() =&gt; !!localStorage.getItem(AUTH_TOKEN_KEY));
+  const [user, setUser] = useState(() =&gt; (
+    localStorage.getItem(AUTH_TOKEN_KEY) 
+      ? { username: 'admin', role: 'ADMIN' } 
+      : null
+  ));
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const login = async (credentials) =&gt; {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await authService.login(credentials);
+      const { token, user } = response;
+      
+      localStorage.setItem(AUTH_TOKEN_KEY, token);
+      setAuthToken(token);
+      setIsAuthenticated(true);
+      setUser(user);
+      return true;
+    } catch (err) {
+      setError(err.message || 'Failed to login');
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const logout = () =&gt; {
+    localStorage.removeItem(AUTH_TOKEN_KEY);
+    setAuthToken(null);
+    setIsAuthenticated(false);
+    setUser(null);
+  };
+
+  const value = {
+    isAuthenticated,
+    user,
+    userRole: user?.role,
+    authToken,
+    loading,
+    error,
+    login,
+    logout,
+  };
+
+  return &lt;AuthContext.Provider value={value}&gt;{children}&lt;/AuthContext.Provider&gt;;
+};</pre>
+            </div>
+            
+            <h3>Custom Hook for Easy Access</h3>
+            <p>
+                A custom hook is provided to easily access the AuthContext from any component:
+            </p>
+            
+            <div class="code-block">
+<pre>export const useAuth = () =&gt; {
+  const context = useContext(AuthContext);
+  if (context === null) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};</pre>
+            </div>
+        </section>
+        
+        <section class="content-section">
+            <h2>Usage Examples</h2>
+            
+            <div class="usage-example">
+                <h4>Protected Component</h4>
+                <p>Here's how components access the authentication state to protect routes:</p>
+                <div class="code-block">
+<pre>// In a component
+import { useAuth } from '@/context/AuthContext';
+import { Navigate } from 'react-router-dom';
+
+const MyProtectedComponent = () =&gt; {
+  const { isAuthenticated, user } = useAuth();
+  
+  if (!isAuthenticated) {
+    return &lt;Navigate to="/login" /&gt;;
+  }
+  
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Welcome, {user.username}&lt;/h1&gt;
+      &lt;p&gt;This is a protected page&lt;/p&gt;
+    &lt;/div&gt;
+  );
+};</pre>
+                </div>
+            </div>
+            
+            <div class="usage-example">
+                <h4>Login Form</h4>
+                <p>Using the authentication context in a login form:</p>
+                <div class="code-block">
+<pre>// Login.jsx
+import { useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
+const Login = () =&gt; {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const { login, loading, error } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) =&gt; {
+    e.preventDefault();
+    const success = await login({ username, password });
+    if (success) {
+      navigate('/dashboard');
+    }
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      {error && &lt;div className="error"&gt;{error}&lt;/div&gt;}
+      &lt;div&gt;
+        &lt;label&gt;Username&lt;/label&gt;
+        &lt;input 
+          type="text" 
+          value={username} 
+          onChange={(e) =&gt; setUsername(e.target.value)} 
+        /&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;label&gt;Password&lt;/label&gt;
+        &lt;input 
+          type="password" 
+          value={password} 
+          onChange={(e) =&gt; setPassword(e.target.value)} 
+        /&gt;
+      &lt;/div&gt;
+      &lt;button type="submit" disabled={loading}&gt;
+        {loading ? 'Logging in...' : 'Login'}
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+};</pre>
+                </div>
+            </div>
+            
+            <div class="usage-example">
+                <h4>Role-Based Access Control</h4>
+                <p>Using the user role for conditional rendering:</p>
+                <div class="code-block">
+<pre>// AdminPanel.jsx
+import { useAuth } from '@/context/AuthContext';
+
+const AdminPanel = () =&gt; {
+  const { userRole } = useAuth();
+  
+  if (userRole !== 'ADMIN') {
+    return &lt;p&gt;You do not have permission to view this page.&lt;/p&gt;;
+  }
+  
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Admin Panel&lt;/h1&gt;
+      &lt;p&gt;Welcome to the admin panel. Here you can manage users and settings.&lt;/p&gt;
+      {/* Admin-only features */}
+    &lt;/div&gt;
+  );
+};</pre>
+                </div>
+            </div>
+        </section>
+        
+        <section class="content-section">
+            <h2>Security Considerations</h2>
+            
+            <div class="security-note">
+                <p>The current implementation stores the authentication token in localStorage, which may be vulnerable to XSS attacks. For production environments, consider these security enhancements:</p>
+                <ul>
+                    <li>Use HTTP-only cookies for storing authentication tokens instead of localStorage</li>
+                    <li>Implement token refresh mechanisms to handle token expiration</li>
+                    <li>Add CSRF protection for authentication endpoints</li>
+                    <li>Replace the hardcoded user role with proper role retrieval from the backend API</li>
+                </ul>
+            </div>
+            
+            <p>
+                For development purposes, the current implementation provides a functional authentication system, but these security enhancements should be considered before deploying to production.
+            </p>
+        </section>
+        
+        <div class="back-section">
+            <a href="../index.html" class="back-button">Back to State Management</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+    </footer>
+</body>
+</html>

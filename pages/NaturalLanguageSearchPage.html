@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natural Language Search - Documentation</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #10b981;
+            --secondary-color: #059669;
+            --accent-color: #34d399;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --info-color: #3498db;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumbs a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--secondary-color);
+        }
+
+        .breadcrumbs .separator {
+            margin: 0 0.5rem;
+            color: #ccc;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-color);
+            display: inline-block;
+        }
+
+        .card h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem;
+        }
+
+        .card-icon {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            color: var(--accent-color);
+            opacity: 0.3;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-item h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-icon {
+            margin-right: 0.75rem;
+            background-color: var(--accent-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .code-block {
+            background-color: #272822;
+            color: #f8f8f2;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block pre {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .code-header {
+            background-color: #20211c;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.8rem;
+            color: #75715e;
+            margin-top: -1.5rem;
+            margin-left: -1.5rem;
+            margin-right: -1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .flow-diagram {
+            margin: 2rem 0;
+        }
+
+        .flow-step {
+            display: flex;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .flow-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 35px;
+            top: 70px;
+            height: 40px;
+            width: 2px;
+            background-color: var(--accent-color);
+            z-index: 1;
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 2;
+            box-shadow: var(--box-shadow);
+        }
+
+        .step-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
+            flex-grow: 1;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .example-query {
+            background-color: #f3f4f6;
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .example-query-text {
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .example-result {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .query-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .example-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            border-top: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .example-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .updates-box {
+            background-color: #f0fdf4;
+            border: 1px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .updates-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .updates-box h3 i {
+            margin-right: 0.75rem;
+        }
+
+        .updates-box ul {
+            margin-left: 1.5rem;
+        }
+
+        .updates-box li {
+            margin-bottom: 0.5rem;
+        }
+
+        .note {
+            background-color: #fff8e1;
+            border-left: 4px solid var(--warning-color);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .note-title {
+            font-weight: 600;
+            color: var(--warning-color);
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .note-title i {
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .feature-grid, .query-examples {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .flow-step {
+                flex-direction: column;
+            }
+            
+            .step-number {
+                margin-bottom: 1rem;
+                margin-right: 0;
+            }
+            
+            .flow-step:not(:last-child)::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content animate__animated animate__fadeIn">
+            <h1><i class="fas fa-search"></i> Natural Language Search</h1>
+            <p>Advanced search capabilities for student absence management using natural language processing</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a>
+            <span class="separator"><i class="fas fa-chevron-right"></i></span>
+            <span>Natural Language Search</span>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp">
+            <i class="fas fa-info-circle card-icon"></i>
+            <h2>Overview</h2>
+            <p>
+                The Natural Language Search feature enables users to find student absence information using everyday language instead of complex database queries. Users can simply type questions or requests in a conversational manner, and the system will interpret their intent and return relevant results.
+            </p>
+            <p>
+                Unlike traditional search systems that rely on exact keyword matching or specific syntax, our natural language search capabilities allow administrators, teachers, and staff to interact with the attendance data in an intuitive, human-like way.
+            </p>
+            
+            <div class="updates-box">
+                <h3><i class="fas fa-stars"></i> Recent Improvements</h3>
+                <p>Our natural language search has been significantly enhanced with several key improvements:</p>
+                <ul>
+                    <li><strong>GPT-4 Upgrade</strong>: Upgraded from GPT-3.5-turbo to GPT-4 for more accurate and nuanced query generation.</li>
+                    <li><strong>Zero Absence Handling</strong>: Implemented special case handling for queries about perfect attendance using a direct "NOT EXISTS" database approach for accurate identification of students with zero absences.</li>
+                    <li><strong>Absence Calculation Fix</strong>: Improved absence hour calculations with validation and capping of unreasonable values.</li>
+                    <li><strong>Enhanced Summaries</strong>: Better natural language summaries of search results for faster understanding of query outcomes.</li>
+                    <li><strong>Language Support</strong>: Improved handling of French accented characters in search queries.</li>
+                    <li><strong>Schema Context</strong>: Added more detailed database schema information to the AI prompt for more accurate query generation.</li>
+                    <li><strong>Improved Debugging</strong>: Added better logging throughout the system for easier troubleshooting.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <i class="fas fa-cogs card-icon"></i>
+            <h2>How It Works</h2>
+            <p>
+                The natural language search feature uses a sophisticated process to convert user queries into database operations:
+            </p>
+            
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <div class="step-title">User Query</div>
+                        <p>The user enters a natural language query such as "Show me students with zero absences" or "Find students in the Computer Science department who missed more than 5 classes."</p>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <div class="step-title">Query Processing</div>
+                        <p>The frontend sends the query to the backend service, which prepares it for AI processing by sanitizing inputs and adding context.</p>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <div class="step-title">GPT-4 Analysis</div>
+                        <p>The OpenAI GPT-4 model analyzes the query, understanding the user's intent and identifying key parameters (like department names, date ranges, or absence thresholds).</p>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <div class="step-title">JPQL Generation</div>
+                        <p>Based on the AI analysis, the system generates an optimized JPQL (Java Persistence Query Language) query with appropriate filters, joins, and conditions.</p>
+                        <p>Special case handling applies for specific query types like zero absence queries, which use a "NOT EXISTS" subquery approach.</p>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <div class="step-title">Database Execution</div>
+                        <p>The generated JPQL query is executed against the database to retrieve matching student records and their absence data.</p>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <div class="step-title">Result Processing</div>
+                        <p>The system processes the database results, calculating aggregate statistics and preparing the data for display.</p>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">7</div>
+                    <div class="step-content">
+                        <div class="step-title">Summary Generation</div>
+                        <p>The system generates a natural language summary of the results to help users quickly understand what was found.</p>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">8</div>
+                    <div class="step-content">
+                        <div class="step-title">User Display</div>
+                        <p>The frontend displays the results to the user, including the summary, student list, and relevant absence details.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="note">
+                <div class="note-title"><i class="fas fa-info-circle"></i> Special Case Handling</div>
+                <p>
+                    For queries about students with zero absences, we use a specialized approach with a "NOT EXISTS" subquery pattern rather than counting absences. This ensures accurate results even when there are no absence records at all for a student.
+                </p>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+            <i class="fas fa-code card-icon"></i>
+            <h2>Implementation</h2>
+            <p>
+                The Natural Language Search feature is implemented through a combination of frontend and backend components:
+            </p>
+            
+            <h3>Backend: NaturalLanguageQueryService</h3>
+            <div class="code-block">
+                <div class="code-header">NaturalLanguageQueryService.java</div>
+<pre>@Service
+public class NaturalLanguageQueryService {
+    private final OpenAIClient openAIClient;
+    private final DatabaseSchemaService schemaService;
+    private final Logger logger = LoggerFactory.getLogger(NaturalLanguageQueryService.class);
+    
+    // OpenAI configuration
+    private static final String GPT_MODEL = "gpt-4"; // Upgraded from gpt-3.5-turbo
+    
+    @Autowired
+    public NaturalLanguageQueryService(OpenAIClient openAIClient, DatabaseSchemaService schemaService) {
+        this.openAIClient = openAIClient;
+        this.schemaService = schemaService;
+    }
+    
+    public List&lt;StudentAbsenceDTO&gt; processNaturalLanguageQuery(String query) {
+        // Log the original query for debugging
+        logger.info("Processing natural language query: {}", query);
+        
+        try {
+            // Get database schema information to provide context to the AI
+            String schemaInfo = schemaService.getDatabaseSchemaDescription();
+            
+            // Generate JPQL query using GPT-4
+            String jpqlQuery = generateJPQLQuery(query, schemaInfo);
+            logger.info("Generated JPQL query: {}", jpqlQuery);
+            
+            // Handle special case for zero absence queries
+            if (jpqlQuery.contains("HAVING COUNT(a) = 0") || 
+                query.toLowerCase().contains("zero") || 
+                query.toLowerCase().contains("no absence")) {
+                logger.info("Detected zero absence query, using specialized approach");
+                return handleZeroAbsenceQuery();
+            }
+            
+            // Execute the query and return results
+            List&lt;StudentAbsenceDTO&gt; results = executeJPQLQuery(jpqlQuery);
+            logger.info("Query returned {} results", results.size());
+            return results;
+        } catch (Exception e) {
+            logger.error("Error processing natural language query", e);
+            throw new QueryProcessingException("Failed to process query: " + e.getMessage());
+        }
+    }
+    
+    private List&lt;StudentAbsenceDTO&gt; handleZeroAbsenceQuery() {
+        // Use NOT EXISTS approach for accurate zero absence detection
+        String optimizedQuery = "SELECT s FROM Student s WHERE NOT EXISTS " +
+                              "(SELECT a FROM Attendance a WHERE a.student = s)";
+        return executeJPQLQuery(optimizedQuery);
+    }
+    
+    private String generateJPQLQuery(String naturalQuery, String schemaInfo) {
+        // Prepare prompt with schema context and query instructions
+        String prompt = "Database Schema Information:\n" + schemaInfo + "\n\n" +
+                     "Generate a JPQL query to find student absence information based on this natural language query: \n" +
+                     "\"" + naturalQuery + "\"\n\n" +
+                     "Return only the JPQL query without any explanation.";
+        
+        // Call OpenAI API with GPT-4 model
+        return openAIClient.generateText(prompt, GPT_MODEL);
+    }
+}</pre>
+            </div>
+            
+            <h3>Frontend: SearchComponent</h3>
+            <div class="code-block">
+                <div class="code-header">SearchComponent.jsx</div>
+<pre>import React, { useState } from 'react';
+import { Input, Button, Spin, List, Typography, Alert } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
+import SearchService from '@/services/SearchService';
+
+const { Title, Text } = Typography;
+
+const SearchComponent = () => {
+    const [query, setQuery] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [results, setResults] = useState(null);
+    const [error, setError] = useState(null);
+    
+    const handleSearch = async () => {
+        if (!query.trim()) return;
+        
+        try {
+            setLoading(true);
+            setError(null);
+            const data = await SearchService.naturalLanguageSearch(query);
+            setResults(data);
+        } catch (err) {
+            console.error('Search error:', err);
+            setError('Failed to process your search query. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+    
+    const handleExampleClick = (exampleQuery) => {
+        setQuery(exampleQuery);
+    };
+    
+    const examples = SearchService.getExampleQueries();
+    
+    return (
+        &lt;div className="search-container"&gt;
+            &lt;Title level={3}&gt;Natural Language Search&lt;/Title&gt;
+            &lt;Text type="secondary"&gt;
+                Search for student absences using natural language. Try questions like "Show students with zero absences"
+                or "Find students in Computer Science with more than 5 absences."
+            &lt;/Text&gt;
+            
+            &lt;div className="search-box"&gt;
+                &lt;Input.Search
+                    placeholder="Enter your search query..."
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onSearch={handleSearch}
+                    enterButton={&lt;Button type="primary" icon={&lt;SearchOutlined /&gt;}&gt;Search&lt;/Button&gt;}
+                    size="large"
+                    loading={loading}
+                    disabled={loading}
+                /&gt;
+            &lt;/div&gt;
+            
+            &lt;div className="example-queries"&gt;
+                &lt;Text strong&gt;Example queries:&lt;/Text&gt;
+                &lt;div className="example-tags"&gt;
+                    {examples.map((example, index) => (
+                        &lt;Button 
+                            key={index} 
+                            size="small" 
+                            type="dashed"
+                            onClick={() => handleExampleClick(example)}
+                        &gt;
+                            {example}
+                        &lt;/Button&gt;
+                    ))}
+                &lt;/div&gt;
+            &lt;/div&gt;
+            
+            {error && &lt;Alert message={error} type="error" showIcon /&gt;}
+            
+            {loading && &lt;div className="loading-container"&gt;&lt;Spin size="large" /&gt;&lt;/div&gt;}
+            
+            {results && !loading && (
+                &lt;div className="results-container"&gt;
+                    &lt;div className="results-summary"&gt;
+                        &lt;Alert
+                            message="Search Results"
+                            description={results.summary || `Found ${results.students.length} students matching your query.`}
+                            type="info"
+                            showIcon
+                        /&gt;
+                    &lt;/div&gt;
+                    
+                    &lt;List
+                        dataSource={results.students}
+                        renderItem={student => (
+                            &lt;List.Item&gt;
+                                &lt;List.Item.Meta
+                                    title={`${student.firstName} ${student.lastName}`}
+                                    description={`Department: ${student.department.name} | Total Absences: ${student.totalAbsenceHours} hours`}
+                                /&gt;
+                            &lt;/List.Item&gt;
+                        )}
+                        locale={{ emptyText: 'No students found matching your criteria' }}
+                    /&gt;
+                &lt;/div&gt;
+            )}
+        &lt;/div&gt;
+    );
+};</pre>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
+            <i class="fas fa-comment-dots card-icon"></i>
+            <h2>Example Queries</h2>
+            <p>
+                The Natural Language Search system can handle a wide variety of queries. Here are some examples of what you can ask:
+            </p>
+            
+            <div class="query-examples">
+                <div class="example-card">
+                    <h4>Perfect Attendance</h4>
+                    <div class="example-query-text">
+                        "Show me all students with zero absences"
+                    </div>
+                    <div class="example-result">
+                        Returns students who have perfect attendance with no recorded absences.
+                    </div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>Department Specific</h4>
+                    <div class="example-query-text">
+                        "List all Computer Science students who missed more than 5 classes"
+                    </div>
+                    <div class="example-result">
+                        Finds students in the Computer Science department with significant absences.
+                    </div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>Date Range</h4>
+                    <div class="example-query-text">
+                        "Show students absent between May 1 and May 31, 2024"
+                    </div>
+                    <div class="example-result">
+                        Identifies students with absences recorded during the specified date range.
+                    </div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>Absence Threshold</h4>
+                    <div class="example-query-text">
+                        "Find students with more than 10 hours of absences"
+                    </div>
+                    <div class="example-result">
+                        Lists students who have exceeded a specific number of absence hours.
+                    </div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>French Language</h4>
+                    <div class="example-query-text">
+                        "Montre-moi les étudiants avec zéro heures d'absence"
+                    </div>
+                    <div class="example-result">
+                        Works with French queries, including proper handling of accented characters.
+                    </div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>Day of Week</h4>
+                    <div class="example-query-text">
+                        "Which students missed classes on Mondays?"
+                    </div>
+                    <div class="example-result">
+                        Finds students with absences on a specific day of the week.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.8s;">
+            <i class="fas fa-lightbulb card-icon"></i>
+            <h2>Key Technical Improvements</h2>
+
+            <h3>1. Zero Absence Optimization</h3>
+            <p>
+                A significant improvement has been the handling of zero absence queries. Previously, the system struggled with identifying students who had perfect attendance (zero absences) because:
+            </p>
+            <ul>
+                <li>Traditional counting approaches couldn't distinguish between "no absences recorded" and "zero as the count of absences"</li>
+                <li>Simple JOIN-based queries would exclude students who had no absence records at all</li>
+            </ul>
+            <p>
+                Our solution uses a direct "NOT EXISTS" approach in JPQL:
+            </p>
+            <div class="code-block">
+                <div class="code-header">Optimized Zero Absence Query</div>
+<pre>SELECT s FROM Student s WHERE NOT EXISTS 
+(SELECT a FROM Attendance a WHERE a.student = s)</pre>
+            </div>
+            <p>
+                This approach correctly identifies all students with no absence records, ensuring accurate reporting of perfect attendance.
+            </p>
+
+            <h3>2. GPT-4 Integration</h3>
+            <p>
+                Upgrading from GPT-3.5-turbo to GPT-4 has significantly improved query understanding and accuracy. GPT-4 provides:
+            </p>
+            <ul>
+                <li>Better understanding of complex queries with multiple conditions</li>
+                <li>More accurate JPQL query generation with proper joins and conditions</li>
+                <li>Better handling of ambiguous language and intent</li>
+                <li>Improved recognition of domain-specific terms in education and attendance tracking</li>
+            </ul>
+
+            <h3>3. Schema-Informed Prompting</h3>
+            <p>
+                We've enhanced the AI prompts by including detailed database schema information, which helps the model generate more accurate queries by understanding:
+            </p>
+            <ul>
+                <li>The exact entity relationships between students, departments, and attendance records</li>
+                <li>Available fields and their data types for more precise filtering</li>
+                <li>The database structure to create correctly formatted JPQL queries</li>
+            </ul>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 1s;">
+            <i class="fas fa-hands-helping card-icon"></i>
+            <h2>Best Practices for Using Natural Language Search</h2>
+            <p>
+                To get the most out of the Natural Language Search feature, follow these guidelines:
+            </p>
+            
+            <ol>
+                <li>
+                    <strong>Be specific but natural</strong> - Include key details like departments, time periods, or absence thresholds, but phrase your query as you would normally speak.
+                </li>
+                <li>
+                    <strong>Include clear metrics</strong> - Specify what you're measuring ("hours of absence" vs. "number of absences").
+                </li>
+                <li>
+                    <strong>Use date formats consistently</strong> - Standard date formats like YYYY-MM-DD work best.
+                </li>
+                <li>
+                    <strong>Experiment with examples</strong> - Try the example queries to understand the system's capabilities.
+                </li>
+                <li>
+                    <strong>Check result summaries</strong> - The system provides a summary of what it understood from your query.
+                </li>
+            </ol>
+            
+            <div class="note">
+                <div class="note-title"><i class="fas fa-link"></i> Related Documentation</div>
+                <p>
+                    For more details on how the search integrates with student data, see the <a href="Student-management.html">Student Management</a> documentation.
+                </p>
+            </div>
+        </div>
+        
+        <footer style="text-align: center; margin-top: 3rem;">
+            <p>© 2025 Educational Management System Documentation</p>
+            <p>Last Updated: May 13, 2025</p>
+        </footer>
+    </div>

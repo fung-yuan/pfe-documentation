@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject Service - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .method-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .method-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .method-header h3 {
+            margin: 0;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+        }
+        
+        .method-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+        }
+        
+        .method-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .method-content p {
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        .method-code {
+            background-color: #f0f4f8;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.8rem;
+            color: var(--text-color);
+        }
+        
+        .data-structure {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .data-example {
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .relationship-diagram {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+        
+        .diagram-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .diagram-entity {
+            width: 180px;
+            padding: 1rem;
+            margin: 0.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .diagram-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin: 1rem 0;
+        }
+        
+        .diagram-relation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 0.5rem;
+        }
+        
+        .diagram-arrow {
+            width: 2px;
+            height: 30px;
+            background-color: var(--secondary-color);
+        }
+        
+        .diagram-label {
+            margin: 0.25rem 0;
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .methods-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .diagram-row {
+                flex-direction: column;
+            }
+            
+            .diagram-arrow {
+                height: 2px;
+                width: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Subject Service</h1>
+        <p class="subtitle">Managing academic subjects and courses</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Services</a> &gt; Subject Service
+        </div>
+        
+        <section class="intro">
+            <h2>Subject Service Overview</h2>
+            <p>
+                The Subject Service provides functionality for managing academic subjects in the 
+                Absence Management System. It handles operations such as retrieving subject lists, 
+                creating new subjects, updating subject information, and filtering subjects by department.
+            </p>
+            <p>
+                Subjects represent the courses taught within departments, and this service is essential 
+                for managing the academic curriculum and tracking attendance at the subject level.
+            </p>
+        </section>
+        
+        <section class="relationship-diagram">
+            <h2>Subject Relationships</h2>
+            <div class="diagram-container">
+                <div class="diagram-entity">Subject</div>
+                
+                <div class="diagram-relation">
+                    <div class="diagram-arrow"></div>
+                    <div class="diagram-label">relates to</div>
+                    <div class="diagram-arrow"></div>
+                </div>
+                
+                <div class="diagram-row">
+                    <div class="diagram-entity">Department</div>
+                    <div class="diagram-entity">Attendance</div>
+                    <div class="diagram-entity">Teacher</div>
+                </div>
+            </div>
+            <p>
+                The diagram above illustrates the relationship between subjects and other entities in the system. 
+                Each subject belongs to a department, may have assigned teachers, and tracks attendance records.
+            </p>
+        </section>
+        
+        <section class="intro">
+            <h2>Implementation</h2>
+            <p>
+                The Subject Service is implemented in <code>subjectService.js</code> and uses the API instance to 
+                communicate with the backend API for subject-related operations.
+            </p>
+            
+            <div class="code-block">
+<pre>// File: src/services/subjectService.js
+import axiosInstance from '@/lib/axiosInstance';
+
+const subjectService = {
+    // Get all subjects
+    getAllSubjects: async () => {
+        try {
+            const response = await axiosInstance.get('/subjects');
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching subjects:", error);
+            throw error;
+        }
+    },
+    
+    // Get subject by ID
+    getSubjectById: async (id) => {
+        try {
+            const response = await axiosInstance.get(`/subjects/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching subject ${id}:`, error);
+            throw error;
+        }
+    },
+    
+    // Create a new subject
+    createSubject: async (subject) => {
+        try {
+            const response = await axiosInstance.post('/subjects', subject);
+            return response.data;
+        } catch (error) {
+            console.error("Error creating subject:", error);
+            throw error;
+        }
+    },
+    
+    // Update an existing subject
+    updateSubject: async (id, subject) => {
+        try {
+            const response = await axiosInstance.put(`/subjects/${id}`, subject);
+            return response.data;
+        } catch (error) {
+            console.error(`Error updating subject ${id}:`, error);
+            throw error;
+        }
+    },
+    
+    // Get subjects by department
+    getSubjectsByDepartment: async (departmentId) => {
+        try {
+            const response = await axiosInstance.get(`/subjects/department/${departmentId}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching subjects for department ${departmentId}:`, error);
+            throw error;
+        }
+    },
+    
+    // Get subject attendance statistics
+    getSubjectAttendanceStats: async (subjectId, startDate, endDate) => {
+        try {
+            const response = await axiosInstance.get(`/attendance/statistics/subject/${subjectId}`, {
+                params: { startDate, endDate }
+            });
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching attendance stats for subject ${subjectId}:`, error);
+            throw error;
+        }
+    }
+};
+
+export default subjectService;</pre>
+            </div>
+        </section>
+        
+        <section class="data-structure">
+            <h2>Subject Data Structure</h2>
+            <p>
+                The Subject Service works with subject objects that have the following structure:
+            </p>
+            
+            <div class="data-example">
+<pre>{
+  "id": 12,
+  "name": "Advanced Algorithms",
+  "code": "CS301",
+  "description": "Study of advanced algorithmic techniques and problem-solving",
+  "credits": 4,
+  "department": {
+    "id": 5,
+    "name": "Computer Science"
+  },
+  "semester": "Fall 2024",
+  "teacher": "Dr. John Smith",
+  "schedule": [
+    {
+      "day": "Monday",
+      "startTime": "10:00",
+      "endTime": "11:30"
+    },
+    {
+      "day": "Wednesday",
+      "startTime": "10:00",
+      "endTime": "11:30"
+    }
+  ]
+}</pre>
+            </div>
+            
+            <p>
+                When creating or updating subjects, some fields may be optional depending on the 
+                backend validation requirements. The department is typically provided as an ID rather 
+                than the full object when submitting data.
+            </p>
+        </section>
+        
+        <h2>Key Methods</h2>
+        <div class="methods-grid">
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">📋</div>
+                    <h3>getAllSubjects</h3>
+                    <div class="emoji">📚</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Retrieves a list of all subjects from the system. This method is commonly used
+                        in subject selection screens, administrative dashboards, and for reporting.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getAllSubjects: async () => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get('/subjects');<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🔍</div>
+                    <h3>getSubjectById</h3>
+                    <div class="emoji">🆔</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Fetches a specific subject by its unique ID. This is used when
+                        viewing subject details or editing subject information.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getSubjectById: async (id) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get(`/subjects/${id}`);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">➕</div>
+                    <h3>createSubject</h3>
+                    <div class="emoji">✏️</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Creates a new subject in the system. This method is used by
+                        administrators when adding courses to the curriculum.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            createSubject: async (subject) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.post('/subjects', subject);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🔄</div>
+                    <h3>updateSubject</h3>
+                    <div class="emoji">📝</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Updates an existing subject's information. Used when modifying
+                        course details such as name, description, or credit hours.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            updateSubject: async (id, subject) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.put(`/subjects/${id}`, subject);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🏢</div>
+                    <h3>getSubjectsByDepartment</h3>
+                    <div class="emoji">🔍</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Retrieves all subjects that belong to a specific department. Useful
+                        for filtering subject lists by department on the UI.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getSubjectsByDepartment: async (departmentId) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get(`/subjects/department/${departmentId}`);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">📊</div>
+                    <h3>getSubjectAttendanceStats</h3>
+                    <div class="emoji">📈</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Fetches attendance statistics for a specific subject within a date range,
+                        providing valuable insights for course performance analysis.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getSubjectAttendanceStats: async (subjectId, startDate, endDate) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get(`/attendance/statistics/subject/${subjectId}`, {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;params: { startDate, endDate }<br>
+                            &nbsp;&nbsp;});<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <section class="intro">
+            <h2>Usage Example</h2>
+            <p>
+                Here's an example of how to use the Subject Service in a React component to display subjects by department:
+            </p>
+            
+            <div class="code-block">
+<pre>import React, { useState, useEffect } from 'react';
+import subjectService from '../services/subjectService';
+import departmentService from '../services/departmentService';
+
+const SubjectsByDepartment = () => {
+    const [departments, setDepartments] = useState([]);
+    const [subjects, setSubjects] = useState([]);
+    const [selectedDepartment, setSelectedDepartment] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    
+    // Load all departments
+    useEffect(() => {
+        const fetchDepartments = async () => {
+            try {
+                const data = await departmentService.getAllDepartments();
+                setDepartments(data);
+                // Select first department by default if available
+                if (data.length > 0) {
+                    setSelectedDepartment(data[0].id);
+                }
+            } catch (err) {
+                setError('Failed to load departments');
+                console.error(err);
+            }
+        };
+        
+        fetchDepartments();
+    }, []);
+    
+    // Load subjects when department changes
+    useEffect(() => {
+        if (!selectedDepartment) return;
+        
+        const fetchSubjects = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                const data = await subjectService.getSubjectsByDepartment(selectedDepartment);
+                setSubjects(data);
+            } catch (err) {
+                setError('Failed to load subjects for this department');
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        fetchSubjects();
+    }, [selectedDepartment]);
+    
+    const handleDepartmentChange = (e) => {
+        setSelectedDepartment(e.target.value);
+    };
+    
+    return (
+        &lt;div className="subjects-by-department"&gt;
+            &lt;h2&gt;Subjects by Department&lt;/h2&gt;
+            
+            &lt;div className="department-selector"&gt;
+                &lt;label htmlFor="department"&gt;Select Department:&lt;/label&gt;
+                &lt;select 
+                    id="department" 
+                    value={selectedDepartment || ''} 
+                    onChange={handleDepartmentChange}
+                    disabled={departments.length === 0}
+                &gt;
+                    {departments.length === 0 && &lt;option value=""&gt;No departments available&lt;/option&gt;}
+                    {departments.map(dept => (
+                        &lt;option key={dept.id} value={dept.id}&gt;{dept.name}&lt;/option&gt;
+                    ))}
+                &lt;/select&gt;
+            &lt;/div&gt;
+            
+            {error && &lt;div className="error-message"&gt;{error}&lt;/div&gt;}
+            
+            {loading ? (
+                &lt;div className="loading"&gt;Loading subjects...&lt;/div&gt;
+            ) : (
+                &lt;div className="subjects-list"&gt;
+                    &lt;h3&gt;
+                        {subjects.length > 0 
+                            ? `${subjects.length} Subjects Available` 
+                            : 'No subjects found for this department'}
+                    &lt;/h3&gt;
+                    
+                    {subjects.length > 0 && (
+                        &lt;table&gt;
+                            &lt;thead&gt;
+                                &lt;tr&gt;
+                                    &lt;th&gt;Code&lt;/th&gt;
+                                    &lt;th&gt;Name&lt;/th&gt;
+                                    &lt;th&gt;Credits&lt;/th&gt;
+                                    &lt;th&gt;Teacher&lt;/th&gt;
+                                &lt;/tr&gt;
+                            &lt;/thead&gt;
+                            &lt;tbody&gt;
+                                {subjects.map(subject => (
+                                    &lt;tr key={subject.id}&gt;
+                                        &lt;td&gt;{subject.code}&lt;/td&gt;
+                                        &lt;td&gt;{subject.name}&lt;/td&gt;
+                                        &lt;td&gt;{subject.credits}&lt;/td&gt;
+                                        &lt;td&gt;{subject.teacher}&lt;/td&gt;
+                                    &lt;/tr&gt;
+                                ))}
+                            &lt;/tbody&gt;
+                        &lt;/table&gt;
+                    )}
+                &lt;/div&gt;
+            )}
+        &lt;/div&gt;
+    );
+};
+
+export default SubjectsByDepartment;</pre>
+            </div>
+        </section>
+        
+        <section class="intro">
+            <h2>Best Practices</h2>
+            <p>
+                When working with the Subject Service, follow these best practices:
+            </p>
+            <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li>Implement proper error handling for all service calls</li>
+                <li>Cache subject data when appropriate to reduce API calls</li>
+                <li>Use subject codes that follow a consistent format (e.g., CS301)</li>
+                <li>Associate subjects with the correct department for proper organization</li>
+                <li>Regularly refresh subject information if the application remains open for extended periods</li>
+                <li>Use the subject attendance statistics for insights into course attendance patterns</li>
+            </ol>
+        </section>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="index.html" class="back-button">Back to Services</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation © 2025</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Last updated: May 13, 2025</p>
+    </footer>
+</body>
+</html>

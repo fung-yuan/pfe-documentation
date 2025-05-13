@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - Documentation</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #f56565;
+            --secondary-color: #e53e3e;
+            --accent-color: #fc8181;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --info-color: #3498db;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumbs a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--secondary-color);
+        }
+
+        .breadcrumbs .separator {
+            margin: 0 0.5rem;
+            color: #ccc;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-color);
+            display: inline-block;
+        }
+
+        .card h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem;
+        }
+
+        .card-icon {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            color: var(--accent-color);
+            opacity: 0.3;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-item h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-icon {
+            margin-right: 0.75rem;
+            background-color: var(--accent-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .report-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .report-header h3 {
+            color: white;
+            margin: 0;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .report-header i {
+            margin-right: 0.75rem;
+            font-size: 1.5rem;
+        }
+
+        .report-content {
+            padding: 1.5rem;
+        }
+
+        .report-content p {
+            margin-bottom: 1rem;
+        }
+
+        .report-footer {
+            background-color: #f8f9fa;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #eee;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .report-example {
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .report-example h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .report-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            box-shadow: var(--box-shadow);
+        }
+
+        .code-block {
+            background-color: #272822;
+            color: #f8f8f2;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block pre {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .code-header {
+            background-color: #20211c;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.8rem;
+            color: #75715e;
+            margin-top: -1.5rem;
+            margin-left: -1.5rem;
+            margin-right: -1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .note {
+            background-color: #fff8e1;
+            border-left: 4px solid var(--warning-color);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .note-title {
+            font-weight: 600;
+            color: var(--warning-color);
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .note-title i {
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .report-grid, .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content animate__animated animate__fadeIn">
+            <h1><i class="fas fa-chart-bar"></i> Reports</h1>
+            <p>Comprehensive documentation on generating and customizing attendance reports</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a>
+            <span class="separator"><i class="fas fa-chevron-right"></i></span>
+            <span>Reports</span>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp">
+            <i class="fas fa-info-circle card-icon"></i>
+            <h2>Overview</h2>
+            <p>
+                The Reports module provides powerful tools for generating, customizing, and exporting attendance reports. These reports offer valuable insights into student attendance patterns, helping administrators and faculty make informed decisions.
+            </p>
+            <p>
+                Reports can be filtered by various criteria including date ranges, departments, subjects, and individual students. Each report can be exported in multiple formats and shared with relevant stakeholders.
+            </p>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <i class="fas fa-list-ul card-icon"></i>
+            <h2>Available Reports</h2>
+            <p>
+                The system provides several pre-configured report types to address common attendance monitoring needs:
+            </p>
+            
+            <div class="report-grid">
+                <div class="report-card">
+                    <div class="report-header">
+                        <h3><i class="fas fa-user"></i> Student Reports</h3>
+                    </div>
+                    <div class="report-content">
+                        <p>Generate detailed reports for individual students, showing their attendance across all subjects or for a specific subject over time.</p>
+                        <p>These reports help identify individual attendance patterns and can be used for student advising and intervention.</p>
+                    </div>
+                    <div class="report-footer">
+                        <i class="fas fa-file-export"></i> Available in PDF, Excel, and CSV formats
+                    </div>
+                </div>
+                
+                <div class="report-card">
+                    <div class="report-header">
+                        <h3><i class="fas fa-book"></i> Subject Reports</h3>
+                    </div>
+                    <div class="report-content">
+                        <p>View attendance statistics for specific subjects, including overall attendance rates, frequently absent students, and attendance trends over a semester.</p>
+                        <p>These reports help faculty identify subjects with attendance issues and adjust teaching strategies accordingly.</p>
+                    </div>
+                    <div class="report-footer">
+                        <i class="fas fa-file-export"></i> Available in PDF, Excel, and CSV formats
+                    </div>
+                </div>
+                
+                <div class="report-card">
+                    <div class="report-header">
+                        <h3><i class="fas fa-building"></i> Department Reports</h3>
+                    </div>
+                    <div class="report-content">
+                        <p>Analyze attendance patterns across entire departments, comparing different subjects and identifying trends at the department level.</p>
+                        <p>These reports provide valuable insights for department heads and academic administrators for strategic planning.</p>
+                    </div>
+                    <div class="report-footer">
+                        <i class="fas fa-file-export"></i> Available in PDF, Excel, and CSV formats
+                    </div>
+                </div>
+                
+                <div class="report-card">
+                    <div class="report-header">
+                        <h3><i class="fas fa-calendar-alt"></i> Date Range Reports</h3>
+                    </div>
+                    <div class="report-content">
+                        <p>Generate reports for specific time periods such as weeks, months, or custom date ranges to track attendance patterns over time.</p>
+                        <p>These reports are useful for identifying seasonal trends or measuring the impact of interventions.</p>
+                    </div>
+                    <div class="report-footer">
+                        <i class="fas fa-file-export"></i> Available in PDF, Excel, and CSV formats
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+            <i class="fas fa-cogs card-icon"></i>
+            <h2>Report Generation</h2>
+            <p>
+                Reports can be generated through the Reports interface in the administrative dashboard. The process involves selecting the report type, configuring filters, and choosing the output format.
+            </p>
+            
+            <h3>Report Generation Steps</h3>
+            <ol>
+                <li><strong>Select Report Type</strong>: Choose from Student, Subject, Department, or Date Range reports.</li>
+                <li><strong>Configure Filters</strong>: Set specific criteria such as date ranges, departments, subjects, or students.</li>
+                <li><strong>Preview Report</strong>: View a preview of the report before exporting or printing.</li>
+                <li><strong>Export or Print</strong>: Save the report in your preferred format or print directly from the system.</li>
+            </ol>
+            
+            <div class="report-example">
+                <h4>Sample Student Attendance Report Configuration</h4>
+                <ul>
+                    <li><strong>Report Type</strong>: Student Attendance</li>
+                    <li><strong>Student</strong>: Ahmed Bensouda</li>
+                    <li><strong>Department</strong>: Computer Science</li>
+                    <li><strong>Date Range</strong>: January 1, 2025 - April 30, 2025</li>
+                    <li><strong>Group By</strong>: Subject</li>
+                    <li><strong>Include Details</strong>: Yes</li>
+                    <li><strong>Output Format</strong>: PDF</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
+            <i class="fas fa-code card-icon"></i>
+            <h2>Implementation</h2>
+            <p>
+                The Reports module is implemented using a combination of frontend React components and backend Spring services that process the data and generate the reports.
+            </p>
+            
+            <h3>Backend Service</h3>
+            <div class="code-block">
+                <div class="code-header">ReportService.java</div>
+<pre>@Service
+public class ReportService {
+    private final AttendanceRepository attendanceRepository;
+    private final StudentRepository studentRepository;
+    private final DepartmentRepository departmentRepository;
+    private final SubjectRepository subjectRepository;
+    
+    @Autowired
+    public ReportService(AttendanceRepository attendanceRepository,
+                         StudentRepository studentRepository,
+                         DepartmentRepository departmentRepository,
+                         SubjectRepository subjectRepository) {
+        this.attendanceRepository = attendanceRepository;
+        this.studentRepository = studentRepository;
+        this.departmentRepository = departmentRepository;
+        this.subjectRepository = subjectRepository;
+    }
+    
+    public StudentAttendanceReportDTO generateStudentReport(Long studentId, 
+                                                Date startDate, 
+                                                Date endDate, 
+                                                Long subjectId) {
+        Student student = studentRepository.findById(studentId)
+            .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+        
+        List&lt;Attendance&gt; attendanceRecords;
+        
+        if (subjectId != null) {
+            Subject subject = subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new ResourceNotFoundException("Subject not found"));
+            
+            attendanceRecords = attendanceRepository
+                .findByStudentAndSubjectAndDateBetween(student, subject, startDate, endDate);
+        } else {
+            attendanceRecords = attendanceRepository
+                .findByStudentAndDateBetween(student, startDate, endDate);
+        }
+        
+        return buildStudentReportDTO(student, attendanceRecords, startDate, endDate);
+    }
+    
+    // Additional methods for other report types...
+}</pre>
+            </div>
+            
+            <h3>Frontend Component</h3>
+            <div class="code-block">
+                <div class="code-header">ReportGenerator.jsx</div>
+<pre>import React, { useState } from 'react';
+import { Form, Select, DatePicker, Button, Spin, Card } from 'antd';
+import { DownloadOutlined, PrinterOutlined, EyeOutlined } from '@ant-design/icons';
+import ReportService from '@/services/ReportService';
+
+const { Option } = Select;
+const { RangePicker } = DatePicker;
+
+const ReportGenerator = () => {
+    const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false);
+    const [report, setReport] = useState(null);
+    const [reportType, setReportType] = useState('student');
+    
+    const handleReportTypeChange = (value) => {
+        setReportType(value);
+        form.resetFields(['student', 'department', 'subject']);
+    };
+    
+    const handleGenerateReport = async (values) => {
+        try {
+            setLoading(true);
+            let reportData;
+            
+            switch(values.reportType) {
+                case 'student':
+                    reportData = await ReportService.generateStudentReport(
+                        values.student,
+                        values.dateRange[0].format('YYYY-MM-DD'),
+                        values.dateRange[1].format('YYYY-MM-DD'),
+                        values.subject
+                    );
+                    break;
+                // Additional cases for other report types...
+            }
+            
+            setReport(reportData);
+        } catch (error) {
+            console.error('Error generating report:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+    
+    const handleExport = (format) => {
+        ReportService.exportReport(report, format);
+    };
+    
+    return (
+        &lt;div className="report-generator"&gt;
+            &lt;Card title="Generate Report" className="report-form-card"&gt;
+                &lt;Form
+                    form={form}
+                    layout="vertical"
+                    onFinish={handleGenerateReport}
+                &gt;
+                    &lt;Form.Item
+                        name="reportType"
+                        label="Report Type"
+                        rules={[{ required: true, message: 'Please select a report type' }]}
+                        initialValue="student"
+                    &gt;
+                        &lt;Select onChange={handleReportTypeChange}&gt;
+                            &lt;Option value="student"&gt;Student Report&lt;/Option&gt;
+                            &lt;Option value="subject"&gt;Subject Report&lt;/Option&gt;
+                            &lt;Option value="department"&gt;Department Report&lt;/Option&gt;
+                            &lt;Option value="dateRange"&gt;Date Range Report&lt;/Option&gt;
+                        &lt;/Select&gt;
+                    &lt;/Form.Item&gt;
+                    
+                    {/* Additional form items based on report type */}
+                    
+                    &lt;Form.Item&gt;
+                        &lt;Button type="primary" htmlType="submit" loading={loading}&gt;
+                            Generate Report
+                        &lt;/Button&gt;
+                    &lt;/Form.Item&gt;
+                &lt;/Form&gt;
+            &lt;/Card&gt;
+            
+            {loading && &lt;Spin size="large" /&gt;}
+            
+            {report && !loading && (
+                &lt;Card title="Report Preview" extra={
+                    &lt;div className="report-actions"&gt;
+                        &lt;Button icon={&lt;DownloadOutlined /&gt;} onClick={() => handleExport('pdf')}&gt;PDF&lt;/Button&gt;
+                        &lt;Button icon={&lt;DownloadOutlined /&gt;} onClick={() => handleExport('excel')}&gt;Excel&lt;/Button&gt;
+                        &lt;Button icon={&lt;DownloadOutlined /&gt;} onClick={() => handleExport('csv')}&gt;CSV&lt;/Button&gt;
+                        &lt;Button icon={&lt;PrinterOutlined /&gt;} onClick={() => window.print()}&gt;Print&lt;/Button&gt;
+                    &lt;/div&gt;
+                }&gt;
+                    {/* Report preview content */}
+                &lt;/Card&gt;
+            )}
+        &lt;/div&gt;
+    );
+};
+
+export default ReportGenerator;</pre>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.8s;">
+            <i class="fas fa-file-export card-icon"></i>
+            <h2>Export Options</h2>
+            <p>
+                Reports can be exported in multiple formats to suit different needs:
+            </p>
+            
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>
+                        <div class="feature-icon"><i class="fas fa-file-pdf"></i></div>
+                        PDF Export
+                    </h3>
+                    <p>
+                        Perfect for formal reports and official documentation. PDFs maintain consistent formatting across devices and can be easily shared and printed.
+                    </p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>
+                        <div class="feature-icon"><i class="fas fa-file-excel"></i></div>
+                        Excel Export
+                    </h3>
+                    <p>
+                        Ideal for data analysis and manipulation. Excel exports include all data in spreadsheet format, allowing further calculations and chart creation.
+                    </p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>
+                        <div class="feature-icon"><i class="fas fa-file-csv"></i></div>
+                        CSV Export
+                    </h3>
+                    <p>
+                        Best for data portability and integration with other systems. CSV files can be imported into various applications for further analysis.
+                    </p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>
+                        <div class="feature-icon"><i class="fas fa-print"></i></div>
+                        Print
+                    </h3>
+                    <p>
+                        Direct printing from the application with optimized layouts for paper formats. Includes options for page setup and printer selection.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="note">
+                <div class="note-title"><i class="fas fa-info-circle"></i> Note</div>
+                <p>
+                    Exported reports maintain data confidentiality by including only the information the user has permission to access. Sensitive student information is properly handled according to privacy policies.
+                </p>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 1s;">
+            <i class="fas fa-link card-icon"></i>
+            <h2>Integration with Other Modules</h2>
+            <p>
+                The Reports module integrates seamlessly with other components of the attendance management system:
+            </p>
+            
+            <ul>
+                <li><strong>Dashboard Integration</strong>: Key report metrics can be displayed directly on the administrative dashboard for quick access.</li>
+                <li><strong>Student Management</strong>: Reports can be accessed directly from student profiles, providing context-specific attendance information.</li>
+                <li><strong>Natural Language Search</strong>: Search results can be exported as reports for further analysis and sharing.</li>
+                <li><strong>Department Management</strong>: Department-specific reports are accessible from the department management interface.</li>
+                <li><strong>Subject Management</strong>: Subject-level attendance reports can be viewed directly from subject details pages.</li>
+            </ul>
+            
+            <p>
+                These integrations ensure that reports are accessible from multiple entry points within the system, making attendance data readily available for decision-making processes.
+            </p>
+        </div>
+        
+        <footer style="text-align: center; margin-top: 3rem;">
+            <p>© 2025 Educational Management System Documentation</p>
+            <p>Last Updated: May 13, 2025</p>
+        </footer>
+    </div>

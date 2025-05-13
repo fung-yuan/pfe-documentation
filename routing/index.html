@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routing - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .routing-diagram {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            overflow-x: auto;
+        }
+        
+        .routes-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .routes-table th, 
+        .routes-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        .routes-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .routes-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .routes-table tr:hover {
+            background-color: #e9ecef;
+        }
+        
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .section-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-header h3 {
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-link {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .card-link:hover {
+            background-color: var(--primary-color);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .flow-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        
+        .flow-step {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin: 0.5rem;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin: 0 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-diagram {
+                flex-direction: column;
+            }
+            
+            .flow-step {
+                width: 100%;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Routing</h1>
+        <p class="subtitle">Navigation and route management</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; Routing
+        </div>
+        
+        <section class="intro">
+            <h2>Understanding the Routing System</h2>
+            <p>
+                The Absence Management System uses React Router v6 to handle navigation and route management.
+                This allows the application to function as a single-page application (SPA) where navigation happens
+                without full page reloads, providing a smooth user experience.
+            </p>
+            <p>
+                The routing system also includes authentication protection for routes, redirects for unauthenticated users,
+                and role-based access control for certain parts of the application.
+            </p>
+        </section>
+        
+        <section class="routing-diagram">
+            <h2>Route Structure</h2>
+            <p>
+                The application's routes are defined in <code>AppRoutes.jsx</code>, which sets up the main routing structure
+                and authentication protection. Here's a simplified view of the routing code:
+            </p>
+            
+            <div class="code-block">
+<pre>const AppRoutes = () => {
+  const { isAuthenticated, userRole } = useAuth();
+
+  return (
+    &lt;ErrorBoundary&gt;
+      &lt;Routes&gt;
+        {/* Public login route */}
+        &lt;Route path="/login" element={&lt;LoginPage /&gt;} /&gt;
+
+        {/* Protected routes wrapped by Layout */}
+        &lt;Route 
+          path="/*"
+          element={
+            isAuthenticated ? (
+              &lt;Layout&gt;
+                &lt;Routes&gt;
+                  &lt;Route path="/" element={&lt;Navigate to="/dashboard" replace /&gt;} /&gt;
+                  &lt;Route path="dashboard" element={&lt;Dashboard /&gt;} /&gt;
+                  &lt;Route path="send-email-announcement" element={
+                    &lt;ProtectedRoute isAllowed={userRole === 'ADMIN'}&gt;
+                      &lt;SendEmailAnnouncementPage /&gt;
+                    &lt;/ProtectedRoute&gt;
+                  } /&gt;
+                  &lt;Route path="students" element={&lt;StudentManagement /&gt;} /&gt;
+                  &lt;Route path="attendance" element={&lt;AttendanceManagement /&gt;} /&gt;
+                  &lt;Route path="reports" element={&lt;Reports /&gt;} /&gt;
+                  &lt;Route path="departments" element={&lt;DepartmentManagement /&gt;} /&gt;
+                  &lt;Route path="subjects" element={&lt;SubjectManagement /&gt;} /&gt;
+                  &lt;Route path="search" element={&lt;NaturalLanguageSearchPage /&gt;} /&gt;
+                  &lt;Route path="profile" element={&lt;AdminProfilePage /&gt;} /&gt;
+                  &lt;Route path="*" element={&lt;div&gt;Page Not Found&lt;/div&gt;} /&gt;
+                &lt;/Routes&gt;
+              &lt;/Layout&gt;
+            ) : (
+              &lt;Navigate to="/login" replace /&gt;
+            )
+          }
+        /&gt;
+      &lt;/Routes&gt;
+    &lt;/ErrorBoundary&gt;
+  );
+};</pre>
+            </div>
+        </section>
+        
+        <section class="intro">
+            <h2>Authentication Flow</h2>
+            <p>
+                The routing system is tightly integrated with the authentication system. Here's how the 
+                authentication flow works with routing:
+            </p>
+            
+            <div class="flow-diagram">
+                <div class="flow-step">User Visits Page</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Check Authentication</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Authenticated? Yes/No</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Render Route or Redirect</div>
+            </div>
+            
+            <p>
+                If a user attempts to access a protected route without being authenticated, they are automatically
+                redirected to the login page. After successful authentication, they are redirected back to the
+                original route they were trying to access.
+            </p>
+        </section>
+        
+        <section class="routing-diagram">
+            <h2>Available Routes</h2>
+            <p>
+                The application includes the following routes:
+            </p>
+            
+            <table class="routes-table">
+                <thead>
+                    <tr>
+                        <th>Path</th>
+                        <th>Component</th>
+                        <th>Access</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>/login</code></td>
+                        <td>LoginPage</td>
+                        <td>Public</td>
+                        <td>User authentication page</td>
+                    </tr>
+                    <tr>
+                        <td><code>/</code></td>
+                        <td>Redirect to Dashboard</td>
+                        <td>Authenticated</td>
+                        <td>Root path redirects to dashboard</td>
+                    </tr>
+                    <tr>
+                        <td><code>/dashboard</code></td>
+                        <td>Dashboard</td>
+                        <td>Authenticated</td>
+                        <td>Main dashboard with overview statistics</td>
+                    </tr>
+                    <tr>
+                        <td><code>/students</code></td>
+                        <td>StudentManagement</td>
+                        <td>Authenticated</td>
+                        <td>Student management interface</td>
+                    </tr>
+                    <tr>
+                        <td><code>/attendance</code></td>
+                        <td>AttendanceManagement</td>
+                        <td>Authenticated</td>
+                        <td>Attendance tracking and management</td>
+                    </tr>
+                    <tr>
+                        <td><code>/reports</code></td>
+                        <td>Reports</td>
+                        <td>Authenticated</td>
+                        <td>Reporting and analytics</td>
+                    </tr>
+                    <tr>
+                        <td><code>/departments</code></td>
+                        <td>DepartmentManagement</td>
+                        <td>Authenticated</td>
+                        <td>Department management</td>
+                    </tr>
+                    <tr>
+                        <td><code>/subjects</code></td>
+                        <td>SubjectManagement</td>
+                        <td>Authenticated</td>
+                        <td>Subject/course management</td>
+                    </tr>
+                    <tr>
+                        <td><code>/search</code></td>
+                        <td>NaturalLanguageSearchPage</td>
+                        <td>Authenticated</td>
+                        <td>AI-powered search interface</td>
+                    </tr>
+                    <tr>
+                        <td><code>/send-email-announcement</code></td>
+                        <td>SendEmailAnnouncementPage</td>
+                        <td>Admin only</td>
+                        <td>Send emails and announcements</td>
+                    </tr>
+                    <tr>
+                        <td><code>/profile</code></td>
+                        <td>AdminProfilePage</td>
+                        <td>Authenticated</td>
+                        <td>User profile management</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <h2>Key Routing Concepts</h2>
+        <div class="section-grid">
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">🔒</div>
+                    <h3>Protected Routes</h3>
+                    <div class="emoji">🛡️</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Learn how routes are protected from unauthorized access
+                        and how authentication redirects work.
+                    </p>
+                    <a href="protected-routes.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">👑</div>
+                    <h3>Role-Based Access</h3>
+                    <div class="emoji">🔐</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Understand how certain routes are restricted based on user roles
+                        and permissions in the application.
+                    </p>
+                    <a href="role-based-access.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">🧭</div>
+                    <h3>Navigation Components</h3>
+                    <div class="emoji">🔄</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Explore the components used for navigation in the application,
+                        including Link, NavLink, and programmatic navigation.
+                    </p>
+                    <a href="navigation-components.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">📱</div>
+                    <h3>Route Configuration</h3>
+                    <div class="emoji">⚙️</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Learn how routes are configured and organized in the application
+                        using React Router v6.
+                    </p>
+                    <a href="route-configuration.html" class="card-link">View Details</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="../index.html" class="back-button">Back to Documentation Home</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation © 2025</p>
+    </footer>
+</body>
+</html>

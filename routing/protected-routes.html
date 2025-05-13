@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protected Routes - Routing Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: rotate 20s linear infinite;
+            z-index: 1;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            animation: fadeIn 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb::before {
+            content: '🏠';
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            animation: slideDown 0.5s ease-in-out;
+        }
+        
+        .intro::before {
+            content: '🔐';
+            font-size: 2.5rem;
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            opacity: 0.2;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .intro h2::before {
+            content: '🔒';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .content-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+        }
+        
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .content-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .content-card h2::before {
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .content-card:nth-of-type(1) h2::before { content: '🛡️'; }
+        .content-card:nth-of-type(2) h2::before { content: '👑'; }
+        .content-card:nth-of-type(3) h2::before { content: '🧭'; }
+        .content-card:nth-of-type(4) h2::before { content: '📱'; }
+        .content-card:nth-of-type(5) h2::before { content: '🔍'; }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .code-block::before {
+            content: 'Code Example';
+            display: block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #b8c2cc;
+        }
+        
+        .code-block:hover {
+            transform: scale(1.01);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
+        }
+        
+        .code-block pre {
+            margin: 0;
+        }
+        
+        .flow-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        
+        .flow-step {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin: 0.5rem;
+            flex: 1;
+            min-width: 150px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: pulse 2s infinite;
+            animation-delay: calc(var(--i, 0) * 0.5s);
+        }
+        
+        .flow-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+            animation-play-state: paused;
+        }
+        
+        .flow-step::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .flow-step:hover::after {
+            opacity: 1;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(76, 201, 240, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(76, 201, 240, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(76, 201, 240, 0); }
+        }
+        
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin: 0 0.5rem;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+        }
+        
+        .prev-next {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        
+        .prev-link, .next-link {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .prev-link:hover, .next-link:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-button:hover::before {
+            left: 100%;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: rotate 20s linear infinite reverse;
+            z-index: 1;
+        }
+        
+        footer p {
+            position: relative;
+            z-index: 2;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        ul li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        ul li::before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .flow-diagram {
+                flex-direction: column;
+            }
+            
+            .flow-step {
+                width: 100%;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+                margin: 0.5rem 0;
+                animation: bounce-vertical 1s infinite;
+            }
+            
+            @keyframes bounce-vertical {
+                0%, 100% { transform: translateY(0) rotate(90deg); }
+                50% { transform: translateY(5px) rotate(90deg); }
+            }
+            
+            .prev-next {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .prev-link, .next-link {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Protected Routes</h1>
+        <p class="subtitle">Securing application routes with authentication</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Routing</a> &gt; Protected Routes
+        </div>
+        
+        <section class="intro">
+            <h2>Route Protection in the Absence Management System</h2>
+            <p>
+                The application implements a multi-layered approach to route protection that ensures:
+            </p>
+            <ul>
+                <li>Unauthenticated users can only access the login page</li>
+                <li>Authenticated users are redirected to the dashboard when trying to access the login page</li>
+                <li>Certain admin-only routes are further protected with role-based access control</li>
+            </ul>
+            <p>
+                This document explains how route protection is implemented and how to use the <code>ProtectedRoute</code> component.
+            </p>
+        </section>
+        
+        <section class="content-card">
+            <h2>Authentication Layer</h2>
+            <p>
+                The first layer of protection is implemented at the root level in <code>AppRoutes.jsx</code>.
+                All application routes (except for <code>/login</code>) are wrapped in an authentication check:
+            </p>
+            
+            <div class="code-block">
+<pre>// In AppRoutes.jsx
+const { isAuthenticated } = useAuth();
+
+return (
+  &lt;Routes&gt;
+    {/* Public login route */}
+    &lt;Route path="/login" element={&lt;LoginPage /&gt;} /&gt;
+
+    {/* Protected routes wrapped by Layout */}
+    &lt;Route 
+      path="/*"
+      element={
+        isAuthenticated ? (
+          &lt;Layout&gt;
+            &lt;Routes&gt;
+              {/* Route definitions */}
+            &lt;/Routes&gt;
+          &lt;/Layout&gt;
+        ) : (
+          &lt;Navigate to="/login" replace /&gt;
+        )
+      }
+    /&gt;
+  &lt;/Routes&gt;
+);</pre>
+            </div>
+            
+            <p>
+                This approach has several key benefits:
+            </p>
+            <ul>
+                <li><strong>Single Point of Authentication</strong>: All protected routes are controlled in one place</li>
+                <li><strong>Layout Integration</strong>: Protected routes automatically use the application layout with navigation</li>
+                <li><strong>Automatic Redirection</strong>: Unauthenticated users are sent to the login page</li>
+            </ul>
+            
+            <p>
+                The <code>isAuthenticated</code> state comes from the authentication context, which checks for 
+                the presence of the authentication token in localStorage.
+            </p>
+        </section>
+        
+        <section class="content-card">
+            <h2>Role-Based Protection with ProtectedRoute</h2>
+            <p>
+                For routes that need additional role-based protection (e.g., admin-only features), the application uses 
+                a <code>ProtectedRoute</code> component. This component is defined in <code>components/ProtectedRoute.jsx</code>:
+            </p>
+            
+            <div class="code-block">
+<pre>// components/ProtectedRoute.jsx
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
+
+const ProtectedRoute = ({ children, isAllowed = true }) => {
+  const { isAuthenticated } = useAuth();
+  
+  // First check if user is authenticated
+  if (!isAuthenticated) {
+    return &lt;Navigate to="/login" replace /&gt;;
+  }
+  
+  // Then check if user has permission
+  if (!isAllowed) {
+    return &lt;Navigate to="/dashboard" replace /&gt;;
+  }
+
+  // If authenticated and allowed, render the children
+  return children;
+};
+
+export default ProtectedRoute;</pre>
+            </div>
+            
+            <p>
+                The <code>ProtectedRoute</code> component accepts an <code>isAllowed</code> prop which determines 
+                whether the user has permission to access the route. If not allowed, the user is redirected 
+                to the dashboard.
+            </p>
+            
+            <p>
+                Here's how it's used in <code>AppRoutes.jsx</code> to protect admin-only routes:
+            </p>
+            
+            <div class="code-block">
+<pre>&lt;Route path="send-email-announcement" element={
+  &lt;ProtectedRoute isAllowed={userRole === 'ADMIN'}&gt;
+    &lt;SendEmailAnnouncementPage /&gt;
+  &lt;/ProtectedRoute&gt;
+} /&gt;</pre>
+            </div>
+            
+            <p>
+                This creates a second layer of protection for sensitive routes based on user role.
+            </p>
+        </section>
+        
+        <section class="content-card">
+            <h2>Protection Flow Diagram</h2>
+            <p>
+                The following diagram illustrates the protection flow for routes:
+            </p>
+            
+            <div class="flow-diagram">
+                <div class="flow-step">User Requests Route</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Check Authentication</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Check Role (if applicable)</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Render or Redirect</div>
+            </div>
+            
+            <p>
+                If at any point the user fails an access check, they are redirected to the appropriate page:
+            </p>
+            <ul>
+                <li>Not authenticated → Login Page</li>
+                <li>Authenticated but not authorized → Dashboard</li>
+            </ul>
+        </section>
+        
+        <section class="content-card">
+            <h2>Current Usage in the Project</h2>
+            <p>
+                In the Absence Management System, the <code>ProtectedRoute</code> component is currently used to restrict access 
+                to the email announcement functionality, which is limited to admin users only:
+            </p>
+            
+            <div class="code-block">
+<pre>// From AppRoutes.jsx
+&lt;Route path="send-email-announcement" element={
+  &lt;ProtectedRoute isAllowed={userRole === 'ADMIN'}&gt;
+    &lt;SendEmailAnnouncementPage /&gt;
+  &lt;/ProtectedRoute&gt;
+} /&gt;</pre>
+            </div>
+            
+            <p>
+                Other routes in the application require authentication but don't have additional role-based restrictions.
+                This setup ensures that only administrators can access the email announcement functionality.
+            </p>
+        </section>
+        
+        <section class="content-card">
+            <h2>Security Considerations</h2>
+            <p>
+                While client-side route protection provides a good user experience, it's important to remember that:
+            </p>
+            <ul>
+                <li><strong>Backend Validation is Essential</strong>: Always implement authentication and authorization checks on the server side for all API endpoints, as client-side protection can be bypassed.</li>
+                <li><strong>Token Security</strong>: The application uses the stored Basic Auth string in localStorage for authentication. Ensure proper HTTPS implementation to protect this data during transmission.</li>
+                <li><strong>Role Hardcoding</strong>: Currently, the application hardcodes the user role to 'ADMIN' upon successful login. In a production environment, this should be replaced with actual role retrieval from the backend.</li>
+            </ul>
+        </section>
+        
+        <div class="navigation-links">
+            <div class="prev-next">
+                <a href="index.html" class="prev-link">&larr; Routing Overview</a>
+                <a href="role-based-access.html" class="next-link">Role-Based Access &rarr;</a>
+            </div>
+        </div>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="index.html" class="back-button">Back to Routing</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+
+    </footer>
+    
+    <script>
+        // Animation for the flow diagram to highlight route protection flow
+        document.querySelectorAll('.flow-step').forEach((step, index) => {
+            step.style.setProperty('--i', index);
+        });
+    </script>
+</body>
+</html>

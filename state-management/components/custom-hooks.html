@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Hooks - State Management</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --dark-bg: #121212;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb::before {
+            content: '🏠';
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+        
+        .content-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .content-section h2::before {
+            content: '🪝';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .toast-section h2::before {
+            content: '💬';
+        }
+        
+        .pagination-section h2::before {
+            content: '📄';
+        }
+        
+        .form-section h2::before {
+            content: '📝';
+        }
+        
+        .content-section h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+        
+        .content-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .code-block::before {
+            content: 'Code Example';
+            display: block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #b8c2cc;
+        }
+        
+        .usage-example {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            background-color: rgba(67, 97, 238, 0.05);
+            padding: 1rem;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .usage-example h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .note::before {
+            content: '📝 Note';
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .back-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Custom Hooks</h1>
+        <p class="subtitle">Reusable state logic for the application</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../../index.html">Home</a> &gt; <a href="../index.html">State Management</a> &gt; Custom Hooks
+        </div>
+        
+        <section class="content-section">
+            <h2>Overview</h2>
+            <p>
+                Custom hooks are a powerful feature in React that allows you to extract component logic into reusable functions. 
+                The ESTLM application uses several custom hooks to encapsulate state logic and make it reusable across components.
+            </p>
+            
+            <p>
+                These hooks follow React's naming convention of starting with "use" and can call other hooks if needed. 
+                They provide a clean way to share stateful logic without changing your component hierarchy.
+            </p>
+        </section>
+        
+        <section class="content-section toast-section">
+            <h2>useToast Hook</h2>
+            <p>
+                The <code>useToast</code> hook provides a global notification system that any component can access. 
+                It manages a queue of toast messages with automatic dismissal.
+            </p>
+            
+            <div class="code-block">
+<pre>// From use-toast.ts
+import { useState } from "react"
+
+export function useToast() {
+  const [state, setState] = useState({ toasts: [] })
+
+  function toast(props) {
+    const id = Math.random().toString(36).substring(2, 9)
+    const newToast = {
+      id,
+      ...props,
+      open: true,
+      onOpenChange: (open) =&gt; {
+        if (!open) {
+          dismissToast(id)
+        }
+      },
+    }
+    
+    setState({ toasts: [...state.toasts, newToast] })
+  }
+
+  function dismissToast(toastId) {
+    setState((prevState) =&gt; ({
+      toasts: prevState.toasts.filter((toast) =&gt; toast.id !== toastId),
+    }))
+  }
+
+  return {
+    toast,
+    dismiss: dismissToast,
+    toasts: state.toasts,
+  }
+}</pre>
+            </div>
+            
+            <div class="usage-example">
+                <h4>Usage Example</h4>
+                <p>Component using the toast notification system:</p>
+                <div class="code-block">
+<pre>// In a component
+import { useToast } from "@/hooks/use-toast";
+
+const MyComponent = () =&gt; {
+  const { toast } = useToast();
+  
+  const handleSubmit = async (data) =&gt; {
+    try {
+      await submitData(data);
+      toast({
+        title: "Success",
+        description: "Data was successfully submitted",
+        variant: "success",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to submit data",
+        variant: "destructive",
+      });
+    }
+  };
+  
+  // Component JSX
+}</pre>
+                </div>
+            </div>
+            
+            <h3>Benefits of the Toast System</h3>
+            <ul>
+                <li><strong>Consistent UI:</strong> Standardized appearance for all notifications</li>
+                <li><strong>Global Access:</strong> Can be used from any component without prop drilling</li>
+                <li><strong>Automatic Management:</strong> Toast messages are queued and automatically removed</li>
+                <li><strong>Variants:</strong> Different styles for success, error, and information messages</li>
+            </ul>
+        </section>
+        
+        <section class="content-section pagination-section">
+            <h2>usePagination Hook</h2>
+            <p>
+                The <code>usePagination</code> hook manages pagination state for data tables and lists, 
+                providing a consistent way to handle paged data throughout the application.
+            </p>
+            
+            <div class="code-block">
+<pre>// From use-pagination.js
+import { useState, useMemo } from 'react';
+
+export function usePagination(items, itemsPerPage = 10) {
+  const [currentPage, setCurrentPage] = useState(1);
+  
+  // Calculate total pages
+  const totalPages = useMemo(() =&gt; {
+    return Math.ceil(items.length / itemsPerPage);
+  }, [items.length, itemsPerPage]);
+  
+  // Get current items for the page
+  const currentItems = useMemo(() =&gt; {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return items.slice(startIndex, endIndex);
+  }, [items, currentPage, itemsPerPage]);
+  
+  // Go to next page
+  const nextPage = () =&gt; {
+    setCurrentPage((prevPage) =&gt; 
+      prevPage < totalPages ? prevPage + 1 : prevPage
+    );
+  };
+  
+  // Go to previous page
+  const prevPage = () =&gt; {
+    setCurrentPage((prevPage) =&gt; 
+      prevPage > 1 ? prevPage - 1 : prevPage
+    );
+  };
+  
+  // Go to specific page
+  const goToPage = (page) =&gt; {
+    const pageNumber = Math.max(1, Math.min(page, totalPages));
+    setCurrentPage(pageNumber);
+  };
+  
+  return {
+    currentPage,
+    totalPages,
+    currentItems,
+    nextPage,
+    prevPage,
+    goToPage
+  };
+}</pre>
+            </div>
+            
+            <div class="usage-example">
+                <h4>Usage Example</h4>
+                <p>Using the pagination hook in a data table:</p>
+                <div class="code-block">
+<pre>// In a component
+import { usePagination } from "@/hooks/use-pagination";
+
+const StudentTable = ({ students }) =&gt; {
+  const {
+    currentPage,
+    totalPages,
+    currentItems,
+    nextPage,
+    prevPage,
+    goToPage
+  } = usePagination(students, 15);
+  
+  return (
+    &lt;div&gt;
+      &lt;table&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th&gt;ID&lt;/th&gt;
+            &lt;th&gt;Name&lt;/th&gt;
+            &lt;th&gt;Email&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          {currentItems.map(student =&gt; (
+            &lt;tr key={student.id}&gt;
+              &lt;td&gt;{student.id}&lt;/td&gt;
+              &lt;td&gt;{student.name}&lt;/td&gt;
+              &lt;td&gt;{student.email}&lt;/td&gt;
+            &lt;/tr&gt;
+          ))}
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+      
+      &lt;div className="pagination"&gt;
+        &lt;button onClick={prevPage} disabled={currentPage === 1}&gt;
+          Previous
+        &lt;/button&gt;
+        
+        {Array.from({ length: totalPages }, (_, i) =&gt; i + 1).map(page =&gt; (
+          &lt;button
+            key={page}
+            onClick={() =&gt; goToPage(page)}
+            className={currentPage === page ? 'active' : ''}
+          &gt;
+            {page}
+          &lt;/button&gt;
+        ))}
+        
+        &lt;button onClick={nextPage} disabled={currentPage === totalPages}&gt;
+          Next
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                </div>
+            </div>
+        </section>
+        
+        <section class="content-section form-section">
+            <h2>useForm Hook</h2>
+            <p>
+                The <code>useForm</code> hook provides form state management, validation, and submission handling. 
+                It simplifies working with forms throughout the application.
+            </p>
+            
+            <div class="code-block">
+<pre>// From use-form.js
+import { useState, useCallback } from 'react';
+
+export function useForm(initialValues = {}, validate) {
+  const [values, setValues] = useState(initialValues);
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Handle input change
+  const handleChange = useCallback((e) =&gt; {
+    const { name, value } = e.target;
+    setValues(prev =&gt; ({ ...prev, [name]: value }));
+    
+    // Clear error when field is edited
+    if (errors[name]) {
+      setErrors(prev =&gt; {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
+  }, [errors]);
+  
+  // Handle input blur
+  const handleBlur = useCallback((e) =&gt; {
+    const { name } = e.target;
+    setTouched(prev =&gt; ({ ...prev, [name]: true }));
+    
+    // Validate field on blur if validation function exists
+    if (validate) {
+      const fieldErrors = validate({ [name]: values[name] });
+      if (fieldErrors[name]) {
+        setErrors(prev =&gt; ({ ...prev, ...fieldErrors }));
+      }
+    }
+  }, [values, validate]);
+  
+  // Handle form reset
+  const resetForm = useCallback(() =&gt; {
+    setValues(initialValues);
+    setErrors({});
+    setTouched({});
+    setIsSubmitting(false);
+  }, [initialValues]);
+  
+  // Handle form submission
+  const handleSubmit = useCallback((onSubmit) =&gt; {
+    return async (e) =&gt; {
+      e.preventDefault();
+      
+      // Mark all fields as touched
+      const allTouched = Object.keys(values).reduce(
+        (acc, key) =&gt; ({ ...acc, [key]: true }),
+        {}
+      );
+      setTouched(allTouched);
+      
+      // Validate all fields if validation function exists
+      if (validate) {
+        const formErrors = validate(values);
+        setErrors(formErrors);
+        
+        // Don't submit if there are errors
+        if (Object.keys(formErrors).length > 0) {
+          return;
+        }
+      }
+      
+      setIsSubmitting(true);
+      
+      try {
+        await onSubmit(values);
+      } catch (error) {
+        console.error('Form submission error:', error);
+      } finally {
+        setIsSubmitting(false);
+      }
+    };
+  }, [values, validate]);
+  
+  return {
+    values,
+    errors,
+    touched,
+    isSubmitting,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    resetForm,
+    setValues
+  };
+}</pre>
+            </div>
+            
+            <div class="usage-example">
+                <h4>Usage Example</h4>
+                <p>Using the form hook in a component:</p>
+                <div class="code-block">
+<pre>// In a component
+import { useForm } from "@/hooks/use-form";
+import { useToast } from "@/hooks/use-toast";
+
+const validateForm = (values) =&gt; {
+  const errors = {};
+  
+  if (!values.name) {
+    errors.name = "Name is required";
+  }
+  
+  if (!values.email) {
+    errors.email = "Email is required";
+  } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+    errors.email = "Email is invalid";
+  }
+  
+  return errors;
+};
+
+const StudentForm = ({ onSubmit, initialData = {} }) =&gt; {
+  const { toast } = useToast();
+  
+  const {
+    values,
+    errors,
+    touched,
+    isSubmitting,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    resetForm
+  } = useForm(initialData, validateForm);
+  
+  const submitForm = async (formData) =&gt; {
+    try {
+      await onSubmit(formData);
+      toast({
+        title: "Success",
+        description: "Student saved successfully!",
+        variant: "success",
+      });
+      resetForm();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to save student",
+        variant: "destructive",
+      });
+    }
+  };
+  
+  return (
+    &lt;form onSubmit={handleSubmit(submitForm)}&gt;
+      &lt;div className="form-group"&gt;
+        &lt;label htmlFor="name"&gt;Name&lt;/label&gt;
+        &lt;input
+          type="text"
+          id="name"
+          name="name"
+          value={values.name || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        /&gt;
+        {touched.name && errors.name && (
+          &lt;div className="error"&gt;{errors.name}&lt;/div&gt;
+        )}
+      &lt;/div&gt;
+      
+      &lt;div className="form-group"&gt;
+        &lt;label htmlFor="email"&gt;Email&lt;/label&gt;
+        &lt;input
+          type="email"
+          id="email"
+          name="email"
+          value={values.email || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        /&gt;
+        {touched.email && errors.email && (
+          &lt;div className="error"&gt;{errors.email}&lt;/div&gt;
+        )}
+      &lt;/div&gt;
+      
+      &lt;button type="submit" disabled={isSubmitting}&gt;
+        {isSubmitting ? 'Saving...' : 'Save'}
+      &lt;/button&gt;
+      &lt;button type="button" onClick={resetForm}&gt;
+        Reset
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</pre>
+                </div>
+            </div>
+        </section>
+        
+        <section class="content-section">
+            <h2>Benefits of Custom Hooks</h2>
+            
+            <p>
+                Using custom hooks in the application provides several benefits:
+            </p>
+            
+            <ul>
+                <li><strong>Code Reusability:</strong> Logic can be shared across multiple components</li>
+                <li><strong>Separation of Concerns:</strong> UI and state logic can be separated</li>
+                <li><strong>Testability:</strong> Hooks can be tested independently of components</li>
+                <li><strong>Consistency:</strong> Common patterns are implemented consistently</li>
+                <li><strong>Reduced Boilerplate:</strong> Common state management patterns don't need to be reimplemented</li>
+            </ul>
+            
+            <div class="note">
+                <p>
+                    Custom hooks are a key part of the application's state management strategy, providing reusable 
+                    state logic that can be composed together to build complex features without duplicating code.
+                </p>
+            </div>
+        </section>
+        
+        <div class="back-section">
+            <a href="../index.html" class="back-button">Back to State Management</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+    </footer>
+</body>
+</html>

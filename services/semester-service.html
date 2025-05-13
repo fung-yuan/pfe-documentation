@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semester Service - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .method-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .method-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .method-header h3 {
+            margin: 0;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+        }
+        
+        .method-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+        }
+        
+        .method-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .method-content p {
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        .method-code {
+            background-color: #f0f4f8;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.8rem;
+            color: var(--text-color);
+        }
+        
+        .data-structure {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .data-example {
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .timeline {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .timeline-container {
+            position: relative;
+            margin: 2rem 0;
+            padding-left: 50px;
+        }
+        
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .timeline-item {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -50px;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            background-color: white;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+        }
+        
+        .timeline-date {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-content {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .methods-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-container {
+                padding-left: 30px;
+            }
+            
+            .timeline-item::before {
+                left: -30px;
+                width: 20px;
+                height: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Semester Service</h1>
+        <p class="subtitle">Managing academic semesters and terms</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Services</a> &gt; Semester Service
+        </div>
+        
+        <section class="intro">
+            <h2>Semester Service Overview</h2>
+            <p>
+                The Semester Service provides functionality for managing academic semesters within the 
+                Absence Management System. It handles operations related to creating, retrieving, and 
+                updating semester information, as well as determining the current active semester.
+            </p>
+            <p>
+                Semesters represent distinct academic periods and serve as a critical time-based 
+                organization unit for attendance records, student enrollment, and scheduling.
+            </p>
+        </section>
+        
+        <section class="timeline">
+            <h2>Semester Timeline</h2>
+            <p>
+                The Semester Service organizes academic years into structured time periods. A typical
+                academic year might include the following semesters:
+            </p>
+            
+            <div class="timeline-container">
+                <div class="timeline-item">
+                    <div class="timeline-date">Fall Semester (September - December)</div>
+                    <div class="timeline-content">
+                        <p>The first semester of the academic year, typically running from early September to mid-December.</p>
+                        <p>Includes midterm examinations and end-of-semester finals.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Spring Semester (January - May)</div>
+                    <div class="timeline-content">
+                        <p>The second semester of the academic year, typically running from mid-January to late May.</p>
+                        <p>Includes midterm examinations and end-of-semester finals.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Summer Term (June - August)</div>
+                    <div class="timeline-content">
+                        <p>An optional term offering accelerated courses during the summer months.</p>
+                        <p>Often shorter in duration with more intensive class schedules.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="intro">
+            <h2>Implementation</h2>
+            <p>
+                The Semester Service is implemented in <code>semesterService.js</code> and uses the API instance to 
+                communicate with the backend API for semester-related operations.
+            </p>
+            
+            <div class="code-block">
+<pre>// File: src/services/semesterService.js
+import axiosInstance from '@/lib/axiosInstance';
+
+const semesterService = {
+    // Get all semesters
+    getAllSemesters: async () => {
+        try {
+            const response = await axiosInstance.get('/semesters');
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching semesters:", error);
+            throw error;
+        }
+    },
+    
+    // Get semester by ID
+    getSemesterById: async (id) => {
+        try {
+            const response = await axiosInstance.get(`/semesters/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching semester ${id}:`, error);
+            throw error;
+        }
+    },
+    
+    // Get the current active semester
+    getCurrentSemester: async () => {
+        try {
+            const response = await axiosInstance.get('/semesters/current');
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching current semester:", error);
+            throw error;
+        }
+    },
+    
+    // Create a new semester
+    createSemester: async (semester) => {
+        try {
+            const response = await axiosInstance.post('/semesters', semester);
+            return response.data;
+        } catch (error) {
+            console.error("Error creating semester:", error);
+            throw error;
+        }
+    },
+    
+    // Update an existing semester
+    updateSemester: async (id, semester) => {
+        try {
+            const response = await axiosInstance.put(`/semesters/${id}`, semester);
+            return response.data;
+        } catch (error) {
+            console.error(`Error updating semester ${id}:`, error);
+            throw error;
+        }
+    },
+    
+    // Set a semester as active
+    setActiveSemester: async (id) => {
+        try {
+            const response = await axiosInstance.put(`/semesters/${id}/activate`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error activating semester ${id}:`, error);
+            throw error;
+        }
+    },
+    
+    // Get attendance statistics for a semester
+    getSemesterAttendanceStats: async (semesterId) => {
+        try {
+            const response = await axiosInstance.get(`/attendance/statistics/semester/${semesterId}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching attendance stats for semester ${semesterId}:`, error);
+            throw error;
+        }
+    }
+};
+
+export default semesterService;</pre>
+            </div>
+        </section>
+        
+        <section class="data-structure">
+            <h2>Semester Data Structure</h2>
+            <p>
+                The Semester Service works with semester objects that have the following structure:
+            </p>
+            
+            <div class="data-example">
+<pre>{
+  "id": 3,
+  "name": "Fall 2024",
+  "startDate": "2024-09-01T00:00:00Z",
+  "endDate": "2024-12-20T00:00:00Z",
+  "description": "Fall Semester of the 2024-2025 Academic Year",
+  "isActive": true,
+  "academicYear": "2024-2025",
+  "registrationStartDate": "2024-08-15T00:00:00Z",
+  "registrationEndDate": "2024-08-31T00:00:00Z",
+  "examsStartDate": "2024-12-10T00:00:00Z",
+  "examsEndDate": "2024-12-20T00:00:00Z"
+}</pre>
+            </div>
+            
+            <p>
+                When creating or updating semesters, some fields may be optional depending on the 
+                backend validation requirements. The <code>isActive</code> field is used to denote 
+                the current active semester in the system.
+            </p>
+        </section>
+        
+        <h2>Key Methods</h2>
+        <div class="methods-grid">
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">📋</div>
+                    <h3>getAllSemesters</h3>
+                    <div class="emoji">🗓️</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Retrieves a list of all semesters from the system. This method is used
+                        in semester selection dropdowns, administrative dashboards, and reporting.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getAllSemesters: async () => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get('/semesters');<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🔍</div>
+                    <h3>getSemesterById</h3>
+                    <div class="emoji">🆔</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Fetches a specific semester by its unique ID. This is used when
+                        viewing semester details or editing semester information.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getSemesterById: async (id) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get(`/semesters/${id}`);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">⏳</div>
+                    <h3>getCurrentSemester</h3>
+                    <div class="emoji">📆</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Retrieves the currently active semester. This is a critical method used
+                        throughout the application to contextualize attendance records and other data.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getCurrentSemester: async () => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get('/semesters/current');<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">➕</div>
+                    <h3>createSemester</h3>
+                    <div class="emoji">✏️</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Creates a new semester in the system. This method is used by
+                        administrators when setting up new academic periods.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            createSemester: async (semester) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.post('/semesters', semester);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🔄</div>
+                    <h3>updateSemester</h3>
+                    <div class="emoji">📝</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Updates an existing semester's information. Used when modifying
+                        semester dates, descriptions, or other details.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            updateSemester: async (id, semester) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.put(`/semesters/${id}`, semester);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">✅</div>
+                    <h3>setActiveSemester</h3>
+                    <div class="emoji">🔄</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Sets a specific semester as the active one in the system. This is used when
+                        transitioning from one academic period to another.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            setActiveSemester: async (id) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.put(`/semesters/${id}/activate`);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">📊</div>
+                    <h3>getSemesterAttendanceStats</h3>
+                    <div class="emoji">📈</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Fetches attendance statistics for a specific semester, providing valuable 
+                        insights for semester performance analysis and reporting.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getSemesterAttendanceStats: async (semesterId) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get(`/attendance/statistics/semester/${semesterId}`);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <section class="intro">
+            <h2>Usage Example</h2>
+            <p>
+                Here's an example of how to use the Semester Service in a React component to display and manage semesters:
+            </p>
+            
+            <div class="code-block">
+<pre>import React, { useState, useEffect } from 'react';
+import semesterService from '../services/semesterService';
+import { format } from 'date-fns';
+
+const SemesterManagement = () => {
+    const [semesters, setSemesters] = useState([]);
+    const [currentSemester, setCurrentSemester] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    
+    // Load all semesters and current semester
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                
+                // Fetch all semesters
+                const semestersData = await semesterService.getAllSemesters();
+                setSemesters(semestersData);
+                
+                // Fetch current semester
+                const currentSemesterData = await semesterService.getCurrentSemester();
+                setCurrentSemester(currentSemesterData);
+            } catch (err) {
+                console.error('Error fetching semester data:', err);
+                setError('Failed to load semester information. Please try again.');
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        fetchData();
+    }, []);
+    
+    // Handle setting a semester as active
+    const handleSetActive = async (id) => {
+        try {
+            setLoading(true);
+            await semesterService.setActiveSemester(id);
+            
+            // Refresh data after update
+            const semestersData = await semesterService.getAllSemesters();
+            setSemesters(semestersData);
+            
+            const currentSemesterData = await semesterService.getCurrentSemester();
+            setCurrentSemester(currentSemesterData);
+            
+            alert('Semester activated successfully!');
+        } catch (err) {
+            console.error('Error activating semester:', err);
+            setError('Failed to activate semester. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+    
+    // Format date for display
+    const formatDate = (dateString) => {
+        if (!dateString) return 'N/A';
+        return format(new Date(dateString), 'MMM d, yyyy');
+    };
+    
+    if (loading && semesters.length === 0) return &lt;div&gt;Loading semesters...&lt;/div&gt;;
+    
+    return (
+        &lt;div className="semester-management"&gt;
+            &lt;h2&gt;Semester Management&lt;/h2&gt;
+            
+            {error && &lt;div className="error-message"&gt;{error}&lt;/div&gt;}
+            
+            &lt;section className="current-semester"&gt;
+                &lt;h3&gt;Current Active Semester&lt;/h3&gt;
+                {currentSemester ? (
+                    &lt;div className="current-semester-card"&gt;
+                        &lt;h4&gt;{currentSemester.name}&lt;/h4&gt;
+                        &lt;p&gt;&lt;strong&gt;Period:&lt;/strong&gt; {formatDate(currentSemester.startDate)} - {formatDate(currentSemester.endDate)}&lt;/p&gt;
+                        &lt;p&gt;&lt;strong&gt;Academic Year:&lt;/strong&gt; {currentSemester.academicYear}&lt;/p&gt;
+                        &lt;p&gt;&lt;strong&gt;Description:&lt;/strong&gt; {currentSemester.description || 'No description provided'}&lt;/p&gt;
+                    &lt;/div&gt;
+                ) : (
+                    &lt;p&gt;No active semester found. Please set an active semester below.&lt;/p&gt;
+                )}
+            &lt;/section&gt;
+            
+            &lt;h3&gt;All Semesters&lt;/h3&gt;
+            &lt;div className="semesters-list"&gt;
+                {semesters.length > 0 ? (
+                    &lt;table&gt;
+                        &lt;thead&gt;
+                            &lt;tr&gt;
+                                &lt;th&gt;Name&lt;/th&gt;
+                                &lt;th&gt;Start Date&lt;/th&gt;
+                                &lt;th&gt;End Date&lt;/th&gt;
+                                &lt;th&gt;Academic Year&lt;/th&gt;
+                                &lt;th&gt;Status&lt;/th&gt;
+                                &lt;th&gt;Actions&lt;/th&gt;
+                            &lt;/tr&gt;
+                        &lt;/thead&gt;
+                        &lt;tbody&gt;
+                            {semesters.map(semester => (
+                                &lt;tr key={semester.id} className={semester.isActive ? 'active-row' : ''}&gt;
+                                    &lt;td&gt;{semester.name}&lt;/td&gt;
+                                    &lt;td&gt;{formatDate(semester.startDate)}&lt;/td&gt;
+                                    &lt;td&gt;{formatDate(semester.endDate)}&lt;/td&gt;
+                                    &lt;td&gt;{semester.academicYear}&lt;/td&gt;
+                                    &lt;td&gt;{semester.isActive ? 'Active' : 'Inactive'}&lt;/td&gt;
+                                    &lt;td&gt;
+                                        {!semester.isActive && (
+                                            &lt;button 
+                                                onClick={() => handleSetActive(semester.id)}
+                                                disabled={loading}
+                                            &gt;
+                                                Set as Active
+                                            &lt;/button&gt;
+                                        )}
+                                    &lt;/td&gt;
+                                &lt;/tr&gt;
+                            ))}
+                        &lt;/tbody&gt;
+                    &lt;/table&gt;
+                ) : (
+                    &lt;p&gt;No semesters found. Please add a semester to get started.&lt;/p&gt;
+                )}
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+};
+
+export default SemesterManagement;</pre>
+            </div>
+        </section>
+        
+        <section class="intro">
+            <h2>Best Practices</h2>
+            <p>
+                When working with the Semester Service, follow these best practices:
+            </p>
+            <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li>Always check for the current active semester when handling attendance records</li>
+                <li>Ensure semester date ranges do not overlap to prevent data consistency issues</li>
+                <li>Cache semester data when appropriate to reduce API calls</li>
+                <li>Use a consistent naming convention for semesters (e.g., "Fall 2024")</li>
+                <li>Include all important academic dates in the semester data for comprehensive tracking</li>
+                <li>Implement proper validation when creating or updating semesters</li>
+            </ol>
+        </section>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="index.html" class="back-button">Back to Services</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation © 2025</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Last updated: May 13, 2025</p>
+    </footer>
+</body>
+</html>

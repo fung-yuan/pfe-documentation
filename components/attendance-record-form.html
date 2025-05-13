@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Record Form - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb::before {
+            content: '🏠';
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+        
+        .content-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .content-section h2::before {
+            content: '📋';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .workflow-section h2::before {
+            content: '⚙️';
+        }
+        
+        .implementation-section h2::before {
+            content: '💻';
+        }
+        
+        .ui-section h2::before {
+            content: '🎨';
+        }
+        
+        .content-section h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+        
+        .content-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .code-block::before {
+            content: 'Code Example';
+            display: block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #b8c2cc;
+        }
+        
+        .form-preview {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+        
+        .form-header {
+            background-color: #f8fafc;
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .form-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .form-description {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+        
+        .form-body {
+            padding: 1.5rem;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-field {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.25rem;
+            background-color: white;
+        }
+        
+        .form-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+        
+        .form-table th {
+            background-color: #f8fafc;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .form-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .attendance-toggle {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .attendance-present {
+            background-color: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .attendance-absent {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+        
+        .form-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .form-button {
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .workflow-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .workflow-step {
+            text-align: center;
+            width: 160px;
+            padding: 1rem 0;
+            position: relative;
+        }
+        
+        .workflow-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: #cbd5e1;
+        }
+        
+        .step-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #f8fafc;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--secondary-color);
+        }
+        
+        .back-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .workflow-step:not(:last-child)::after {
+                content: '↓';
+                position: absolute;
+                right: 50%;
+                top: 100%;
+                transform: translateX(50%);
+            }
+            
+            .workflow-diagram {
+                flex-direction: column;
+            }
+            
+            .workflow-step {
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Attendance Record Form</h1>
+        <p class="subtitle">Recording and managing student attendance</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Components</a> &gt; Attendance Record Form
+        </div>
+        
+        <section class="content-section">
+            <h2>Component Overview</h2>
+            <p>
+                The Attendance Record Form is a critical component in the ESTLM application's absence management system. 
+                It provides an intuitive interface for instructors to record student attendance for specific class sessions, 
+                making it the primary data entry point for tracking student presence or absence.
+            </p>
+            
+            <div class="form-preview">
+                <div class="form-header">
+                    <div class="form-title">Record Class Attendance</div>
+                    <div class="form-description">Take attendance for a class session</div>
+                </div>
+                <div class="form-body">
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-input" value="2025-05-13" />
+                        </div>
+                        <div class="form-field">
+                            <label class="form-label">Department</label>
+                            <select class="form-select">
+                                <option>Select Department</option>
+                                <option selected>Computer Engineering</option>
+                                <option>Electrical Engineering</option>
+                                <option>Mechanical Engineering</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <table class="form-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 70%">Student Name</th>
+                                <th>Attendance Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Marie Leclerc</td>
+                                <td><span class="attendance-toggle attendance-present">Present</span></td>
+                            </tr>
+                            <tr>
+                                <td>Thomas Dubois</td>
+                                <td><span class="attendance-toggle attendance-absent">Absent</span></td>
+                            </tr>
+                            <tr>
+                                <td>Sophie Martin</td>
+                                <td><span class="attendance-toggle attendance-present">Present</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-footer">
+                    <button class="form-button">Save Attendance</button>
+                </div>
+            </div>
+            
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Date Selection</strong> - Choose the specific date for the class session</li>
+                <li><strong>Department Filtering</strong> - Load students by department</li>
+                <li><strong>Bulk Attendance Recording</strong> - Record attendance for multiple students at once</li>
+                <li><strong>Toggle Interface</strong> - Simple present/absent toggle buttons for each student</li>
+                <li><strong>Visual Feedback</strong> - Color-coded status for present/absent states</li>
+                <li><strong>Error Handling</strong> - Clear feedback for validation errors or server issues</li>
+                <li><strong>Validation</strong> - Ensures accurate attendance data is captured before submission</li>
+            </ul>
+        </section>
+        
+        <section class="content-section workflow-section">
+            <h2>Workflow and Data Flow</h2>
+            <p>
+                The Attendance Record Form follows a specific workflow to ensure accurate attendance recording and 
+                proper integration with the absence management system.
+            </p>
+            
+            <div class="workflow-diagram">
+                <div class="workflow-step">
+                    <div class="step-icon">📅</div>
+                    <div class="step-title">Select Date</div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-icon">🏫</div>
+                    <div class="step-title">Choose Department</div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-icon">👥</div>
+                    <div class="step-title">Load Students</div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-icon">✅</div>
+                    <div class="step-title">Mark Attendance</div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-icon">💾</div>
+                    <div class="step-title">Save Records</div>
+                </div>
+            </div>
+            
+            <h3>Data Processing Flow</h3>
+            <ol>
+                <li>
+                    <strong>Department Loading</strong> - On component mount, departments are fetched from the backend using 
+                    <code>studentService.getDepartments()</code>
+                </li>
+                <li>
+                    <strong>Student Loading</strong> - When a department is selected, students for that department are loaded via 
+                    <code>studentService.getStudentsByDepartment(selectedDepartment)</code>
+                </li>
+                <li>
+                    <strong>Attendance Record Initialization</strong> - Each student has a default attendance record created with:
+                    <ul>
+                        <li>studentId: The unique identifier for the student</li>
+                        <li>studentName: The student's full name</li>
+                        <li>present: Default set to true (present)</li>
+                        <li>date: The selected date (formatted as YYYY-MM-DD)</li>
+                        <li>duration: Default class duration (120 minutes)</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Record Modification</strong> - When a student's attendance is toggled, the state is updated via 
+                    <code>toggleAttendance(studentId)</code>
+                </li>
+                <li>
+                    <strong>Data Submission</strong> - On form submission, the attendance records are sent to the backend via 
+                    <code>attendanceService.saveBulkAttendance(attendanceRecords)</code>
+                </li>
+            </ol>
+        </section>
+        
+        <section class="content-section implementation-section">
+            <h2>Implementation Details</h2>
+            <p>
+                The Attendance Record Form is implemented as a functional React component using hooks for state management 
+                and side effects.
+            </p>
+            
+            <h3>State Management</h3>
+            <div class="code-block">
+<pre>// State hooks used in the component
+const [departments, setDepartments] = useState([]);
+const [students, setStudents] = useState([]);
+const [selectedDepartment, setSelectedDepartment] = useState('');
+const [date, setDate] = useState(new Date());
+const [loading, setLoading] = useState(false);
+const [message, setMessage] = useState({ type: '', text: '' });
+const [attendanceRecords, setAttendanceRecords] = useState([]);</pre>
+            </div>
+            
+            <h3>Fetching Departments</h3>
+            <div class="code-block">
+<pre>// Fetch departments on component mount
+useEffect(() => {
+    const fetchDepartments = async () => {
+        try {
+            const response = await studentService.getDepartments();
+            setDepartments(response.data);
+        } catch (error) {
+            setMessage({ 
+                type: 'error', 
+                text: 'Failed to load departments. Please try again.' 
+            });
+        }
+    };
+    fetchDepartments();
+}, []);</pre>
+            </div>
+            
+            <h3>Loading Students and Initializing Records</h3>
+            <div class="code-block">
+<pre>// Fetch students when department is selected or date changes
+useEffect(() => {
+    if (selectedDepartment) {
+        const fetchStudents = async () => {
+            try {
+                setLoading(true);
+                const response = await studentService.getStudentsByDepartment(selectedDepartment);
+                setStudents(response.data);
+                // Initialize attendance records
+                setAttendanceRecords(
+                    response.data.map(student => ({
+                        studentId: student.id,
+                        studentName: student.fullName,
+                        present: true,
+                        date: format(date, 'yyyy-MM-dd'),
+                        duration: 120 // Default 2-hour class
+                    }))
+                );
+            } catch (error) {
+                setMessage({ 
+                    type: 'error', 
+                    text: 'Failed to load students. Please try again.' 
+                });
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchStudents();
+    } else {
+        setStudents([]);
+        setAttendanceRecords([]);
+    }
+}, [selectedDepartment, date]);</pre>
+            </div>
+            
+            <h3>Handling Attendance Toggling</h3>
+            <div class="code-block">
+<pre>const toggleAttendance = (studentId) => {
+    setAttendanceRecords(records =>
+        records.map(record =>
+            record.studentId === studentId
+                ? { ...record, present: !record.present }
+                : record
+        )
+    );
+};</pre>
+            </div>
+            
+            <h3>Form Submission</h3>
+            <div class="code-block">
+<pre>const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!selectedDepartment || attendanceRecords.length === 0) {
+        setMessage({ 
+            type: 'error', 
+            text: 'Please select a department and ensure students are loaded' 
+        });
+        return;
+    }
+
+    setLoading(true);
+    try {
+        await attendanceService.saveBulkAttendance(attendanceRecords);
+        setMessage({ 
+            type: 'success', 
+            text: 'Attendance records saved successfully' 
+        });
+        // Reset form after a successful submission
+        setTimeout(() => {
+            setSelectedDepartment('');
+            setAttendanceRecords([]);
+            setMessage({ type: '', text: '' });
+        }, 3000);
+    } catch (error) {
+        setMessage({ 
+            type: 'error', 
+            text: 'Error saving attendance records. Please try again.' 
+        });
+    }
+    setLoading(false);
+};</pre>
+            </div>
+        </section>
+        
+        <section class="content-section ui-section">
+            <h2>UI Components and Styling</h2>
+            <p>
+                The Attendance Record Form uses a combination of UI components to create an intuitive and accessible interface for recording attendance.
+            </p>
+            
+            <h3>Key UI Components</h3>
+            <ul>
+                <li>
+                    <strong>Card</strong> - Wraps the entire form with a shadow and rounded corners for visual emphasis
+                </li>
+                <li>
+                    <strong>DatePicker</strong> - Custom date picker component for selecting the class date
+                </li>
+                <li>
+                    <strong>Select</strong> - Dropdown component for department selection
+                </li>
+                <li>
+                    <strong>Table</strong> - Displays the list of students with their attendance status
+                </li>
+                <li>
+                    <strong>Button</strong> - Used for toggling attendance status and submitting the form
+                </li>
+                <li>
+                    <strong>Alert</strong> - Displays success and error messages to provide feedback
+                </li>
+            </ul>
+            
+            <h3>Student Attendance Table Rendering</h3>
+            <div class="code-block">
+<pre>&lt;Table&gt;
+    &lt;TableCaption&gt;
+        List of students for attendance on {format(date, 'PPP')}
+    &lt;/TableCaption&gt;
+    &lt;TableHeader&gt;
+        &lt;TableRow&gt;
+            &lt;TableHead className="w-[400px] text-base"&gt;Student Name&lt;/TableHead&gt;
+            &lt;TableHead className="text-base"&gt;Attendance Status&lt;/TableHead&gt;
+        &lt;/TableRow&gt;
+    &lt;/TableHeader&gt;
+    &lt;TableBody&gt;
+        {attendanceRecords.map(record => (
+            &lt;TableRow key={record.studentId}&gt;
+                &lt;TableCell className="font-medium text-sm"&gt;
+                    {record.studentName}
+                &lt;/TableCell&gt;
+                &lt;TableCell&gt;
+                    &lt;Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className={`gap-2 px-4 py-1 rounded-md border font-medium transition-colors duration-200 ${
+                            record.present 
+                                ? 'border-green-500 text-green-600 hover:bg-green-50' 
+                                : 'border-red-500 text-red-600 hover:bg-red-50'
+                        }`}
+                        onClick={() => toggleAttendance(record.studentId)}
+                    &gt;
+                        {record.present ? (
+                            &lt;&gt;
+                                &lt;span&gt;Present&lt;/span&gt;
+                            &lt;/&gt;
+                        ) : (
+                            &lt;&gt;
+                                &lt;span&gt;Absent&lt;/span&gt;
+                            &lt;/&gt;
+                        )}
+                    &lt;/Button&gt;
+                &lt;/TableCell&gt;
+            &lt;/TableRow&gt;
+        ))}
+    &lt;/TableBody&gt;
+&lt;/Table&gt;</pre>
+            </div>
+        </section>
+        
+        <section class="content-section">
+            <h2>Integration with Absence Management</h2>
+            <p>
+                The Attendance Record Form serves as the primary data entry point for the absence management system. The attendance records 
+                created through this form are used to calculate student absence statistics, generate reports, and trigger notifications 
+                when absence thresholds are reached.
+            </p>
+            
+            <h3>Data Flow to Absence Management</h3>
+            <ol>
+                <li>
+                    <strong>Record Creation</strong> - Attendance records are created and stored in the database
+                </li>
+                <li>
+                    <strong>Absence Calculation</strong> - Records marked as "absent" contribute to the student's total absence hours
+                </li>
+                <li>
+                    <strong>Threshold Monitoring</strong> - The system monitors if absence hours exceed defined thresholds (e.g., 9 hours)
+                </li>
+                <li>
+                    <strong>Report Generation</strong> - Attendance data is used in the absence reports to show student absences
+                </li>
+                <li>
+                    <strong>Search Integration</strong> - Attendance records are indexed for use in the natural language search system
+                </li>
+            </ol>
+            
+            <h3>Connection to Natural Language Search</h3>
+            <p>
+                The accurate recording of attendance is crucial for the natural language search functionality. The attendance records 
+                created through this form provide the raw data that powers natural language queries like "Show me students with 0 absence hours" 
+                or "Show me students who were absent between specific dates."
+            </p>
+        </section>
+        
+        <section class="content-section">
+            <h2>Best Practices and Usage Guidelines</h2>
+            <p>
+                When working with the Attendance Record Form, follow these best practices to ensure accurate absence tracking:
+            </p>
+            <ul>
+                <li><strong>Take attendance promptly</strong> - Record attendance during or immediately after class sessions</li>
+                <li><strong>Verify department selection</strong> - Ensure the correct department is selected to load the right students</li>
+                <li><strong>Double-check before submission</strong> - Review all attendance statuses before saving</li>
+                <li><strong>Handle date selection carefully</strong> - Make sure to select the correct date for the class session</li>
+                <li><strong>Look for save confirmation</strong> - Verify the success message appears after saving</li>
+                <li><strong>Report data issues</strong> - If student data appears incorrect, report to system administrators</li>
+            </ul>
+        </section>
+        
+        <div class="back-section">
+            <a href="index.html" class="back-button">Back to Components</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+    </footer>
+</body>
+</html>

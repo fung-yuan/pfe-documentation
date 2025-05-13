@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Core - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .api-diagram {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+        
+        .diagram-container {
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            margin: 0 auto;
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .box {
+            position: absolute;
+            border-radius: 8px;
+            padding: 1rem;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s;
+        }
+        
+        .box:hover {
+            transform: scale(1.05);
+        }
+        
+        .component-box {
+            width: 150px;
+            height: 60px;
+            background-color: #e9ecef;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            left: 40px;
+            top: 170px;
+        }
+        
+        .api-box {
+            width: 180px;
+            height: 80px;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .server-box {
+            width: 150px;
+            height: 60px;
+            background-color: var(--secondary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            right: 40px;
+            top: 170px;
+        }
+        
+        .arrow {
+            position: absolute;
+            background-color: var(--accent-color);
+            height: 2px;
+        }
+        
+        .arrow::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-style: solid;
+            transform: rotate(45deg);
+        }
+        
+        .arrow-right::after {
+            border-width: 2px 2px 0 0;
+            border-color: var(--accent-color);
+            right: -5px;
+            top: -4px;
+        }
+        
+        .arrow-left::after {
+            border-width: 0 0 2px 2px;
+            border-color: var(--accent-color);
+            left: -5px;
+            top: -4px;
+        }
+        
+        .arrow-component-to-api {
+            width: 130px;
+            left: 190px;
+            top: 200px;
+        }
+        
+        .arrow-api-to-server {
+            width: 130px;
+            right: 190px;
+            top: 200px;
+        }
+        
+        .arrow-server-to-api {
+            width: 130px;
+            right: 190px;
+            top: 180px;
+        }
+        
+        .arrow-api-to-component {
+            width: 130px;
+            left: 190px;
+            top: 180px;
+        }
+        
+        .interceptor-box {
+            width: 140px;
+            height: 50px;
+            background-color: var(--accent-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            z-index: 2;
+        }
+        
+        .request-interceptor {
+            left: 280px;
+            top: 120px;
+        }
+        
+        .response-interceptor {
+            left: 280px;
+            top: 220px;
+        }
+        
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .feature-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .feature-header h3 {
+            margin: 0;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+        }
+        
+        .feature-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .feature-content p {
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        .feature-code {
+            background-color: #f0f4f8;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.8rem;
+            color: var(--text-color);
+        }
+        
+        .key-concept {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .key-concept h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .key-concept-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        /* Animation classes */
+        .request-animation {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            opacity: 0;
+            top: 193px;
+            left: 190px;
+            z-index: 3;
+            animation: moveRequestRight 4s infinite;
+        }
+        
+        .response-animation {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            opacity: 0;
+            top: 173px;
+            right: 190px;
+            z-index: 3;
+            animation: moveResponseLeft 4s infinite;
+            animation-delay: 2s;
+        }
+        
+        @keyframes moveRequestRight {
+            0% { opacity: 0; transform: translateX(0); }
+            10% { opacity: 1; transform: translateX(0); }
+            45% { opacity: 1; transform: translateX(350px); }
+            50% { opacity: 0; transform: translateX(350px); }
+            100% { opacity: 0; transform: translateX(350px); }
+        }
+        
+        @keyframes moveResponseLeft {
+            0% { opacity: 0; transform: translateX(0); }
+            10% { opacity: 1; transform: translateX(0); }
+            45% { opacity: 1; transform: translateX(-350px); }
+            50% { opacity: 0; transform: translateX(-350px); }
+            100% { opacity: 0; transform: translateX(-350px); }
+        }
+        
+        @media (max-width: 768px) {
+            .diagram-container {
+                height: auto;
+                padding: 1rem;
+            }
+            
+            .box {
+                position: relative;
+                left: auto;
+                right: auto;
+                top: auto;
+                transform: none;
+                margin: 1rem auto;
+                width: 80%;
+            }
+            
+            .arrow, .request-animation, .response-animation {
+                display: none;
+            }
+            
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>API Core</h1>
+        <p class="subtitle">The foundation of the service layer</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Services</a> &gt; API Core
+        </div>
+        
+        <section class="intro">
+            <h2>API Core Overview</h2>
+            <p>
+                The API Core is the foundation of the service layer in the Absence Management System. It provides 
+                a standardized way for all services to communicate with the backend API, handling common concerns 
+                like base URL configuration, headers, error handling, and request/response transformation.
+            </p>
+            <p>
+                At the heart of the API Core is an Axios instance, which is a configured HTTP client that 
+                abstracts away the complexities of making HTTP requests. This instance is used by all other 
+                services to ensure consistent communication patterns throughout the application.
+            </p>
+        </section>
+        
+        <section class="api-diagram">
+            <h2>How API Core Works</h2>
+            <div class="diagram-container">
+                <!-- Component Box -->
+                <div class="box component-box">React Component</div>
+                
+                <!-- API Box -->
+                <div class="box api-box">
+                    API Core<br>
+                    <small>(Axios Instance)</small>
+                </div>
+                
+                <!-- Server Box -->
+                <div class="box server-box">Backend Server</div>
+                
+                <!-- Interceptor Boxes -->
+                <div class="box interceptor-box request-interceptor">Request Interceptor</div>
+                <div class="box interceptor-box response-interceptor">Response Interceptor</div>
+                
+                <!-- Arrows -->
+                <div class="arrow arrow-component-to-api arrow-right"></div>
+                <div class="arrow arrow-api-to-server arrow-right"></div>
+                <div class="arrow arrow-server-to-api arrow-left"></div>
+                <div class="arrow arrow-api-to-component arrow-left"></div>
+                
+                <!-- Animations -->
+                <div class="request-animation"></div>
+                <div class="response-animation"></div>
+            </div>
+            
+            <p style="margin-top: 1rem;">
+                The diagram above illustrates how the API Core mediates all communication between the application's 
+                components and the backend server, with interceptors handling cross-cutting concerns.
+            </p>
+        </section>
+        
+        <section class="intro">
+            <h2>Core Implementation</h2>
+            <p>
+                The API Core is implemented in <code>api.js</code>, which exports a configured Axios instance 
+                that is used throughout the application. This centralized approach ensures that all API calls 
+                follow the same patterns, use the same base URL, and handle errors consistently.
+            </p>
+            
+            <div class="code-block">
+<pre>// File: src/services/api.js
+import axios from 'axios';
+
+const api = axios.create({
+    baseURL: 'http://localhost:8080/api', // Replace with your backend URL
+    headers: {
+        'Content-Type': 'application/json'
+    }
+});
+
+api.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        console.error('API Error:', error);
+        if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.error('API Error Data:', error.response.data);
+            console.error('API Error Status:', error.response.status);
+            console.error('API Error Headers:', error.response.headers);
+        } else if (error.request) {
+            // The request was made but no response was received
+            console.error('API Error Request:', error.request);
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error('API Error Message:', error.message);
+        }
+        return Promise.reject(error);
+    }
+);
+
+export default api;</pre>
+            </div>
+        </section>
+        
+        <h2>Key Features</h2>
+        <div class="section-grid">
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">🔌</div>
+                    <h3>Centralized Configuration</h3>
+                    <div class="emoji">⚙️</div>
+                </div>
+                <div class="feature-content">
+                    <p>
+                        Provides a single point of configuration for all API-related settings, such as
+                        base URL, default headers, and timeouts. This ensures consistency across all service calls.
+                    </p>
+                    <div class="feature-code">
+                        <code>
+                            baseURL: 'http://localhost:8080/api'<br>
+                            headers: { 'Content-Type': 'application/json' }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Error Handling</h3>
+                    <div class="emoji">❌</div>
+                </div>
+                <div class="feature-content">
+                    <p>
+                        Implements robust error handling through response interceptors, 
+                        providing detailed error information for debugging while standardizing
+                        error processing across the application.
+                    </p>
+                    <div class="feature-code">
+                        <code>
+                            api.interceptors.response.use(<br>
+                            &nbsp;&nbsp;(response) => response,<br>
+                            &nbsp;&nbsp;(error) => {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;console.error('API Error:', error);<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;return Promise.reject(error);<br>
+                            &nbsp;&nbsp;}<br>
+                            );
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">🧩</div>
+                    <h3>Service Abstraction</h3>
+                    <div class="emoji">📦</div>
+                </div>
+                <div class="feature-content">
+                    <p>
+                        Abstracts the underlying HTTP client (Axios) from the rest of the 
+                        application, making it easier to maintain and possibly swap out 
+                        for another library in the future if needed.
+                    </p>
+                    <div class="feature-code">
+                        <code>
+                            // In a service file<br>
+                            import api from './api';<br><br>
+                            const getStudent = (id) => {<br>
+                            &nbsp;&nbsp;return api.get(`/students/${id}`);<br>
+                            };
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Response Transformation</h3>
+                    <div class="emoji">🔀</div>
+                </div>
+                <div class="feature-content">
+                    <p>
+                        Can transform responses before they reach components, ensuring 
+                        consistent data structure and handling special cases like 
+                        API-specific formats or pagination.
+                    </p>
+                    <div class="feature-code">
+                        <code>
+                            api.interceptors.response.use(<br>
+                            &nbsp;&nbsp;(response) => {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;// Transform data if needed<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;return response;<br>
+                            &nbsp;&nbsp;},<br>
+                            &nbsp;&nbsp;// Error handler<br>
+                            );
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2>Key Concepts</h2>
+        <div class="key-concept">
+            <h3>
+                <span class="key-concept-icon">🔄</span>
+                Interceptors
+            </h3>
+            <p>
+                Interceptors are a powerful feature of Axios that allow you to intercept requests or responses 
+                before they are handled by the service or component. The API Core uses response interceptors 
+                to centralize error handling and ensure consistent error reporting throughout the application.
+            </p>
+            <p>
+                In a more complex application, you might also implement request interceptors to add authentication 
+                tokens, handle request timeouts, or transform request data before it's sent to the server.
+            </p>
+        </div>
+        
+        <div class="key-concept">
+            <h3>
+                <span class="key-concept-icon">🏗️</span>
+                Service Pattern
+            </h3>
+            <p>
+                The API Core enables the Service Pattern, where domain-specific services (like StudentService, 
+                AttendanceService, etc.) use the core API instance to implement their functionality. This creates 
+                a clean separation of concerns:
+            </p>
+            <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+                <li>The API Core handles HTTP communication concerns</li>
+                <li>Domain services handle business logic and data manipulation</li>
+                <li>Components focus on UI rendering and user interaction</li>
+            </ul>
+        </div>
+        
+        <div class="key-concept">
+            <h3>
+                <span class="key-concept-icon">🔄</span>
+                Promise-Based API
+            </h3>
+            <p>
+                The API Core and all services built on it use JavaScript Promises, allowing for clean, 
+                asynchronous code with proper error handling. Components can use async/await syntax when 
+                calling service methods, making the code more readable and maintainable.
+            </p>
+            <div class="code-block">
+<pre>// Example of a component using a service with async/await
+const StudentList = () => {
+    const [students, setStudents] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    
+    useEffect(() => {
+        const fetchStudents = async () => {
+            try {
+                setLoading(true);
+                const data = await studentService.getAllStudents();
+                setStudents(data);
+                setError(null);
+            } catch (err) {
+                setError('Failed to fetch students');
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        fetchStudents();
+    }, []);
+    
+    // Component rendering logic
+};</pre>
+            </div>
+        </div>
+        
+        <div class="intro">
+            <h2>Usage in Services</h2>
+            <p>
+                Other services in the application import and use the API Core to communicate with the backend.
+                Here's an example of how the StudentService uses the API Core:
+            </p>
+            
+            <div class="code-block">
+<pre>// File: src/services/studentService.js
+import api from './api';
+
+export const studentService = {
+    getAllStudents: () => {
+        return api.get('/students');
+    },
+    
+    getStudentById: (id) => {
+        return api.get(`/students/${id}`);
+    },
+    
+    createStudent: async (studentData) => {
+        try {
+            const response = await api.post('/students', studentData);
+            return response.data;
+        } catch (error) {
+            console.error('Error in createStudent service:', error);
+            throw error;
+        }
+    },
+    
+    // Other methods...
+};</pre>
+            </div>
+            
+            <p>
+                This pattern ensures that all services follow the same patterns for API communication,
+                making the code more consistent and easier to maintain.
+            </p>
+        </div>
+        
+        <div class="intro">
+            <h2>Best Practices</h2>
+            <p>
+                When working with the API Core, follow these best practices:
+            </p>
+            <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li>Always import and use the API instance from api.js rather than creating new Axios instances</li>
+                <li>Handle errors properly in services or components, using try/catch blocks with async/await</li>
+                <li>Keep service methods focused on one specific API operation</li>
+                <li>Consider adding request timeouts for operations that might take longer than expected</li>
+                <li>Document API endpoints and expected responses in service methods</li>
+                <li>Use meaningful variable names that reflect the domain (e.g., students, attendance)</li>
+            </ol>
+        </div>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="index.html" class="back-button">Back to Services</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation © 2025</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Last updated: May 13, 2025</p>
+    </footer>
+    
+    <script>
+        // Restart animations on page load for better demo
+        document.addEventListener('DOMContentLoaded', () => {
+            const requestAnim = document.querySelector('.request-animation');
+            const responseAnim = document.querySelector('.response-animation');
+            
+            requestAnim.style.animation = 'none';
+            responseAnim.style.animation = 'none';
+            
+            requestAnim.offsetHeight; // Trigger reflow
+            responseAnim.offsetHeight; // Trigger reflow
+            
+            requestAnim.style.animation = 'moveRequestRight 4s infinite';
+            responseAnim.style.animation = 'moveResponseLeft 4s infinite';
+            responseAnim.style.animationDelay = '2s';
+        });
+    </script>
+</body>
+</html>

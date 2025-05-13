@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Service - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .method-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .method-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .method-header h3 {
+            margin: 0;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+        }
+        
+        .method-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+        }
+        
+        .method-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .method-content p {
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        .method-code {
+            background-color: #f0f4f8;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.8rem;
+            color: var(--text-color);
+        }
+        
+        .data-structure {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .data-example {
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .workflow {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .workflow-steps {
+            margin: 1.5rem 0;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--primary-color);
+        }
+        
+        .workflow-step {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .workflow-step::before {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            left: -1.57rem;
+            top: 0.5rem;
+        }
+        
+        .workflow-step h4 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-item {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .feature-item h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .usage-example {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        @media (max-width: 768px) {
+            .methods-grid, .features-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Attendance Service</h1>
+        <p class="subtitle">Managing student attendance records</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Services</a> &gt; Attendance Service
+        </div>
+        
+        <section class="intro">
+            <h2>Attendance Service Overview</h2>
+            <p>
+                The Attendance Service handles all operations related to student attendance in the 
+                Absence Management System. It provides functionality for recording attendance, retrieving 
+                attendance records, generating reports, and calculating attendance statistics.
+            </p>
+            <p>
+                This service is essential for tracking student presence and absences, enabling instructors 
+                and administrators to monitor attendance patterns and take appropriate actions when needed.
+            </p>
+        </section>
+        
+        <section class="intro">
+            <h2>Implementation</h2>
+            <p>
+                The Attendance Service is implemented in <code>attendanceService.js</code> and uses the core API instance 
+                to communicate with the backend. It handles both standard CRUD operations and more specialized 
+                attendance-specific functions.
+            </p>
+            
+            <div class="code-block">
+<pre>// File: src/services/attendanceService.js
+import axiosInstance from '@/lib/axiosInstance';
+
+// Save attendance records
+const saveAttendance = async (attendanceData) => {
+    try {
+        const response = await axiosInstance.post(`/attendance/save`, attendanceData);
+        return response.data;
+    } catch (error) {
+        console.error("Error saving attendance:", error);
+        throw error;
+    }
+};
+
+// Get attendance by date range
+const getAttendanceByDateRange = async (startDate, endDate) => {
+    try {
+        const response = await axiosInstance.get('/attendance/dateRange', {
+            params: { startDate, endDate }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching attendance by date range:", error);
+        throw error;
+    }
+};
+
+// More methods...
+
+export const attendanceService = {
+    saveAttendance,
+    getAttendanceByDateRange,
+    // Other exported methods...
+};</pre>
+            </div>
+        </section>
+        
+        <section class="data-structure">
+            <h2>Attendance Data Structure</h2>
+            <p>
+                The Attendance Service works with attendance records that typically have the following structure:
+            </p>
+            
+            <div class="data-example">
+<pre>{
+  "id": 456,
+  "student": {
+    "id": 123,
+    "fullName": "John Doe",
+    "studentId": "STU2025001"
+  },
+  "subject": {
+    "id": 78,
+    "name": "Database Systems",
+    "code": "CS301"
+  },
+  "date": "2025-05-12",
+  "status": "ABSENT",
+  "hours": 2,
+  "reason": "Medical appointment",
+  "justified": true,
+  "timestamp": "2025-05-12T09:45:23Z"
+}</pre>
+            </div>
+            
+            <p>
+                When saving bulk attendance records, you would typically send an array of simplified attendance objects:
+            </p>
+            
+            <div class="data-example">
+<pre>[
+  {
+    "studentId": 123,
+    "subjectId": 78,
+    "date": "2025-05-12",
+    "status": "ABSENT",
+    "hours": 2,
+    "justified": true,
+    "reason": "Medical appointment"
+  },
+  {
+    "studentId": 124,
+    "subjectId": 78,
+    "date": "2025-05-12",
+    "status": "PRESENT",
+    "hours": 0
+  }
+  // More attendance records...
+]</pre>
+            </div>
+        </section>
+        
+        <section class="workflow">
+            <h2>Attendance Recording Workflow</h2>
+            <p>
+                The typical workflow for recording and managing attendance using the Attendance Service follows these steps:
+            </p>
+            
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <h4>1. Fetch Student List</h4>
+                    <p>Retrieve the list of students for a specific class session, typically by department, semester, and subject.</p>
+                </div>
+                
+                <div class="workflow-step">
+                    <h4>2. Record Attendance</h4>
+                    <p>Collect attendance data for each student, marking them as present or absent with relevant details.</p>
+                </div>
+                
+                <div class="workflow-step">
+                    <h4>3. Save Attendance Records</h4>
+                    <p>Use the <code>saveAttendance</code> method to submit all attendance records to the backend as a batch.</p>
+                </div>
+                
+                <div class="workflow-step">
+                    <h4>4. Access Attendance Reports</h4>
+                    <p>Retrieve attendance history and statistics using the appropriate methods for specific views and reports.</p>
+                </div>
+                
+                <div class="workflow-step">
+                    <h4>5. Generate Attendance Analysis</h4>
+                    <p>Calculate and display attendance metrics, such as absence percentages, attendance trends, or flagged students.</p>
+                </div>
+            </div>
+        </section>
+        
+        <h2>Key Methods</h2>
+        <div class="methods-grid">
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">💾</div>
+                    <h3>saveAttendance</h3>
+                    <div class="emoji">📝</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Saves attendance records for a group of students, typically for a single class session.
+                        This is the primary method for recording new attendance data.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            const saveAttendance = async (attendanceData) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.post(`/attendance/save`, attendanceData);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            };
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🗓️</div>
+                    <h3>getAttendanceByDateRange</h3>
+                    <div class="emoji">📅</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Retrieves attendance records within a specified date range, which is useful
+                        for generating reports over specific time periods.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            const getAttendanceByDateRange = async (startDate, endDate) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get('/attendance/dateRange', {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;params: { startDate, endDate }<br>
+                            &nbsp;&nbsp;});<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            };
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">👨‍🎓</div>
+                    <h3>getStudentAttendance</h3>
+                    <div class="emoji">📊</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Fetches attendance records for a specific student, useful for student-specific
+                        views and individual attendance monitoring.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            const getStudentAttendance = async (studentId, startDate, endDate) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get(`/attendance/student/${studentId}/dateRange`, {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;params: { startDate, endDate }<br>
+                            &nbsp;&nbsp;});<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            };
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">📊</div>
+                    <h3>getAttendanceStatistics</h3>
+                    <div class="emoji">📈</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Retrieves statistical information about attendance, such as absence rates,
+                        frequently absent students, or subject-specific attendance patterns.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            const getAttendanceStatistics = async (params) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get('/attendance/statistics', { params });<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            };
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">📥</div>
+                    <h3>exportAttendanceReport</h3>
+                    <div class="emoji">📁</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Generates and exports attendance reports in various formats (PDF, Excel),
+                        suitable for official documentation and administrative purposes.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            const exportAttendanceReport = async (format, criteria) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get(`/attendance/export/${format}`, {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;params: criteria,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;responseType: 'blob'<br>
+                            &nbsp;&nbsp;});<br>
+                            &nbsp;&nbsp;return response;<br>
+                            };
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🧮</div>
+                    <h3>calculateAbsenceHours</h3>
+                    <div class="emoji">⏱️</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Calculates total absence hours for students over a specified period,
+                        with optional filtering by subject or department.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            const calculateAbsenceHours = async (studentId, startDate, endDate, filters) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get(`/attendance/hours/${studentId}`, {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;params: { startDate, endDate, ...filters }<br>
+                            &nbsp;&nbsp;});<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            };
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2>Special Features</h2>
+        <div class="features-list">
+            <div class="feature-item">
+                <h3>
+                    <span class="feature-icon">📊</span>
+                    Zero Absence Handling
+                </h3>
+                <p>
+                    The service includes special optimizations for accurately identifying students with 
+                    perfect attendance (zero absences). This uses a direct "NOT EXISTS" database approach
+                    for efficient and accurate results.
+                </p>
+            </div>
+            
+            <div class="feature-item">
+                <h3>
+                    <span class="feature-icon">📈</span>
+                    Hour Calculation Validation
+                </h3>
+                <p>
+                    Implements validation and capping of unreasonable absence hour values to ensure 
+                    accurate attendance statistics and prevent data anomalies in reports.
+                </p>
+            </div>
+            
+            <div class="feature-item">
+                <h3>
+                    <span class="feature-icon">📁</span>
+                    Blob Response Handling
+                </h3>
+                <p>
+                    Specialized handling for binary responses (PDFs, Excel files) when exporting 
+                    reports, with proper content type detection and file download handling.
+                </p>
+            </div>
+            
+            <div class="feature-item">
+                <h3>
+                    <span class="feature-icon">🔄</span>
+                    Batch Operations
+                </h3>
+                <p>
+                    Support for bulk attendance recording and updates, allowing efficient 
+                    processing of multiple student records in a single API call.
+                </p>
+            </div>
+        </div>
+        
+        <section class="usage-example">
+            <h2>Usage Example</h2>
+            <p>
+                Here's an example of how to use the Attendance Service in a React component for recording attendance:
+            </p>
+            
+            <div class="code-block">
+<pre>import React, { useState, useEffect } from 'react';
+import { studentService } from '../services/studentService';
+import { attendanceService } from '../services/attendanceService';
+
+const AttendanceRecorder = ({ departmentName, semesterId, subjectId, date }) => {
+    const [students, setStudents] = useState([]);
+    const [attendanceData, setAttendanceData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(false);
+    
+    // Load students for the class
+    useEffect(() => {
+        const fetchStudents = async () => {
+            try {
+                setLoading(true);
+                const data = await studentService.getStudentsByDepartmentAndSemester(
+                    departmentName, 
+                    semesterId
+                );
+                
+                setStudents(data);
+                
+                // Initialize attendance data for all students
+                const initialAttendance = data.map(student => ({
+                    studentId: student.id,
+                    subjectId: subjectId,
+                    date: date,
+                    status: 'PRESENT',
+                    hours: 0,
+                    justified: false,
+                    reason: ''
+                }));
+                
+                setAttendanceData(initialAttendance);
+            } catch (err) {
+                console.error('Error fetching students:', err);
+                setError('Failed to load student list');
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        fetchStudents();
+    }, [departmentName, semesterId, subjectId, date]);
+    
+    // Update attendance status for a student
+    const handleAttendanceChange = (studentId, field, value) => {
+        setAttendanceData(prevData => 
+            prevData.map(record => 
+                record.studentId === studentId 
+                    ? { ...record, [field]: value }
+                    : record
+            )
+        );
+    };
+    
+    // Save attendance records
+    const handleSubmit = async () => {
+        try {
+            setSubmitting(true);
+            setError(null);
+            
+            // Submit attendance data
+            await attendanceService.saveAttendance(attendanceData);
+            
+            setSuccess(true);
+            // Reset after 3 seconds
+            setTimeout(() => setSuccess(false), 3000);
+        } catch (err) {
+            console.error('Error saving attendance:', err);
+            setError('Failed to save attendance data');
+        } finally {
+            setSubmitting(false);
+        }
+    };
+    
+    if (loading) return <div>Loading students...</div>;
+    if (error) return <div className="error">{error}</div>;
+    
+    return (
+        <div className="attendance-recorder">
+            <h2>Record Attendance - {date}</h2>
+            
+            <table className="attendance-table">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Hours</th>
+                        <th>Justified</th>
+                        <th>Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {students.map(student => (
+                        <tr key={student.id}>
+                            <td>{student.studentId}</td>
+                            <td>{student.fullName}</td>
+                            <td>
+                                <select 
+                                    value={attendanceData.find(a => a.studentId === student.id)?.status || 'PRESENT'}
+                                    onChange={(e) => handleAttendanceChange(student.id, 'status', e.target.value)}
+                                >
+                                    <option value="PRESENT">Present</option>
+                                    <option value="ABSENT">Absent</option>
+                                    <option value="LATE">Late</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input 
+                                    type="number" 
+                                    min="0"
+                                    max="8"
+                                    value={attendanceData.find(a => a.studentId === student.id)?.hours || 0}
+                                    onChange={(e) => handleAttendanceChange(student.id, 'hours', Number(e.target.value))}
+                                    disabled={attendanceData.find(a => a.studentId === student.id)?.status === 'PRESENT'}
+                                />
+                            </td>
+                            <td>
+                                <input 
+                                    type="checkbox" 
+                                    checked={attendanceData.find(a => a.studentId === student.id)?.justified || false}
+                                    onChange={(e) => handleAttendanceChange(student.id, 'justified', e.target.checked)}
+                                    disabled={attendanceData.find(a => a.studentId === student.id)?.status === 'PRESENT'}
+                                />
+                            </td>
+                            <td>
+                                <input 
+                                    type="text" 
+                                    value={attendanceData.find(a => a.studentId === student.id)?.reason || ''}
+                                    onChange={(e) => handleAttendanceChange(student.id, 'reason', e.target.value)}
+                                    disabled={attendanceData.find(a => a.studentId === student.id)?.status === 'PRESENT'}
+                                />
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            
+            <div className="actions">
+                <button 
+                    onClick={handleSubmit}
+                    disabled={submitting}
+                >
+                    {submitting ? 'Saving...' : 'Save Attendance'}
+                </button>
+                
+                {success && <div className="success-message">Attendance saved successfully!</div>}
+            </div>
+        </div>
+    );
+};</pre>
+            </div>
+        </section>
+        
+        <section class="intro">
+            <h2>Best Practices</h2>
+            <p>
+                When working with the Attendance Service, follow these best practices:
+            </p>
+            <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li>Validate attendance data before sending it to the service, especially absence hours</li>
+                <li>Use batch operations when recording attendance for a group of students</li>
+                <li>Implement proper error handling for network issues and server errors</li>
+                <li>Consider implementing optimistic UI updates for better user experience</li>
+                <li>Add appropriate date formatting and validation for attendance records</li>
+                <li>Use appropriate loading states and success/error messages in the UI</li>
+                <li>Implement appropriate permissions checks before allowing attendance modifications</li>
+            </ol>
+        </section>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="index.html" class="back-button">Back to Services</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation © 2025</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Last updated: May 13, 2025</p>
+    </footer>
+</body>
+</html>

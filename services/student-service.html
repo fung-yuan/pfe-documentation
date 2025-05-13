@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Service - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .method-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .method-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .method-header h3 {
+            margin: 0;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+        }
+        
+        .method-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+        }
+        
+        .method-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .method-content p {
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        .method-code {
+            background-color: #f0f4f8;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.8rem;
+            color: var(--text-color);
+        }
+        
+        .data-structure {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .data-example {
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .usage-example {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        @media (max-width: 768px) {
+            .methods-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Student Service</h1>
+        <p class="subtitle">Managing student data and operations</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Services</a> &gt; Student Service
+        </div>
+        
+        <section class="intro">
+            <h2>Student Service Overview</h2>
+            <p>
+                The Student Service provides methods for managing student data in the Absence Management System. 
+                It handles operations such as fetching students by various criteria, creating new students, 
+                updating student information, and retrieving student attendance records.
+            </p>
+            <p>
+                This service serves as the primary interface between the frontend components and the backend API 
+                for all student-related operations, ensuring clean separation of concerns and consistent data handling.
+            </p>
+        </section>
+        
+        <section class="intro">
+            <h2>Implementation</h2>
+            <p>
+                The Student Service is implemented in <code>studentService.js</code> and uses the core API instance 
+                to make HTTP requests to the backend API. It provides various methods for CRUD operations and more 
+                complex queries related to student data.
+            </p>
+            
+            <div class="code-block">
+<pre>// File: src/services/studentService.js
+import axiosInstance from '@/lib/axiosInstance';
+import api from './api';
+
+export const studentService = {
+    getAllStudents: () => {
+        return axiosInstance.get('/students');
+    },
+    
+    getStudentById: (id) => {
+        return axiosInstance.get(`/students/${id}`);
+    },
+    
+    createStudent: async (studentData) => {
+        try {
+            const payload = {
+                fullName: studentData.fullName,
+                studentId: studentData.studentId,
+                email: studentData.email,
+                department: studentData.department ? {
+                    id: Number(studentData.department.id)
+                } : null,
+                semester: studentData.semester ? {
+                    id: Number(studentData.semester.id)
+                } : null
+            };
+
+            console.log('Sending create student request with payload:', JSON.stringify(payload));
+
+            const response = await axiosInstance.post('/students', payload, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log('Create student response:', response.data);
+            return response.data;
+        } catch (error) {
+            console.error('Error in createStudent service:', error);
+            // Additional error handling...
+            throw error;
+        }
+    },
+
+    // More methods...
+};</pre>
+            </div>
+        </section>
+        
+        <section class="data-structure">
+            <h2>Student Data Structure</h2>
+            <p>
+                The Student Service works with student objects that have the following structure:
+            </p>
+            
+            <div class="data-example">
+<pre>{
+  "id": 123,
+  "fullName": "John Doe",
+  "studentId": "STU2025001",
+  "email": "john.doe@example.com",
+  "department": {
+    "id": 5,
+    "name": "Computer Science",
+    "code": "CS"
+  },
+  "semester": {
+    "id": 2,
+    "name": "Spring 2025",
+    "current": true
+  }
+}</pre>
+            </div>
+            
+            <p>
+                When creating or updating students, some fields (like department and semester) 
+                are sent as nested objects with IDs rather than as full objects.
+            </p>
+        </section>
+        
+        <h2>Key Methods</h2>
+        <div class="methods-grid">
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">📋</div>
+                    <h3>getAllStudents</h3>
+                    <div class="emoji">👨‍🎓</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Retrieves a list of all students from the system. This is typically 
+                        used for admin dashboards or student management screens.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getAllStudents: () => {<br>
+                            &nbsp;&nbsp;return axiosInstance.get('/students');<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🔍</div>
+                    <h3>getStudentById</h3>
+                    <div class="emoji">🆔</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Fetches a specific student by their unique ID. Useful for detailed
+                        student views or when editing a single student record.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getStudentById: (id) => {<br>
+                            &nbsp;&nbsp;return axiosInstance.get(`/students/${id}`);<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">➕</div>
+                    <h3>createStudent</h3>
+                    <div class="emoji">✏️</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Creates a new student in the system with the provided information.
+                        Handles data transformation before sending to the API.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            createStudent: async (studentData) => {<br>
+                            &nbsp;&nbsp;// Transform data<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.post('/students', payload);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🔄</div>
+                    <h3>updateStudent</h3>
+                    <div class="emoji">📝</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Updates an existing student's information. Handles proper data 
+                        formatting and error management.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            updateStudent: async (id, studentData) => {<br>
+                            &nbsp;&nbsp;// Format data<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.put(`/students/${id}`, payload);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🏫</div>
+                    <h3>getStudentsByDepartment</h3>
+                    <div class="emoji">🏢</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Retrieves students filtered by their department, allowing for
+                        department-specific views and operations.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getStudentsByDepartment: (departmentName) => {<br>
+                            &nbsp;&nbsp;return axiosInstance.get(`/students/department/${departmentName}`);<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🗓️</div>
+                    <h3>getStudentsByDepartmentAndSemester</h3>
+                    <div class="emoji">📅</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Gets students filtered by both department and semester, which is useful
+                        for semester-specific management and reporting.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getStudentsByDepartmentAndSemester: async (deptName, semId) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get(`/students/department/${deptName}/semester/${semId}`);<br>
+                            &nbsp;&nbsp;return response?.data || [];<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">📊</div>
+                    <h3>getStudentAttendance</h3>
+                    <div class="emoji">📈</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Fetches attendance records for a specific student within a date range,
+                        essential for tracking and reporting student attendance.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getStudentAttendance: (studentId, startDate, endDate) => {<br>
+                            &nbsp;&nbsp;return axiosInstance.get(`/attendance/student/${studentId}/dateRange`, {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;params: { startDate, endDate }<br>
+                            &nbsp;&nbsp;});<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">📝</div>
+                    <h3>getStudentAttendanceStats</h3>
+                    <div class="emoji">📊</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Retrieves statistical information about a student's attendance,
+                        useful for dashboards and summary reports.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getStudentAttendanceStats: (studentId, startDate, endDate) => {<br>
+                            &nbsp;&nbsp;return axiosInstance.get(`/attendance/statistics/student/${studentId}`, {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;params: { startDate, endDate }<br>
+                            &nbsp;&nbsp;});<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <section class="usage-example">
+            <h2>Usage Example</h2>
+            <p>
+                Here's an example of how to use the Student Service in a React component:
+            </p>
+            
+            <div class="code-block">
+<pre>import React, { useState, useEffect } from 'react';
+import { studentService } from '../services/studentService';
+
+const StudentList = () => {
+    const [students, setStudents] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [department, setDepartment] = useState('Computer Science');
+    const [semester, setSemester] = useState(1);
+    
+    useEffect(() => {
+        const fetchStudents = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                
+                // Fetch students by department and semester
+                const data = await studentService.getStudentsByDepartmentAndSemester(
+                    department, 
+                    semester
+                );
+                
+                setStudents(data);
+            } catch (err) {
+                console.error('Error fetching students:', err);
+                setError('Failed to load students. Please try again.');
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        fetchStudents();
+    }, [department, semester]);
+    
+    const handleAddStudent = async (studentData) => {
+        try {
+            const newStudent = await studentService.createStudent(studentData);
+            setStudents(prevStudents => [...prevStudents, newStudent]);
+        } catch (err) {
+            console.error('Error adding student:', err);
+            // Handle error (e.g., show error message)
+        }
+    };
+    
+    // Component rendering...
+};</pre>
+            </div>
+        </section>
+        
+        <section class="intro">
+            <h2>Best Practices</h2>
+            <p>
+                When working with the Student Service, follow these best practices:
+            </p>
+            <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li>Use try/catch blocks when calling async methods to properly handle errors</li>
+                <li>Add appropriate loading states in components when fetching data</li>
+                <li>Validate user input before sending it to the service methods</li>
+                <li>Consider adding caching for frequently accessed data to improve performance</li>
+                <li>Use proper error messages to help users understand and resolve issues</li>
+                <li>Log important operations and errors to aid in debugging</li>
+            </ol>
+        </section>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="index.html" class="back-button">Back to Services</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation © 2025</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Last updated: May 13, 2025</p>
+    </footer>
+</body>
+</html>

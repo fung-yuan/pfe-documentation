@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absence Management System - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .section-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-header h3 {
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-link {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .card-link:hover {
+            background-color: var(--primary-color);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Absence Management System</h1>
+        <p class="subtitle">Comprehensive Documentation</p>
+    </header>
+    
+    <div class="container">
+        <section class="intro">
+            <h2>Welcome to the Documentation</h2>
+            <p>
+                This documentation provides a detailed overview of the Absence Management System, 
+                its architecture, components, and functionality. Use the navigation below to 
+                explore different aspects of the application.
+            </p>
+            <p>
+                The application is built using modern web technologies including React, React Router,
+                Context API for state management, and communicates with a RESTful backend API. Key features include:
+            </p>
+            <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+                <li>User-friendly interface for managing student attendance</li>
+                <li>Role-based access control for administrators, teachers, and students</li>
+                <li>Comprehensive reporting and data visualization</li>
+                <li>Natural language search capabilities for finding student absence information</li>
+                <li>Responsive design for desktop and mobile devices</li>
+            </ul>
+        </section>
+        
+        <section class="intro">
+            <h2>Getting Started</h2>
+            <p>
+                If you're new to the Absence Management System, we recommend starting with these sections:
+            </p>
+            <ol style="margin-left: 1.5rem; margin-top: 1rem;">
+                <li><a href="services/index.html" style="color: var(--primary-color);">Services Overview</a> - Understand how the application communicates with the backend</li>
+                <li><a href="pages/index.html" style="color: var(--primary-color);">Main Pages</a> - Explore the key screens in the application</li>
+                <li><a href="authentication/index.html" style="color: var(--primary-color);">Authentication</a> - Learn about the login process and user roles</li>
+                <li><a href="components/index.html" style="color: var(--primary-color);">UI Components</a> - Discover the building blocks of the interface</li>
+            </ol>
+        </section>
+        
+        <h2>Documentation Sections</h2>
+        <div class="section-grid">
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">⚙️</div>
+                    <h3>Services</h3>
+                    <div class="emoji">🔌</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Explore the service layer that handles API communication,
+                        data fetching, and backend interactions.
+                    </p>
+                    <a href="services/index.html" class="card-link">View Services</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">📄</div>
+                    <h3>Pages</h3>
+                    <div class="emoji">📱</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Learn about the different pages in the application,
+                        their structure, and functionality.
+                    </p>
+                    <a href="pages/index.html" class="card-link">View Pages</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">🧩</div>
+                    <h3>Components</h3>
+                    <div class="emoji">🔄</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Understand the reusable components that build up the user interface
+                        and their interactions.
+                    </p>
+                    <a href="components/index.html" class="card-link">View Components</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">🧭</div>
+                    <h3>Routing</h3>
+                    <div class="emoji">🔀</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Explore the routing structure of the application,
+                        protected routes, and navigation flow.
+                    </p>
+                    <a href="routing/index.html" class="card-link">View Routing</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">🔐</div>
+                    <h3>Authentication</h3>
+                    <div class="emoji">👤</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Learn about the authentication system,
+                        user roles, and security measures.
+                    </p>
+                    <a href="authentication/index.html" class="card-link">View Authentication</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">🔄</div>
+                    <h3>State Management</h3>
+                    <div class="emoji">💾</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Discover how state is managed throughout the application
+                        using Context API and React hooks.
+                    </p>
+                    <a href="state-management/index.html" class="card-link">View State Management</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">🎨</div>
+                    <h3>CSS & Styling</h3>
+                    <div class="emoji">✨</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Explore the styling system, CSS organization,
+                        and visual design principles.
+                    </p>
+                    <a href="css/index.html" class="card-link">View CSS & Styling</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">📦</div>
+                    <h3>Assets</h3>
+                    <div class="emoji">🖼️</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        View information about the static assets used in the application,
+                        including images and icons.
+                    </p>
+                    <a href="assets/index.html" class="card-link">View Assets</a>
+                </div>
+            </div>
+            
+           
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Last updated: May 13, 2025</p>
+    </footer>
+</body>
+</html>

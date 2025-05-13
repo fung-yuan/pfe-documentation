@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Toggle Component - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb::before {
+            content: '🏠';
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+        
+        .content-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .content-section h2::before {
+            content: '🌓';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .content-section h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+        
+        .content-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .code-block::before {
+            content: 'Code Example';
+            display: block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #b8c2cc;
+        }
+        
+        .theme-demo {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .toggle-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .theme-preview {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .preview-card {
+            width: 200px;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+        
+        .preview-card.light {
+            background-color: white;
+            color: #333;
+        }
+        
+        .preview-card.dark {
+            background-color: #1f2937;
+            color: #f3f4f6;
+        }
+        
+        .toggle-button {
+            background-color: #f1f3f5;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-button:hover {
+            transform: scale(1.1);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .toggle-icon {
+            font-size: 1.2rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .back-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .theme-preview {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Theme Toggle Component</h1>
+        <p class="subtitle">Switch between light and dark themes</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Components</a> &gt; Theme Toggle
+        </div>
+        
+        <section class="content-section">
+            <h2>Component Overview</h2>
+            <p>
+                The <code>ThemeToggle</code> component provides a simple and elegant way for users to switch between light and dark themes in the ESTLM application. 
+                It uses the <code>next-themes</code> library to manage theme state and persistence.
+            </p>
+            
+            <div class="theme-demo">
+                <div class="toggle-container">
+                    <div class="theme-preview">
+                        <div class="preview-card light">
+                            <h3>Light Theme</h3>
+                            <p>Default bright mode</p>
+                        </div>
+                        <div class="preview-card dark">
+                            <h3>Dark Theme</h3>
+                            <p>Reduced eye strain</p>
+                        </div>
+                    </div>
+                    <button class="toggle-button">
+                        <span class="toggle-icon">🌓</span>
+                    </button>
+                </div>
+            </div>
+            
+            <p>
+                The theme toggle is displayed in the <a href="navbar.html">Navbar</a> component and allows users to switch between light and dark themes with a single click.
+                The selected theme is persisted across page reloads and browser sessions.
+            </p>
+        </section>
+        
+        <section class="content-section">
+            <h2>Implementation</h2>
+            <p>
+                The ThemeToggle component is implemented in <code>client/src/components/layout/ThemeToggle.jsx</code> as a functional React component.
+                It uses the <code>useTheme</code> hook from the <code>next-themes</code> library to interact with the application's theme context.
+            </p>
+            
+            <div class="code-block">
+<pre>import React from 'react';
+import { Button } from "@/components/ui/button";
+import { useTheme } from "next-themes"; 
+import { Sun, Moon } from "lucide-react";
+
+export function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
+
+  const currentTheme = theme === 'system' 
+    ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') 
+    : theme;
+
+  const toggleTheme = () => {
+    setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  };
+
+  return (
+    &lt;Button
+      variant="ghost"
+      size="icon"
+      onClick={toggleTheme}
+      aria-label="Toggle theme"
+    &gt;
+      {currentTheme === 'dark' ? (
+        &lt;Sun className="h-[1.2rem] w-[1.2rem]" /&gt;
+      ) : (
+        &lt;Moon className="h-[1.2rem] w-[1.2rem]" /&gt;
+      )}
+    &lt;/Button&gt;
+  );
+}</pre>
+            </div>
+            
+            <h3>Key Features</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌓</div>
+                    <div class="feature-title">Adaptive Icons</div>
+                    <p>Shows Sun in dark mode and Moon in light mode</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <div class="feature-title">Persistent</div>
+                    <p>Theme preference is saved between sessions</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🖥️</div>
+                    <div class="feature-title">System Default</div>
+                    <p>Can detect and use system preferences</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">♿</div>
+                    <div class="feature-title">Accessible</div>
+                    <p>Includes proper ARIA labels</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="content-section">
+            <h2>How It Works</h2>
+            <p>
+                The ThemeToggle component functions through the following steps:
+            </p>
+            <ol>
+                <li>
+                    <strong>Theme Detection</strong>: On initialization, it checks if a theme has been previously set 
+                    (<code>theme</code> value from <code>useTheme</code>). If not, it falls back to the system's 
+                    preferred color scheme using the <code>window.matchMedia</code> API.
+                </li>
+                <li>
+                    <strong>Toggle Function</strong>: When clicked, the component calls <code>toggleTheme()</code> 
+                    which switches between 'light' and 'dark' themes by calling the <code>setTheme</code> function 
+                    from the <code>next-themes</code> library.
+                </li>
+                <li>
+                    <strong>Visual Feedback</strong>: The component displays either a sun or moon icon depending on 
+                    the current theme, providing clear visual indication of the active theme.
+                </li>
+                <li>
+                    <strong>Theme Persistence</strong>: The <code>next-themes</code> library handles persisting the 
+                    theme preference to localStorage, ensuring the user's preference is remembered across page reloads.
+                </li>
+            </ol>
+            
+            <h3>Integration with the Theme System</h3>
+            <p>
+                This component integrates with a broader theme system that:
+            </p>
+            <ul>
+                <li>Applies CSS classes to the <code>&lt;html&gt;</code> element based on the selected theme</li>
+                <li>Works with Tailwind CSS's dark mode which uses class strategy</li>
+                <li>Persists theme selection in the browser's localStorage</li>
+                <li>Provides context through <code>ThemeProvider</code> for theme-aware components</li>
+            </ul>
+        </section>
+        
+        <section class="content-section">
+            <h2>Usage</h2>
+            <p>
+                The ThemeToggle component is used in the Navbar component to provide the theme switching functionality:
+            </p>
+            
+            <div class="code-block">
+<pre>// From Navbar.jsx
+import { ThemeToggle } from './ThemeToggle';
+
+export function Navbar() {
+  return (
+    &lt;header className="bg-card text-card-foreground border-b sticky top-0 z-10"&gt;
+      &lt;div className="container mx-auto h-16 px-4 flex items-center justify-end"&gt;
+        &lt;div className="flex items-center gap-2"&gt;
+          &lt;ThemeToggle /&gt;
+          &lt;Button variant="ghost" size="icon" aria-label="Notifications"&gt;
+            &lt;Bell className="h-5 w-5" /&gt;
+          &lt;/Button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/header&gt;
+  );
+}</pre>
+            </div>
+            
+            <p>
+                The component is designed to be self-contained and doesn't require any props to function, making it easy to integrate anywhere in the application.
+            </p>
+            
+            <h3>Dependencies</h3>
+            <p>
+                For this component to work correctly, the application needs:
+            </p>
+            <ul>
+                <li>The <code>next-themes</code> library installed</li>
+                <li>A <code>ThemeProvider</code> wrapping the application</li>
+                <li>Proper Tailwind CSS configuration for dark mode using the 'class' strategy</li>
+            </ul>
+        </section>
+        
+        <section class="content-section">
+            <h2>Accessibility Considerations</h2>
+            <p>
+                The ThemeToggle component incorporates several accessibility features:
+            </p>
+            <ul>
+                <li>Uses the <code>aria-label</code> attribute to provide a descriptive label for screen readers</li>
+                <li>Relies on the Button component which includes proper keyboard navigation support</li>
+                <li>Provides clear visual indication of the current theme via the sun/moon icons</li>
+                <li>Maintains sufficient contrast in both light and dark modes</li>
+            </ul>
+            
+            <p>
+                These considerations ensure that all users, regardless of ability, can effectively use the theme toggle feature.
+            </p>
+        </section>
+        
+        <section class="content-section">
+            <h2>Related Components</h2>
+            <p>
+                The ThemeToggle component relates to the following components in the application:
+            </p>
+            <ul>
+                <li><a href="navbar.html">Navbar</a> - Contains and displays the ThemeToggle</li>
+                <li><a href="layout.html">Layout</a> - The parent component that applies theme-related styles</li>
+            </ul>
+        </section>
+        
+        <div class="back-section">
+            <a href="index.html" class="back-button">Back to Components</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+    </footer>
+</body>
+</html>

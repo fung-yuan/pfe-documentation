@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Components - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb::before {
+            content: '🏠';
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+        
+        .content-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .content-section h2::before {
+            content: '📝';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .input-section h2::before {
+            content: '⌨️';
+        }
+        
+        .select-section h2::before {
+            content: '📋';
+        }
+        
+        .date-section h2::before {
+            content: '📅';
+        }
+        
+        .form-section h2::before {
+            content: '📑';
+        }
+        
+        .content-section h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+        
+        .content-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .code-block::before {
+            content: 'Code Example';
+            display: block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #b8c2cc;
+        }
+        
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .component-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .component-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .component-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .component-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-preview {
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+        
+        .form-header {
+            background-color: #f8fafc;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .form-body {
+            padding: 1.5rem;
+        }
+        
+        .form-field {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.25rem;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.25rem;
+            background-color: white;
+        }
+        
+        .form-date {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.25rem;
+            display: flex;
+            align-items: center;
+            background-color: white;
+        }
+        
+        .form-date::before {
+            content: '📅';
+            margin-right: 0.5rem;
+        }
+        
+        .form-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+        }
+        
+        .form-button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .primary-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+        
+        .secondary-button {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 1px solid #cbd5e1;
+        }
+        
+        .back-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .usage-section {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .usage-heading {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .component-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Form Components</h1>
+        <p class="subtitle">Building interactive forms for data input and validation</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Components</a> &gt; Form Components
+        </div>
+        
+        <section class="content-section">
+            <h2>Overview</h2>
+            <p>
+                The ESTLM Application uses a comprehensive set of form components that provide a consistent, accessible, and 
+                user-friendly way to collect and validate user input. These components are built on top of radix-ui primitives 
+                and react-hook-form, providing a powerful foundation for form implementation.
+            </p>
+            
+            <p>
+                The form components in the application are designed with the following principles:
+            </p>
+            
+            <ul>
+                <li><strong>Consistency</strong> - Unified styling and behavior across all input types</li>
+                <li><strong>Accessibility</strong> - Proper ARIA attributes and keyboard navigation</li>
+                <li><strong>Validation</strong> - Built-in support for form validation</li>
+                <li><strong>Flexibility</strong> - Components that adapt to different data types and requirements</li>
+                <li><strong>Internationalization</strong> - Support for both English and French input</li>
+            </ul>
+            
+            <div class="component-grid">
+                <div class="component-card">
+                    <div class="component-icon">⌨️</div>
+                    <div class="component-title">Input</div>
+                    <p>Text input fields for collecting short text data</p>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-icon">📋</div>
+                    <div class="component-title">Select</div>
+                    <p>Dropdown selection for choosing from predefined options</p>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-icon">📅</div>
+                    <div class="component-title">DatePicker</div>
+                    <p>Calendar-based interface for selecting dates</p>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-icon">📑</div>
+                    <div class="component-title">Form</div>
+                    <p>Container component for form validation and submission</p>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-icon">📝</div>
+                    <div class="component-title">TextArea</div>
+                    <p>Multi-line text input for longer content</p>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-icon">✓</div>
+                    <div class="component-title">Checkbox</div>
+                    <p>Toggle input for boolean values</p>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-icon">🏷️</div>
+                    <div class="component-title">Label</div>
+                    <p>Accessible form field labels</p>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-icon">⚠️</div>
+                    <div class="component-title">FormMessage</div>
+                    <p>Validation error messages for form fields</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="content-section input-section">
+            <h2>Input Component</h2>
+            <p>
+                The <code>Input</code> component is a styled wrapper around the HTML <code>&lt;input&gt;</code> element, 
+                providing consistent styling and behavior across the application.
+            </p>
+            
+            <div class="code-block">
+<pre>// From input.tsx
+import * as React from "react"
+import { cn } from "@/lib/utils"
+
+const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
+  ({ className, type, ...props }, ref) => {
+    return (
+      &lt;input
+        type={type}
+        className={cn(
+          "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+          className
+        )}
+        ref={ref}
+        {...props}
+      /&gt;
+    )
+  }
+)
+Input.displayName = "Input"
+
+export { Input }</pre>
+            </div>
+            
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Consistent Styling</strong> - Maintains the application's design language</li>
+                <li><strong>Type Support</strong> - Works with all HTML input types (text, email, password, etc.)</li>
+                <li><strong>Responsive Design</strong> - Adapts to different screen sizes</li>
+                <li><strong>Focus States</strong> - Clear visual indication when focused</li>
+                <li><strong>Disabled States</strong> - Proper styling for disabled inputs</li>
+            </ul>
+            
+            <h3>Usage Example</h3>
+            <div class="code-block">
+<pre>&lt;Input
+  type="text"
+  placeholder="Enter student name"
+  value={studentName}
+  onChange={(e) => setStudentName(e.target.value)}
+  className="w-full"
+/&gt;</pre>
+            </div>
+        </section>
+        
+        <section class="content-section select-section">
+            <h2>Select Component</h2>
+            <p>
+                The <code>Select</code> component provides a dropdown selection interface, built on top of 
+                Radix UI's select primitive for accessibility and keyboard navigation.
+            </p>
+            
+            <h3>Key Components</h3>
+            <ul>
+                <li><code>Select</code> - Root component that manages selection state</li>
+                <li><code>SelectValue</code> - Displays the currently selected value</li>
+                <li><code>SelectTrigger</code> - The button that opens the dropdown</li>
+                <li><code>SelectContent</code> - Contains the list of selectable options</li>
+                <li><code>SelectItem</code> - Individual selectable option</li>
+            </ul>
+            
+            <h3>Usage Example</h3>
+            <div class="code-block">
+<pre>&lt;Select value={department} onValueChange={setDepartment}&gt;
+  &lt;SelectTrigger className="w-full"&gt;
+    &lt;SelectValue placeholder="Select Department" /&gt;
+  &lt;/SelectTrigger&gt;
+  &lt;SelectContent&gt;
+    {departments.map(dept => (
+      &lt;SelectItem key={dept.id} value={dept.id.toString()}&gt;
+        {dept.name}
+      &lt;/SelectItem&gt;
+    ))}
+  &lt;/SelectContent&gt;
+&lt;/Select&gt;</pre>
+            </div>
+            
+            <h3>Internationalization Support</h3>
+            <p>
+                The Select component fully supports displaying and selecting options with French accented characters, 
+                which is important for department names and other multilingual content in the application.
+            </p>
+        </section>
+        
+        <section class="content-section date-section">
+            <h2>DatePicker Component</h2>
+            <p>
+                The <code>DatePicker</code> component provides an intuitive calendar interface for selecting dates,
+                built using the <code>Popover</code> and <code>Calendar</code> components.
+            </p>
+            
+            <div class="code-block">
+<pre>// From DatePicker.tsx
+export function DatePicker({
+  date,
+  setDate,
+  label,
+  placeholder = "Pick a date",
+  className
+}: DatePickerProps) {
+  return (
+    &lt;div className={cn("space-y-2", className)}&gt;
+      {label && &lt;div className="text-sm font-medium text-foreground mb-1"&gt;{label}&lt;/div&gt;}
+      &lt;Popover&gt;
+        &lt;PopoverTrigger asChild&gt;
+          &lt;Button
+            variant={"outline"}
+            className={cn(
+              "w-full justify-start text-left font-normal",
+              !date && "text-muted-foreground"
+            )}
+          &gt;
+            &lt;CalendarIcon className="mr-2 h-4 w-4" /&gt;
+            {date ? format(date, "PPP") : &lt;span&gt;{placeholder}&lt;/span&gt;}
+          &lt;/Button&gt;
+        &lt;/PopoverTrigger&gt;
+        &lt;PopoverContent className="w-auto p-0"&gt;
+          &lt;Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            initialFocus
+          /&gt;
+        &lt;/PopoverContent&gt;
+      &lt;/Popover&gt;
+    &lt;/div&gt;
+  )
+}</pre>
+            </div>
+            
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Calendar Interface</strong> - Intuitive calendar popup for date selection</li>
+                <li><strong>Date Formatting</strong> - Properly formatted date display using date-fns</li>
+                <li><strong>Internationalization</strong> - Support for different date formats</li>
+                <li><strong>Keyboard Navigation</strong> - Accessible date selection via keyboard</li>
+                <li><strong>Custom Labeling</strong> - Optional label for better form organization</li>
+            </ul>
+            
+            <h3>Usage in the Attendance Record Form</h3>
+            <p>
+                The DatePicker is a critical component in the Attendance Record Form, allowing instructors to select 
+                the date for a class session when recording student attendance.
+            </p>
+            
+            <div class="code-block">
+<pre>&lt;DatePicker 
+  label="Date"
+  date={date}
+  setDate={setDate}
+  placeholder="Select attendance date"
+/&gt;</pre>
+            </div>
+        </section>
+        
+        <section class="content-section form-section">
+            <h2>Form Components</h2>
+            <p>
+                The Form components provide a structured way to create forms with validation and error handling,
+                built on top of react-hook-form for state management and validation.
+            </p>
+            
+            <h3>Key Components</h3>
+            <ul>
+                <li><code>Form</code> - Provides form context using react-hook-form's FormProvider</li>
+                <li><code>FormField</code> - Connects individual form fields to the form context</li>
+                <li><code>FormItem</code> - Wrapper for a form input and its associated elements</li>
+                <li><code>FormLabel</code> - Accessible label for form inputs</li>
+                <li><code>FormControl</code> - Connects inputs to the form field context</li>
+                <li><code>FormDescription</code> - Provides help text for form fields</li>
+                <li><code>FormMessage</code> - Displays validation error messages</li>
+            </ul>
+            
+            <h3>Example Form Implementation</h3>
+            <div class="code-block">
+<pre>// Form with validation example
+const form = useForm({
+  resolver: zodResolver(formSchema),
+  defaultValues: {
+    studentName: "",
+    departmentId: "",
+    attendanceDate: new Date(),
+  },
+});
+
+return (
+  &lt;Form {...form}&gt;
+    &lt;form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8"&gt;
+      &lt;FormField
+        control={form.control}
+        name="studentName"
+        render={({ field }) => (
+          &lt;FormItem&gt;
+            &lt;FormLabel&gt;Student Name&lt;/FormLabel&gt;
+            &lt;FormControl&gt;
+              &lt;Input placeholder="Student name" {...field} /&gt;
+            &lt;/FormControl&gt;
+            &lt;FormDescription&gt;
+              Enter the student's full name
+            &lt;/FormDescription&gt;
+            &lt;FormMessage /&gt;
+          &lt;/FormItem&gt;
+        )}
+      /&gt;
+      
+      {/* Additional form fields... */}
+      
+      &lt;Button type="submit"&gt;Submit&lt;/Button&gt;
+    &lt;/form&gt;
+  &lt;/Form&gt;
+)</pre>
+            </div>
+        </section>
+        
+        <section class="content-section">
+            <h2>Form Preview</h2>
+            <p>
+                Below is a visual example of how these form components work together to create a cohesive form interface:
+            </p>
+            
+            <div class="form-preview">
+                <div class="form-header">
+                    <h3>Student Registration Form</h3>
+                </div>
+                <div class="form-body">
+                    <div class="form-field">
+                        <label class="form-label">Student Name</label>
+                        <input type="text" class="form-input" placeholder="Enter full name" />
+                    </div>
+                    
+                    <div class="form-field">
+                        <label class="form-label">Department</label>
+                        <select class="form-select">
+                            <option value="">Select department</option>
+                            <option value="1">Computer Engineering</option>
+                            <option value="2">Electrical Engineering</option>
+                            <option value="3">Mechanical Engineering</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-field">
+                        <label class="form-label">Enrollment Date</label>
+                        <div class="form-date">May 13, 2025</div>
+                    </div>
+                </div>
+                <div class="form-footer">
+                    <button class="form-button secondary-button">Cancel</button>
+                    <button class="form-button primary-button">Submit</button>
+                </div>
+            </div>
+        </section>
+        
+        <section class="content-section">
+            <h2>Integration with Absence Management</h2>
+            <p>
+                The form components are essential to the absence management system, enabling data collection for:
+            </p>
+            
+            <ul>
+                <li><strong>Attendance Recording</strong> - Capturing student presence/absence data</li>
+                <li><strong>Department Selection</strong> - Filtering students by department</li>
+                <li><strong>Date Selection</strong> - Specifying the class session date</li>
+                <li><strong>Search Parameters</strong> - Inputting natural language search queries</li>
+            </ul>
+            
+            <p>
+                These components support French accented characters and special characters, which is critical for the
+                natural language search functionality that allows querying student absence data in both English and French.
+            </p>
+            
+            <h3>Internationalization Support</h3>
+            <p>
+                Form components in the ESTLM application are designed to work seamlessly with:
+            </p>
+            <ul>
+                <li>French accented characters (é, è, ê, ç, etc.)</li>
+                <li>Different date formats (European vs. North American)</li>
+                <li>Multilingual content in department and student names</li>
+                <li>Natural language input in both English and French</li>
+            </ul>
+        </section>
+        
+        <div class="back-section">
+            <a href="index.html" class="back-button">Back to Components</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+    </footer>
+</body>
+</html>

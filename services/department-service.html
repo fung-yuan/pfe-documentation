@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Service - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .method-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .method-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .method-header h3 {
+            margin: 0;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+        }
+        
+        .method-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+        }
+        
+        .method-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .method-content p {
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        .method-code {
+            background-color: #f0f4f8;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.8rem;
+            color: var(--text-color);
+        }
+        
+        .data-structure {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .data-example {
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .usage-example {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .relationship-diagram {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+        
+        .diagram-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .diagram-entity {
+            width: 180px;
+            padding: 1rem;
+            margin: 0.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .diagram-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin: 1rem 0;
+        }
+        
+        .diagram-relation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 0.5rem;
+        }
+        
+        .diagram-arrow {
+            width: 2px;
+            height: 30px;
+            background-color: var(--secondary-color);
+        }
+        
+        .diagram-label {
+            margin: 0.25rem 0;
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .methods-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .diagram-row {
+                flex-direction: column;
+            }
+            
+            .diagram-arrow {
+                height: 2px;
+                width: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Department Service</h1>
+        <p class="subtitle">Managing academic departments</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Services</a> &gt; Department Service
+        </div>
+        
+        <section class="intro">
+            <h2>Department Service Overview</h2>
+            <p>
+                The Department Service provides functionality for managing academic departments in the 
+                Absence Management System. It handles operations such as retrieving department lists, 
+                creating new departments, updating department information, and accessing department-specific 
+                statistics.
+            </p>
+            <p>
+                Departments represent the organizational structure of the educational institution and serve as 
+                containers for students, subjects, and semesters. This service is essential for administrative 
+                tasks and reporting that requires department-level organization.
+            </p>
+        </section>
+        
+        <section class="relationship-diagram">
+            <h2>Department Relationships</h2>
+            <div class="diagram-container">
+                <div class="diagram-entity">Department</div>
+                
+                <div class="diagram-relation">
+                    <div class="diagram-arrow"></div>
+                    <div class="diagram-label">contains</div>
+                    <div class="diagram-arrow"></div>
+                </div>
+                
+                <div class="diagram-row">
+                    <div class="diagram-entity">Students</div>
+                    <div class="diagram-entity">Subjects</div>
+                    <div class="diagram-entity">Semesters</div>
+                </div>
+            </div>
+            <p>
+                The diagram above illustrates the relationship between departments and other entities in the system. 
+                Each department contains students, offers subjects, and operates across different semesters.
+            </p>
+        </section>
+        
+        <section class="intro">
+            <h2>Implementation</h2>
+            <p>
+                The Department Service is implemented in <code>departmentService.js</code> and uses the API instance to 
+                communicate with the backend API for department-related operations.
+            </p>
+            
+            <div class="code-block">
+<pre>// File: src/services/departmentService.js
+import axiosInstance from '@/lib/axiosInstance';
+
+const API_BASE_URL = 'http://localhost:8080/api';
+
+const departmentService = {
+    // Named export
+    getAllDepartments: async () => {
+        try {
+            const response = await axiosInstance.get('/departments');
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching departments:", error.response?.data || error.message);
+            // Re-throw the error so the calling component can handle it
+            throw error.response?.data || new Error('Failed to fetch departments'); 
+        }
+    },
+
+    getDepartmentById: async (id) => {
+        try {
+            const response = await axiosInstance.get(`/departments/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching department ${id}:`, error);
+        }
+    },
+
+    getDepartmentByName: async (name) => {
+        try {
+            const response = await axiosInstance.get(`/departments/name/${name}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching department ${name}:`, error);
+        }
+    },
+
+    createDepartment: async (department) => {
+        try {
+            const response = await axiosInstance.post('/departments', department);
+            return response.data;
+        } catch (error) {
+            console.error("Error creating department:", error);
+        }
+    },
+
+    updateDepartment: async (id, department) => {
+        try {
+            console.log(`Updating department ${id} with data:`, JSON.stringify(department));
+            const response = await axiosInstance.put(`/departments/${id}`, department, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log('Department update response:', response.data);
+            return response.data;
+        } catch (error) {
+            console.error(`Error updating department ${id}:`, error.response?.data || error.message || error);
+            throw error.response?.data || new Error(`Failed to update department ${id}`);
+        }
+    },
+
+    getDepartmentStatistics: async (departmentName, startDate, endDate) => {
+        try {
+            const response = await axiosInstance.get(`/attendance/statistics/department/${departmentName}`, {
+                params: { startDate, endDate }
+            });
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching department statistics for ${departmentName}:`, error);
+        }
+    }
+};
+
+export default departmentService;</pre>
+            </div>
+        </section>
+        
+        <section class="data-structure">
+            <h2>Department Data Structure</h2>
+            <p>
+                The Department Service works with department objects that have the following structure:
+            </p>
+            
+            <div class="data-example">
+<pre>{
+  "id": 5,
+  "name": "Computer Science",
+  "code": "CS",
+  "description": "Department of Computer Science and Engineering",
+  "headOfDepartment": "Dr. Jane Smith",
+  "createdAt": "2024-09-01T00:00:00Z",
+  "updatedAt": "2025-01-15T10:30:00Z"
+}</pre>
+            </div>
+            
+            <p>
+                When creating or updating departments, some fields may be optional depending on the 
+                backend validation requirements.
+            </p>
+        </section>
+        
+        <h2>Key Methods</h2>
+        <div class="methods-grid">
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">📋</div>
+                    <h3>getAllDepartments</h3>
+                    <div class="emoji">🏢</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Retrieves a list of all departments from the system. This method is used
+                        in dropdown menus, department selection screens, and administrative dashboards.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getAllDepartments: async () => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get('/departments');<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🔍</div>
+                    <h3>getDepartmentById</h3>
+                    <div class="emoji">🆔</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Fetches a specific department by its unique ID. This is used when
+                        editing department details or viewing a department profile.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getDepartmentById: async (id) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get(`/departments/${id}`);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🔤</div>
+                    <h3>getDepartmentByName</h3>
+                    <div class="emoji">📝</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Retrieves a department using its name instead of ID. This is useful when
+                        the name is known but the ID isn't readily available.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getDepartmentByName: async (name) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get(`/departments/name/${name}`);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">➕</div>
+                    <h3>createDepartment</h3>
+                    <div class="emoji">✏️</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Creates a new department in the system. This method is used by
+                        administrators when setting up new academic departments.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            createDepartment: async (department) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.post('/departments', department);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🔄</div>
+                    <h3>updateDepartment</h3>
+                    <div class="emoji">📝</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Updates an existing department's information. Used when modifying
+                        department details such as name, code, or description.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            updateDepartment: async (id, department) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.put(`/departments/${id}`, department);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">📊</div>
+                    <h3>getDepartmentStatistics</h3>
+                    <div class="emoji">📈</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Fetches attendance statistics for a specific department within a date range,
+                        providing valuable insights for departmental reporting and analysis.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getDepartmentStatistics: async (departmentName, startDate, endDate) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get(`/attendance/statistics/department/${departmentName}`, {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;params: { startDate, endDate }<br>
+                            &nbsp;&nbsp;});<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <section class="usage-example">
+            <h2>Usage Example</h2>
+            <p>
+                Here's an example of how to use the Department Service in a React component for department management:
+            </p>
+            
+            <div class="code-block">
+<pre>import React, { useState, useEffect } from 'react';
+import departmentService from '../services/departmentService';
+
+const DepartmentManagement = () => {
+    const [departments, setDepartments] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [formData, setFormData] = useState({
+        name: '',
+        code: '',
+        description: '',
+        headOfDepartment: ''
+    });
+    const [editing, setEditing] = useState(false);
+    const [currentId, setCurrentId] = useState(null);
+    
+    // Load all departments
+    useEffect(() => {
+        const fetchDepartments = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                const data = await departmentService.getAllDepartments();
+                setDepartments(data);
+            } catch (err) {
+                console.error('Error fetching departments:', err);
+                setError('Failed to load departments. Please try again.');
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        fetchDepartments();
+    }, []);
+    
+    // Handle form input changes
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+    
+    // Handle form submission for create/update
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        try {
+            setLoading(true);
+            setError(null);
+            
+            if (editing) {
+                // Update existing department
+                const updatedDepartment = await departmentService.updateDepartment(currentId, formData);
+                setDepartments(prevDepts => 
+                    prevDepts.map(dept => 
+                        dept.id === currentId ? updatedDepartment : dept
+                    )
+                );
+                setEditing(false);
+                setCurrentId(null);
+            } else {
+                // Create new department
+                const newDepartment = await departmentService.createDepartment(formData);
+                setDepartments(prevDepts => [...prevDepts, newDepartment]);
+            }
+            
+            // Reset form
+            setFormData({
+                name: '',
+                code: '',
+                description: '',
+                headOfDepartment: ''
+            });
+        } catch (err) {
+            console.error('Error saving department:', err);
+            setError('Failed to save department. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+    
+    // Edit a department
+    const handleEdit = (department) => {
+        setFormData({
+            name: department.name,
+            code: department.code,
+            description: department.description || '',
+            headOfDepartment: department.headOfDepartment || ''
+        });
+        setEditing(true);
+        setCurrentId(department.id);
+    };
+    
+    if (loading && departments.length === 0) return &lt;div&gt;Loading departments...&lt;/div&gt;;
+    
+    return (
+        &lt;div className="department-management"&gt;
+            &lt;h2&gt;{editing ? 'Edit Department' : 'Add New Department'}&lt;/h2&gt;
+            
+            {error && &lt;div className="error-message"&gt;{error}&lt;/div&gt;}
+            
+            &lt;form onSubmit={handleSubmit}&gt;
+                &lt;div className="form-group"&gt;
+                    &lt;label htmlFor="name"&gt;Department Name&lt;/label&gt;
+                    &lt;input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                    /&gt;
+                &lt;/div&gt;
+                
+                &lt;div className="form-group"&gt;
+                    &lt;label htmlFor="code"&gt;Department Code&lt;/label&gt;
+                    &lt;input
+                        type="text"
+                        id="code"
+                        name="code"
+                        value={formData.code}
+                        onChange={handleInputChange}
+                        required
+                    /&gt;
+                &lt;/div&gt;
+                
+                &lt;div className="form-group"&gt;
+                    &lt;label htmlFor="description"&gt;Description&lt;/label&gt;
+                    &lt;textarea
+                        id="description"
+                        name="description"
+                        value={formData.description}
+                        onChange={handleInputChange}
+                    /&gt;
+                &lt;/div&gt;
+                
+                &lt;div className="form-group"&gt;
+                    &lt;label htmlFor="headOfDepartment"&gt;Head of Department&lt;/label&gt;
+                    &lt;input
+                        type="text"
+                        id="headOfDepartment"
+                        name="headOfDepartment"
+                        value={formData.headOfDepartment}
+                        onChange={handleInputChange}
+                    /&gt;
+                &lt;/div&gt;
+                
+                &lt;div className="form-actions"&gt;
+                    &lt;button type="submit" disabled={loading}&gt;
+                        {loading ? 'Saving...' : (editing ? 'Update Department' : 'Add Department')}
+                    &lt;/button&gt;
+                    
+                    {editing && (
+                        &lt;button 
+                            type="button" 
+                            onClick={() => {
+                                setEditing(false);
+                                setCurrentId(null);
+                                setFormData({
+                                    name: '',
+                                    code: '',
+                                    description: '',
+                                    headOfDepartment: ''
+                                });
+                            }}
+                        &gt;
+                            Cancel
+                        &lt;/button&gt;
+                    )}
+                &lt;/div&gt;
+            &lt;/form&gt;
+            
+            &lt;h2&gt;Departments&lt;/h2&gt;
+            &lt;div className="departments-list"&gt;
+                {departments.length > 0 ? (
+                    &lt;table&gt;
+                        &lt;thead&gt;
+                            &lt;tr&gt;
+                                &lt;th&gt;Name&lt;/th&gt;
+                                &lt;th&gt;Code&lt;/th&gt;
+                                &lt;th&gt;Head of Department&lt;/th&gt;
+                                &lt;th&gt;Actions&lt;/th&gt;
+                            &lt;/tr&gt;
+                        &lt;/thead&gt;
+                        &lt;tbody&gt;
+                            {departments.map(department => (
+                                &lt;tr key={department.id}&gt;
+                                    &lt;td&gt;{department.name}&lt;/td&gt;
+                                    &lt;td&gt;{department.code}&lt;/td&gt;
+                                    &lt;td&gt;{department.headOfDepartment}&lt;/td&gt;
+                                    &lt;td&gt;
+                                        &lt;button onClick={() => handleEdit(department)}&gt;
+                                            Edit
+                                        &lt;/button&gt;
+                                    &lt;/td&gt;
+                                &lt;/tr&gt;
+                            ))}
+                        &lt;/tbody&gt;
+                    &lt;/table&gt;
+                ) : (
+                    &lt;p&gt;No departments found. Add your first department using the form above.&lt;/p&gt;
+                )}
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+};
+
+export default DepartmentManagement;</pre>
+            </div>
+        </section>
+        
+        <section class="intro">
+            <h2>Best Practices</h2>
+            <p>
+                When working with the Department Service, follow these best practices:
+            </p>
+            <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li>Implement comprehensive error handling for all service calls</li>
+                <li>Cache department data when appropriate to reduce API calls</li>
+                <li>Validate department data on the frontend before sending to the service</li>
+                <li>Use descriptive department codes that are easily recognizable</li>
+                <li>Consider implementing department-level permissions for administrative actions</li>
+                <li>Use the department statistics method for generating reports and analytics</li>
+            </ol>
+        </section>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="index.html" class="back-button">Back to Services</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation © 2025</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Last updated: May 13, 2025</p>
+    </footer>
+</body>
+</html>

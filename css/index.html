@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS & Styling - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .color-swatch {
+            height: 100px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0.75rem;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .color-swatch:hover {
+            transform: scale(1.05);
+        }
+        
+        .color-swatch .color-code {
+            font-family: monospace;
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        .color-primary { background-color: #4361ee; }
+        .color-secondary { background-color: #3a0ca3; }
+        .color-accent { background-color: #4cc9f0; }
+        .color-text { background-color: #2b2d42; }
+        .color-bg { background-color: #f8f9fa; color: #2b2d42; }
+        .color-success { background-color: #2a9d8f; }
+        .color-warning { background-color: #e9c46a; color: #2b2d42; }
+        .color-danger { background-color: #e76f51; }
+        
+        .typography {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .font-example {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: #f0f4f8;
+        }
+        
+        .component-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .component-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .component-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+        }
+        
+        .component-preview {
+            padding: 1.5rem;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f4f8;
+            position: relative;
+        }
+        
+        .component-details {
+            padding: 1rem;
+        }
+        
+        .component-details h4 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .button-example {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .card-example {
+            width: 80%;
+            height: 80%;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            padding: 1rem;
+            position: relative;
+            font-size: 0.8rem;
+        }
+        
+        .input-example {
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 80%;
+            transition: border-color 0.3s;
+        }
+        
+        .input-example:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .section-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-header h3 {
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-link {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .card-link:hover {
+            background-color: var(--primary-color);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .theme-switch {
+            display: inline-block;
+            position: relative;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "🌞";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+            content: "🌙";
+        }
+        
+        @media (max-width: 768px) {
+            .section-grid, .component-examples, .color-palette {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CSS & Styling</h1>
+        <p class="subtitle">Visual design system and styling architecture</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; CSS & Styling
+        </div>
+        
+        <section class="intro">
+            <h2>Styling Architecture</h2>
+            <p>
+                The Absence Management System uses a combination of Tailwind CSS and custom CSS to create a 
+                consistent, responsive, and modern user interface. The styling system follows a component-based 
+                approach that aligns with React's philosophy.
+            </p>
+            <p>
+                The application also supports light and dark themes through the ThemeProvider from next-themes,
+                allowing users to customize their visual experience.
+            </p>
+        </section>
+        
+        <section class="intro">
+            <h2>Color Palette</h2>
+            <p>
+                The application uses a carefully selected color palette that ensures accessibility, visual harmony, 
+                and clear communication of interface elements.
+            </p>
+            
+            <div class="color-palette">
+                <div class="color-swatch color-primary">
+                    <span>Primary</span>
+                    <span class="color-code">#4361ee</span>
+                </div>
+                <div class="color-swatch color-secondary">
+                    <span>Secondary</span>
+                    <span class="color-code">#3a0ca3</span>
+                </div>
+                <div class="color-swatch color-accent">
+                    <span>Accent</span>
+                    <span class="color-code">#4cc9f0</span>
+                </div>
+                <div class="color-swatch color-text">
+                    <span>Text</span>
+                    <span class="color-code">#2b2d42</span>
+                </div>
+                <div class="color-swatch color-bg">
+                    <span>Background</span>
+                    <span class="color-code">#f8f9fa</span>
+                </div>
+                <div class="color-swatch color-success">
+                    <span>Success</span>
+                    <span class="color-code">#2a9d8f</span>
+                </div>
+                <div class="color-swatch color-warning">
+                    <span>Warning</span>
+                    <span class="color-code">#e9c46a</span>
+                </div>
+                <div class="color-swatch color-danger">
+                    <span>Danger</span>
+                    <span class="color-code">#e76f51</span>
+                </div>
+            </div>
+            
+            <p>
+                These colors are defined as CSS variables in the root level, making them easy to reference and update:
+            </p>
+            
+            <div class="code-block">
+<pre>:root {
+  --primary-color: #4361ee;
+  --secondary-color: #3a0ca3;
+  --accent-color: #4cc9f0;
+  --text-color: #2b2d42;
+  --background-color: #f8f9fa;
+  --success-color: #2a9d8f;
+  --warning-color: #e9c46a;
+  --danger-color: #e76f51;
+}</pre>
+            </div>
+        </section>
+        
+        <section class="typography">
+            <h2>Typography</h2>
+            <p>
+                The application uses a clean, readable typography system based on the Segoe UI font family,
+                with appropriate fallbacks for cross-platform compatibility.
+            </p>
+            
+            <div class="font-example">
+                <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Heading 1</h1>
+                <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Heading 2</h2>
+                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Heading 3</h3>
+                <h4 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Heading 4</h4>
+                <p style="font-size: 1rem; margin-bottom: 0.5rem;">Paragraph text - The quick brown fox jumps over the lazy dog.</p>
+                <p style="font-size: 0.875rem; margin-bottom: 0.5rem;"><small>Small text - The quick brown fox jumps over the lazy dog.</small></p>
+            </div>
+            
+            <div class="code-block">
+<pre>body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.3;
+}</pre>
+            </div>
+        </section>
+        
+        <h2>Component Styling Examples</h2>
+        <div class="component-examples">
+            <div class="component-card">
+                <div class="component-header">
+                    <h3>Buttons</h3>
+                </div>
+                <div class="component-preview">
+                    <button class="button-example">Click Me</button>
+                </div>
+                <div class="component-details">
+                    <h4>Button Styles</h4>
+                    <p>
+                        Buttons use consistent styling with rounded corners, appropriate padding,
+                        and transition effects for better user feedback.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="component-card">
+                <div class="component-header">
+                    <h3>Cards</h3>
+                </div>
+                <div class="component-preview">
+                    <div class="card-example">
+                        <h4>Card Title</h4>
+                        <p>Card content goes here with consistent padding and styling.</p>
+                    </div>
+                </div>
+                <div class="component-details">
+                    <h4>Card Styles</h4>
+                    <p>
+                        Cards provide content containers with consistent shadow, border radius,
+                        and spacing to create visual hierarchy.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="component-card">
+                <div class="component-header">
+                    <h3>Form Inputs</h3>
+                </div>
+                <div class="component-preview">
+                    <input class="input-example" type="text" placeholder="Enter text...">
+                </div>
+                <div class="component-details">
+                    <h4>Input Styles</h4>
+                    <p>
+                        Form inputs have consistent styling with focus states and
+                        appropriate sizing for usability.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="component-card">
+                <div class="component-header">
+                    <h3>Theme Toggle</h3>
+                </div>
+                <div class="component-preview">
+                    <label class="theme-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="component-details">
+                    <h4>Toggle Styles</h4>
+                    <p>
+                        The theme toggle allows users to switch between light and dark modes,
+                        with smooth transitions and visual indicators.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <section class="intro" style="margin-top: 2rem;">
+            <h2>CSS Best Practices</h2>
+            <p>
+                The application follows these CSS best practices:
+            </p>
+            <ul>
+                <li><strong>Component-Based Structure</strong>: CSS is organized by component for better maintainability</li>
+                <li><strong>CSS Variables</strong>: Uses CSS variables for consistent theming</li>
+                <li><strong>Mobile-First Approach</strong>: Designs for mobile first, then scales up</li>
+                <li><strong>Minimalist Design</strong>: Focuses on clean, uncluttered interfaces</li>
+                <li><strong>Performance Optimization</strong>: Minimizes unused CSS and optimizes rendering</li>
+                <li><strong>Consistent Spacing</strong>: Uses a consistent spacing scale throughout the application</li>
+                <li><strong>Semantic HTML</strong>: Uses appropriate HTML elements for better accessibility</li>
+            </ul>
+        </section>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="../index.html" class="back-button">Back to Documentation Home</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation © 2025</p>
+    </footer>
+    
+    <script>
+        // Sample theme toggle functionality
+        const themeToggle = document.querySelector('.theme-switch input');
+        
+        themeToggle.addEventListener('change', () => {
+            // This would normally trigger a theme change
+            // Just for demonstration purposes
+            if (themeToggle.checked) {
+                document.querySelectorAll('.component-preview').forEach(preview => {
+                    preview.style.backgroundColor = '#333';
+                    preview.style.color = 'white';
+                });
+            } else {
+                document.querySelectorAll('.component-preview').forEach(preview => {
+                    preview.style.backgroundColor = '#f0f4f8';
+                    preview.style.color = '#2b2d42';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

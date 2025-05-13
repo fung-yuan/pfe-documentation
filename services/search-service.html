@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Service - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .search-flow {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .search-flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .step-details {
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            padding: 1rem;
+            flex-grow: 1;
+            position: relative;
+        }
+        
+        .step-details::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 20px;
+            background-color: var(--primary-color);
+        }
+        
+        .flow-step:last-child .step-details::after {
+            display: none;
+        }
+        
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-item {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .feature-item h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+        }
+        
+        .query-examples {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .example-card {
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .example-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+        
+        .example-query {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background-color: white;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .example-result {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .recent-updates {
+            background-color: #e9f7f5;
+            border: 1px solid #2a9d8f;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .recent-updates h3 {
+            color: #2a9d8f;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .recent-updates ul {
+            margin-left: 1.5rem;
+        }
+        
+        .recent-updates li {
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .examples-grid, .features-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Search Service</h1>
+        <p class="subtitle">Natural language search capabilities</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Services</a> &gt; Search Service
+        </div>
+        
+        <section class="intro">
+            <h2>Search Service Overview</h2>
+            <p>
+                The Search Service provides advanced natural language search capabilities for the 
+                Absence Management System. Unlike traditional keyword searches, this service allows users 
+                to query student absence information using conversational language.
+            </p>
+            <p>
+                This service interprets natural language queries, converts them to optimized database 
+                queries, and returns structured results with helpful summaries. It's designed to make 
+                finding specific absence information intuitive and efficient.
+            </p>
+        </section>
+        
+        <section class="recent-updates">
+            <h3>
+                <span class="feature-icon">🆕</span>
+                Recent Improvements
+            </h3>
+            <p>The natural language search has recently been enhanced with several important updates:</p>
+            <ul>
+                <li><strong>GPT-4 Upgrade</strong>: Upgraded from GPT-3.5-turbo to GPT-4 for more accurate query generation</li>
+                <li><strong>Zero Absence Handling</strong>: Special case handling for queries about perfect attendance using direct "NOT EXISTS" database approach</li>
+                <li><strong>Absence Calculation Fix</strong>: Improved absence hour calculations with validation and capping of unreasonable values</li>
+                <li><strong>Language Support</strong>: Better handling of French accented characters in search queries</li>
+                <li><strong>Enhanced Debugging</strong>: Added more detailed logging throughout the system</li>
+            </ul>
+        </section>
+        
+        <section class="intro">
+            <h2>Implementation</h2>
+            <p>
+                The Search Service is implemented in <code>SearchService.js</code> and uses the API instance to 
+                communicate with the backend. It features special handling for natural language processing 
+                and conversion to database queries.
+            </p>
+            
+            <div class="code-block">
+<pre>// File: src/services/SearchService.js
+import axios from 'axios';
+
+/**
+ * Service for handling search-related API calls
+ */
+class SearchService {
+  /**
+   * Perform a natural language search for students
+   * @param {string} query - The natural language query
+   * @returns {Promise} - Promise containing the search results
+   */
+  async naturalLanguageSearch(query) {
+    try {
+      const response = await axios.post('/api/search/natural', { query: query.trim() });
+      
+      // Log the response for debugging
+      console.log('Search API response:', response.data);
+      
+      if (response.data && response.data.students) {
+        // Ensure we're not filtering out students with zero absences
+        console.log(`Received ${response.data.students.length} students from API`);
+        
+        // Return the unmodified response from the API
+        return response.data;
+      }
+      
+      return {
+        students: [],
+        summary: 'No results found',
+        originalQuery: query
+      };
+    } catch (error) {
+      console.error('Error in natural language search:', error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Get example search queries
+   * @returns {Array} - Array of example queries
+   */
+  getExampleQueries() {
+    return [
+      // Practical, working examples
+      "Show me all students with 0 absence hours",
+      "Show me students who were absent between 2024-05-01 and 2024-05-31",
+      "List students from GÉNIE INFORMATIQUE with more than 5 absences",
+      // French examples
+      "Montre-moi tous les étudiants avec 0 heures d'absence",
+      "Liste les étudiants absents entre le 1er et le 31 mai 2024",
+    ];
+  }
+}
+
+export default new SearchService();</pre>
+            </div>
+        </section>
+        
+        <section class="search-flow">
+            <h2>Search Flow</h2>
+            <div class="search-flow-diagram">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-details">
+                        <strong>User Input</strong>
+                        <p>User enters a natural language query about student absences</p>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-details">
+                        <strong>Frontend Processing</strong>
+                        <p>Search service formats the query and sends it to the backend API</p>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-details">
+                        <strong>GPT-4 Processing</strong>
+                        <p>Backend uses GPT-4 to interpret the query and generate the appropriate database query</p>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-details">
+                        <strong>Database Query</strong>
+                        <p>Optimized JPQL query is executed against the database with special handling for edge cases</p>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-details">
+                        <strong>Result Generation</strong>
+                        <p>Results are formatted and a natural language summary is generated</p>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">6</div>
+                    <div class="step-details">
+                        <strong>UI Display</strong>
+                        <p>Results are displayed to the user with relevant student information and absence details</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <h2>Key Features</h2>
+        <div class="features-list">
+            <div class="feature-item">
+                <h3>
+                    <span class="feature-icon">🤖</span>
+                    GPT-4 Integration
+                </h3>
+                <p>
+                    Leverages OpenAI's GPT-4 model to understand natural language queries and convert them 
+                    to optimized database queries. This allows for more accurate and nuanced interpretations 
+                    of user intent compared to traditional keyword search.
+                </p>
+            </div>
+            
+            <div class="feature-item">
+                <h3>
+                    <span class="feature-icon">🔍</span>
+                    Zero Absence Optimization
+                </h3>
+                <p>
+                    Special handling for perfect attendance queries using a direct "NOT EXISTS" database approach. 
+                    This ensures accurate identification of students with no absences, which was previously 
+                    a challenging edge case.
+                </p>
+            </div>
+            
+            <div class="feature-item">
+                <h3>
+                    <span class="feature-icon">🗓️</span>
+                    Date Range Handling
+                </h3>
+                <p>
+                    Sophisticated parsing of date ranges in natural language, allowing users to specify 
+                    time periods like "last week," "between May 1 and May 31," or "during the spring semester" 
+                    in their queries.
+                </p>
+            </div>
+            
+            <div class="feature-item">
+                <h3>
+                    <span class="feature-icon">🌐</span>
+                    Multi-language Support
+                </h3>
+                <p>
+                    Handles queries in both English and French, with special handling for accented characters 
+                    and language-specific patterns, making the search functionality accessible to a broader 
+                    user base.
+                </p>
+            </div>
+            
+            <div class="feature-item">
+                <h3>
+                    <span class="feature-icon">📊</span>
+                    Enhanced Summaries
+                </h3>
+                <p>
+                    Generates natural language summaries of search results, helping users quickly 
+                    understand the key insights from the data without having to analyze it themselves.
+                </p>
+            </div>
+            
+            <div class="feature-item">
+                <h3>
+                    <span class="feature-icon">📋</span>
+                    Example Queries
+                </h3>
+                <p>
+                    Provides a list of example queries to help users understand the capabilities 
+                    of the search system and get started with effective queries.
+                </p>
+            </div>
+        </div>
+        
+        <section class="query-examples">
+            <h2>Example Queries</h2>
+            <p>
+                The Search Service can handle a wide range of natural language queries about student absences. 
+                Here are some examples of the types of queries it can process:
+            </p>
+            
+            <div class="examples-grid">
+                <div class="example-card">
+                    <h4>Perfect Attendance</h4>
+                    <div class="example-query">
+                        "Show me all students with 0 absence hours"
+                    </div>
+                    <div class="example-result">
+                        Returns all students who have had perfect attendance with no absences.
+                    </div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>Date Range</h4>
+                    <div class="example-query">
+                        "Show me students who were absent between 2024-05-01 and 2024-05-31"
+                    </div>
+                    <div class="example-result">
+                        Returns students with absences recorded during May 2024.
+                    </div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>Department + Threshold</h4>
+                    <div class="example-query">
+                        "List students from GÉNIE INFORMATIQUE with more than 5 absences"
+                    </div>
+                    <div class="example-result">
+                        Returns Computer Science students who have exceeded 5 absences.
+                    </div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>French Query</h4>
+                    <div class="example-query">
+                        "Montre-moi tous les étudiants avec 0 heures d'absence"
+                    </div>
+                    <div class="example-result">
+                        Returns all students with perfect attendance (French query).
+                    </div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>Complex Filtering</h4>
+                    <div class="example-query">
+                        "Which students missed classes on Mondays more than twice?"
+                    </div>
+                    <div class="example-result">
+                        Returns students with a pattern of Monday absences.
+                    </div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>Subject Specific</h4>
+                    <div class="example-query">
+                        "Show students who missed more than 3 Mathematics classes"
+                    </div>
+                    <div class="example-result">
+                        Returns students with excessive absences in Mathematics specifically.
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="intro">
+            <h2>Usage in Components</h2>
+            <p>
+                Here's an example of how to use the Search Service in a React component:
+            </p>
+            
+            <div class="code-block">
+                <pre>// File: src/services/SearchService.js
+                import axios from 'axios';
+                
+                /**
+                 * Service for handling search-related API calls
+                 */
+                class SearchService {
+                  /**
+                   * Perform a natural language search for students
+                   * @param {string} query - The natural language query
+                   * @returns {Promise} - Promise containing the search results
+                   */
+                  async naturalLanguageSearch(query) {
+                    try {
+                      const response = await axios.post('/api/search/natural', { query: query.trim() });
+                      console.log('Search response:', response.data); // For debugging
+                      return response.data;
+                    } catch (error) {
+                      console.error('Search failed:', error);
+                      throw error;
+                    }
+                  }
+                }
+                
+                export default new SearchService();
+                </pre>
+            </div>
+            
+            <div class="code-block">
+                <pre>import React, { useState } from 'react';
+import SearchService from '../services/SearchService';
+
+const NaturalLanguageSearch = () =&gt; {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  
+  // Example queries for user guidance
+  const exampleQueries = SearchService.getExampleQueries();
+  
+  const handleSearch = async () =&gt; {
+    if (!query.trim()) return;
+    
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const data = await SearchService.naturalLanguageSearch(query);
+      setResults(data);
+    } catch (err) {
+      console.error('Search error:', err);
+      setError('An error occurred while searching. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const handleExampleClick = (example) =&gt; {
+    setQuery(example);
+  };
+  
+  return (
+    &lt;div className="natural-language-search"&gt;
+      &lt;h2&gt;Natural Language Search&lt;/h2&gt;
+      &lt;p&gt;Ask questions about student absences in natural language:&lt;/p&gt;
+      
+      &lt;div className="search-input"&gt;
+        &lt;input
+          type="text"
+          value={query}
+          onChange={(e) =&gt; setQuery(e.target.value)}
+          placeholder="e.g., Show students with more than 5 absences"
+        /&gt;
+        &lt;button onClick={handleSearch} disabled={loading}&gt;
+          {loading ? 'Searching...' : 'Search'}
+        &lt;/button&gt;
+      &lt;/div&gt;
+      
+      &lt;div className="example-queries"&gt;
+        &lt;p&gt;Try these examples:&lt;/p&gt;
+        &lt;ul&gt;
+          {exampleQueries.map((example, index) =&gt; (
+            &lt;li key={index}&gt;
+              &lt;button onClick={() =&gt; handleExampleClick(example)}&gt;
+                {example}
+              &lt;/button&gt;
+            &lt;/li&gt;
+          ))}
+        &lt;/ul&gt;
+      &lt;/div&gt;
+      
+      {error && &lt;div className="error-message"&gt;{error}&lt;/div&gt;}
+      
+      {results && (
+        &lt;div className="search-results"&gt;
+          &lt;div className="results-summary"&gt;
+            &lt;h3&gt;Results Summary&lt;/h3&gt;
+            &lt;p&gt;{results.summary}&lt;/p&gt;
+          &lt;/div&gt;
+          
+          &lt;div className="results-list"&gt;
+            &lt;h3&gt;Student List ({results.students.length})&lt;/h3&gt;
+            {results.students.length &gt; 0 ? (
+              &lt;table&gt;
+                &lt;thead&gt;
+                  &lt;tr&gt;
+                    &lt;th&gt;ID&lt;/th&gt;
+                    &lt;th&gt;Name&lt;/th&gt;
+                    &lt;th&gt;Department&lt;/th&gt;
+                    &lt;th&gt;Absences&lt;/th&gt;
+                  &lt;/tr&gt;
+                &lt;/thead&gt;
+                &lt;tbody&gt;
+                  {results.students.map(student =&gt; (
+                    &lt;tr key={student.id}&gt;
+                      &lt;td&gt;{student.studentId}&lt;/td&gt;
+                      &lt;td&gt;{student.fullName}&lt;/td&gt;
+                      &lt;td&gt;{student.department?.name || 'N/A'}&lt;/td&gt;
+                      &lt;td&gt;{student.absenceHours || 0} hours&lt;/td&gt;
+                    &lt;/tr&gt;
+                  ))}
+                &lt;/tbody&gt;
+              &lt;/table&gt;
+            ) : (
+              &lt;p&gt;No students match this query.&lt;/p&gt;
+            )}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+};
+
+export default NaturalLanguageSearch;</pre>
+            </div>
+        </section>
+        
+        <section class="query-examples">
+            <h2>Example Queries</h2>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <h4>Query</h4>
+                    <div class="example-query">Show me students who were absent last Monday</div>
+                    <div class="example-result">Returns a list of students with absence records dated last Monday</div>
+                </div>
+                <div class="example-card">
+                    <h4>Query</h4>
+                    <div class="example-query">Who has never missed a class?</div>
+                    <div class="example-result">Returns students with perfect attendance</div>
+                </div>
+                <div class="example-card">
+                    <h4>Query</h4>
+                    <div class="example-query">List absences for John Doe in February</div>
+                    <div class="example-result">Displays all absences by John Doe during February</div>
+                </div>
+            </div>
+        </section>
+        
+        <a class="back-button" href="index.html">← Back to Services</a>
+    </div>
+    
+    <footer>
+        &copy; 2025 Absence Management System. All rights reserved.
+    </footer>
+</body>
+</html>

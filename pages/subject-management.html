@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject Management - Documentation</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6a5acd;
+            --secondary-color: #483d8b;
+            --accent-color: #9370db;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --info-color: #3498db;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .page-content {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 2rem;
+            background-color: white;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+        }
+
+        h2 {
+            color: var(--dark-color);
+            margin: 1.5rem 0 1rem;
+            font-weight: 500;
+        }
+
+        h3 {
+            color: var(--primary-color);
+            margin: 1rem 0 0.5rem;
+            font-weight: 500;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .breadcrumb {
+            background-color: var(--light-color);
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        /* Feature Cards Styling */
+        .feature-card {
+            display: flex;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .feature-content {
+            flex: 1;
+        }
+
+        /* Code Blocks Styling */
+        .code-block {
+            margin: 1.5rem 0;
+            background-color: #1e293b;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #0f172a;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-family: monospace;
+        }
+
+        .code-title {
+            font-weight: 500;
+        }
+
+        .code-block pre {
+            margin: 0;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            color: #e2e8f0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.5;
+        }
+
+        /* Overview Card */
+        .overview-card {
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-top: 1rem;
+        }
+
+        .feature-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.35rem 0.75rem;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .emoji {
+            font-size: 1.2rem;
+            margin-right: 0.25rem;
+        }
+
+        /* Subject Concepts */
+        .concept-container {
+            margin: 2rem 0;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        .concept-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .concept-body {
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+        }
+
+        .concept-illustration {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .concept-illustration img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Analogy Cards */
+        .analogy-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .analogy-card {
+            flex: 1 1 300px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .analogy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .analogy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .analogy-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .analogy-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .analogy-text {
+            font-size: 0.95rem;
+        }
+
+        /* Animation */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Example Structure */
+        .example-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .example-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Back Button */
+        .back-section {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .back-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-content">
+        <h1 class="animate__animated animate__fadeIn"><i class="fas fa-book"></i> Subject Management</h1>
+        
+        <div class="breadcrumb">
+            <a href="../index.html"><i class="fas fa-home"></i> Documentation Home</a> &gt; 
+            <a href="index.html"><i class="fas fa-file"></i> Pages</a> &gt; 
+            <span><i class="fas fa-book"></i> Subject Management</span>
+        </div>
+        
+        <section class="section animate__animated animate__fadeInUp">
+            <h2><i class="fas fa-info-circle"></i> Overview</h2>
+            <div class="overview-card">
+                <p>
+                    <span class="emoji">📚</span> The Subject Management module is a component of the Absence Management System that helps organize and track subject information. This component allows administrators to maintain subject data that serves as a foundation for attendance tracking across different courses.
+                </p>
+                <div class="feature-chips">
+                    <span class="chip"><i class="fas fa-book"></i> Course Management</span>
+                    <span class="chip"><i class="fas fa-list"></i> Subject Listings</span>
+                    <span class="chip"><i class="fas fa-link"></i> Relationship Tracking</span>
+                    <span class="chip"><i class="fas fa-search"></i> Subject Search</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <h2><i class="fas fa-puzzle-piece"></i> Key Concepts</h2>
+            
+            <div class="concept-container">
+                <div class="concept-header">
+                    <i class="fas fa-sitemap"></i> The Building Blocks of Education
+                </div>
+                <div class="concept-body">
+                    <p>
+                        Think of subjects as the building blocks of education. Just as a building is constructed with various materials arranged in a structured way, an educational system is built upon subjects organized into a coherent curriculum.
+                    </p>
+                    
+                    <p>
+                        In our system, subjects are more than just names or codes. They represent the fundamental units of learning that students engage with and that teachers are responsible for. Each subject has properties that define it and relationships that connect it to other components of the educational system.
+                    </p>
+                    
+                    <div class="concept-illustration">
+                        <i class="fas fa-cubes fa-5x pulse" style="color: var(--primary-color);"></i>
+                        <p style="margin-top: 1rem; font-style: italic;">
+                            Just as blocks fit together to create structures, subjects fit together to create educational pathways.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analogy-cards">
+                <div class="analogy-card">
+                    <div class="analogy-icon">
+                        <i class="fas fa-subway"></i>
+                    </div>
+                    <div class="analogy-title">Metro System</div>
+                    <div class="analogy-text">
+                        <p>
+                            Think of our subject management system like a metro map. Each subject is a station (a point of knowledge), connected by lines (relationships) that form educational pathways. Students journey through these stations, with attendance tracked at each stop. The Subject Management module helps design and maintain this map.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="analogy-card">
+                    <div class="analogy-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="analogy-title">Library Organization</div>
+                    <div class="analogy-text">
+                        <p>
+                            Our subject system works like a well-organized library. Each subject is a section with its own classification (code), contents (curriculum), and relationship to other sections. The system helps librarians (administrators) keep track of what books (knowledge) belong where and who has access to them.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-book fa-2x"></i>
+                </div>
+                <div class="feature-content">
+                    <h3><span class="emoji">📖</span> Basic Subject Structure</h3>
+                    <p>
+                        Each subject in our system is represented by core properties that define what it is and how it relates to the overall educational structure. These properties form the foundation of subject management.
+                    </p>
+                    
+                    <div class="example-box">
+                        <span class="example-label">Example Subject Structure</span>
+                        <ul>
+                            <li><strong>Name:</strong> Introduction to Computer Science</li>
+                            <li><strong>Code:</strong> CS101</li>
+                            <li><strong>Description:</strong> Foundational concepts in computer science including algorithms, data structures, and programming basics</li>
+                            <li><strong>Department:</strong> Computer Science</li>
+                            <li><strong>Related Attendance Records:</strong> Multiple attendance sessions across different times and student groups</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title"><i class="fab fa-js"></i> Subject Data Structure</span>
+                        </div>
+                        <pre><code class="language-javascript">// Typical subject data structure
+const subject = {
+    id: 101,
+    name: "Introduction to Computer Science",
+    code: "CS101",
+    description: "Foundational concepts in computer science...",
+    departmentId: 3,  // Reference to Computer Science department
+    // Additional properties as needed by your implementation
+};</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-th-list fa-2x"></i>
+                </div>
+                <div class="feature-content">
+                    <h3><span class="emoji">📋</span> Subject Listings and Organization</h3>
+                    <p>
+                        The Subject Management module provides interfaces for viewing and organizing subjects. This helps administrators maintain a clear overview of the educational offerings.
+                    </p>
+                    
+                    <div class="example-box">
+                        <span class="example-label">Subject Organization Approaches</span>
+                        <ul>
+                            <li><strong>By Department:</strong> Grouping subjects under their respective departments</li>
+                            <li><strong>Alphabetically:</strong> Listing subjects in alphabetical order for easy reference</li>
+                            <li><strong>By Code:</strong> Organizing subjects by their course codes</li>
+                            <li><strong>By Popularity:</strong> Highlighting subjects with high enrollment</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-link fa-2x"></i>
+                </div>
+                <div class="feature-content">
+                    <h3><span class="emoji">🔗</span> Relationships in Subject Management</h3>
+                    <p>
+                        Subjects don't exist in isolation. They form a web of relationships with other entities in the system, creating a cohesive educational structure that's reflected in attendance tracking.
+                    </p>
+                    
+                    <div class="concept-illustration">
+                        <i class="fas fa-project-diagram fa-4x" style="color: var(--primary-color);"></i>
+                        <p style="margin-top: 1rem;">
+                            <strong>Key Relationships:</strong>
+                        </p>
+                        <ul style="text-align: left;">
+                            <li><strong>Subject → Department:</strong> Each subject belongs to a department</li>
+                            <li><strong>Subject → Attendance Records:</strong> Attendance is tracked per subject</li>
+                            <li><strong>Subject → Students:</strong> Students enroll in subjects</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+            <h2><i class="fas fa-lightbulb"></i> Subject Management in Practice</h2>
+            <p>
+                Understanding how subject management works in real-world scenarios helps illustrate its importance in the overall absence management system:
+            </p>
+            
+            <div class="concept-container">
+                <div class="concept-header">
+                    <i class="fas fa-chalkboard"></i> The Subject Journey
+                </div>
+                <div class="concept-body">
+                    <p>
+                        Let's follow the journey of a subject through our system to understand how subject management supports attendance tracking:
+                    </p>
+                    
+                    <ol>
+                        <li><strong>Creation:</strong> An administrator creates a new subject in the system with all relevant details</li>
+                        <li><strong>Organization:</strong> The subject is associated with the appropriate department</li>
+                        <li><strong>Scheduling:</strong> The subject is scheduled for specific times and locations</li>
+                        <li><strong>Enrollment:</strong> Students are enrolled in the subject</li>
+                        <li><strong>Attendance:</strong> During classes, attendance is recorded against this subject</li>
+                        <li><strong>Reporting:</strong> Absence reports can be generated specifically for this subject</li>
+                    </ol>
+                    
+                    <p>
+                        This journey shows how subject management creates the foundation that makes detailed absence tracking possible. Without properly managed subject data, the system would lack the context needed for meaningful attendance records.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="example-box">
+                <span class="example-label">Real-World Example</span>
+                <p>
+                    <strong>Scenario:</strong> A university is tracking attendance for a Computer Science department.
+                </p>
+                <p>
+                    In our system, the subject "Data Structures (CS201)" would be created and associated with the Computer Science department. When Professor Johnson teaches this subject on Mondays and Wednesdays, attendance records are created that reference this specific subject. This allows the system to generate reports that show specifically which students are missing their Data Structures classes, helping administrators identify patterns of absence in particular subjects.
+                </p>
+            </div>
+        </section>
+
+        <section class="section animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
+            <h2><i class="fas fa-cogs"></i> Implementation Approach</h2>
+            <p>
+                The Subject Management module is implemented with simplicity and efficiency in mind:
+            </p>
+            
+            <div class="concept-container">
+                <div class="concept-header">
+                    <i class="fas fa-code"></i> Design Philosophy
+                </div>
+                <div class="concept-body">
+                    <p>
+                        Our approach to subject management emphasizes:
+                    </p>
+                    
+                    <ul>
+                        <li><strong>Simplicity:</strong> Clear, straightforward data structures and interfaces</li>
+                        <li><strong>Flexibility:</strong> Adaptable to different educational contexts</li>
+                        <li><strong>Integration:</strong> Seamless connection with other system components</li>
+                        <li><strong>Maintainability:</strong> Easy to update and extend as needs evolve</li>
+                    </ul>
+                    
+                    <p>
+                        Rather than implementing an overly complex system, we've focused on creating a solid foundation that meets essential needs while remaining adaptable to future enhancements.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="analogy-cards">
+                <div class="analogy-card">
+                    <div class="analogy-icon">
+                        <i class="fas fa-foundation"></i>
+                    </div>
+                    <div class="analogy-title">Strong Foundations</div>
+                    <div class="analogy-text">
+                        <p>
+                            Our subject management implementation is like the foundation of a building. While it may not be the most visible part of the system, it provides the essential structure upon which everything else is built. A solid subject management foundation ensures that attendance tracking and reporting can function effectively.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="back-section">
+            <a href="index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back to Pages</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role-Based Access - Routing Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: rotate 20s linear infinite;
+            z-index: 1;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            animation: fadeIn 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb::before {
+            content: '🏠';
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            animation: slideDown 0.5s ease-in-out;
+        }
+        
+        .intro::before {
+            content: '👑';
+            font-size: 2.5rem;
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            opacity: 0.2;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .intro h2::before {
+            content: '🔐';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .content-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+        }
+        
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .content-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .content-card h2::before {
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .content-card:nth-of-type(1) h2::before { content: '👤'; }
+        .content-card:nth-of-type(2) h2::before { content: '🔑'; }
+        .content-card:nth-of-type(3) h2::before { content: '🛡️'; }
+        .content-card:nth-of-type(4) h2::before { content: '🖥️'; }
+        .content-card:nth-of-type(5) h2::before { content: '🔮'; }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .code-block::before {
+            content: 'Code Example';
+            display: block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #b8c2cc;
+        }
+        
+        .code-block:hover {
+            transform: scale(1.01);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
+        }
+        
+        .code-block pre {
+            margin: 0;
+        }
+        
+        .note-card {
+            background-color: rgba(76, 201, 240, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            position: relative;
+            animation: pulse-border 2s infinite;
+        }
+        
+        @keyframes pulse-border {
+            0% { border-left-color: var(--accent-color); }
+            50% { border-left-color: var(--primary-color); }
+            100% { border-left-color: var(--accent-color); }
+        }
+        
+        .note-card h3 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .note-card h3::before {
+            content: '⚠️';
+            margin-right: 0.5rem;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+        }
+        
+        .prev-next {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        
+        .prev-link, .next-link {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .prev-link:hover, .next-link:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-button:hover::before {
+            left: 100%;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: rotate 20s linear infinite reverse;
+            z-index: 1;
+        }
+        
+        footer p {
+            position: relative;
+            z-index: 2;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        ul li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        ul li::before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+        
+        .role-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .role-icon:hover {
+            transform: rotate(15deg);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .role-card {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .role-card:hover {
+            transform: translateX(10px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .role-card-content {
+            flex: 1;
+        }
+        
+        .role-card-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .prev-next {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .prev-link, .next-link {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Role-Based Access Control (RBAC)</h1>
+        <p class="subtitle">Restricting access to routes based on user roles</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Routing</a> &gt; Role-Based Access
+        </div>
+        
+        <section class="intro">
+            <h2>Role-Based Access in the Absence Management System</h2>
+            <p>
+                The application implements a role-based access control (RBAC) system that restricts certain routes and features 
+                to users with specific roles, typically administrators.
+            </p>
+            <p>
+                This document explains how role-based access control is implemented, how it integrates with the routing system, 
+                and how to use it in your components.
+            </p>
+        </section>
+        
+        <section class="content-card">
+            <h2>Current Role Implementation</h2>
+            <p>
+                In the current implementation, user roles are handled as follows:
+            </p>
+            <ul>
+                <li><strong>Role Assignment</strong>: The user role is currently hardcoded to <code>'ADMIN'</code> upon successful login in the <code>AuthContext.jsx</code> file.</li>
+                <li><strong>Role Storage</strong>: The role is stored in the <code>user</code> object within the <code>AuthContext</code> state.</li>
+                <li><strong>Role Access</strong>: Components can access the user role via the <code>useAuth</code> hook.</li>
+            </ul>
+            
+            <div class="code-block">
+<pre>// From AuthContext.jsx - How the role is currently assigned
+const login = async (username, password) => {
+  try {
+    const loggedInUser = await authService.login(username, password);
+    
+    // IMPORTANT: Role is hardcoded here
+    loggedInUser.role = 'ADMIN';
+    
+    // ... other login logic
+  } catch (error) {
+    // ... error handling
+  }
+};</pre>
+            </div>
+            
+            <div class="note-card">
+                <h3>Important Note</h3>
+                <p>
+                    The current implementation hardcodes the role to 'ADMIN' for all authenticated users. In a production environment, 
+                    this should be replaced with actual role retrieval from the backend based on the user's permissions.
+                </p>
+            </div>
+        </section>
+        
+        <section class="content-card">
+            <h2>Accessing User Roles</h2>
+            <p>
+                To access the user's role in any component, use the <code>useAuth</code> hook:
+            </p>
+            
+            <div class="code-block">
+<pre>import { useAuth } from '@/context/AuthContext';
+
+const MyComponent = () => {
+  const { userRole } = useAuth();
+  
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Welcome&lt;/h1&gt;
+      {userRole === 'ADMIN' && (
+        &lt;p&gt;You have administrator privileges.&lt;/p&gt;
+      )}
+    &lt;/div&gt;
+  );
+};</pre>
+            </div>
+            
+            <p>
+                This approach allows you to conditionally render UI elements based on the user's role.
+            </p>
+        </section>
+        
+        <section class="content-card">
+            <h2>Protecting Routes Based on Role</h2>
+            <p>
+                To restrict access to a route based on user role, you can use the <code>ProtectedRoute</code> component with the <code>isAllowed</code> prop:
+            </p>
+            
+            <div class="code-block">
+<pre>// In AppRoutes.jsx
+&lt;Route path="send-email-announcement" element={
+  &lt;ProtectedRoute isAllowed={userRole === 'ADMIN'}&gt;
+    &lt;SendEmailAnnouncementPage /&gt;
+  &lt;/ProtectedRoute&gt;
+} /&gt;</pre>
+            </div>
+            
+            <p>
+                If the user's role is not 'ADMIN', they will be redirected to the dashboard when attempting to access this route.
+            </p>
+        </section>
+        
+        <section class="content-card">
+            <h2>Role-Based UI Adaptation</h2>
+            <p>
+                Beyond route protection, you can also adapt UI elements based on user roles:
+            </p>
+            
+            <div class="code-block">
+<pre>// Example of role-based UI adaptation
+import { useAuth } from '@/context/AuthContext';
+
+const Navigation = () => {
+  const { userRole } = useAuth();
+  
+  return (
+    &lt;nav&gt;
+      {/* Links visible to all authenticated users */}
+      &lt;a href="/dashboard"&gt;Dashboard&lt;/a&gt;
+      &lt;a href="/attendance"&gt;Attendance&lt;/a&gt;
+      &lt;a href="/students"&gt;Students&lt;/a&gt;
+      
+      {/* Admin-only links */}
+      {userRole === 'ADMIN' && (
+        &lt;&gt;
+          &lt;a href="/send-email-announcement"&gt;Send Announcements&lt;/a&gt;
+          &lt;a href="/admin-settings"&gt;Admin Settings&lt;/a&gt;
+        &lt;/&gt;
+      )}
+    &lt;/nav&gt;
+  );
+};</pre>
+            </div>
+            
+            <p>
+                This ensures that users only see navigation links to areas they have permission to access.
+            </p>
+        </section>
+        
+        <section class="content-card">
+            <h2>Current Role Implementation</h2>
+            <p>In the current implementation, only one role is used:</p>
+            
+            <div class="role-card">
+                <div class="role-icon">👑</div>
+                <div class="role-card-content">
+                    <h3>ADMIN</h3>
+                    <p>The administrator role has access to all features including the email announcement functionality.</p>
+                </div>
+            </div>
+            
+            <p class="note">The system is designed with the capability to support additional roles in the future, but currently only the ADMIN role is implemented and used for access control.</p>
+        </section>
+        
+        <div class="navigation-links">
+            <div class="prev-next">
+                <a href="protected-routes.html" class="prev-link">← Protected Routes</a>
+                <a href="navigation-components.html" class="next-link">Navigation Components →</a>
+            </div>
+        </div>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="index.html" class="back-button">Back to Routing</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+
+    </footer>
+    
+    <script>
+        // Animation to highlight the role diagram
+        const roleCard = document.querySelector('.role-card');
+        if (roleCard) {
+            roleCard.style.transition = 'transform 0.3s, box-shadow 0.3s';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Documentation</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --accent-color: #4dabf7;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --info-color: #3498db;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumbs a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--secondary-color);
+        }
+
+        .breadcrumbs .separator {
+            margin: 0 0.5rem;
+            color: #ccc;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-color);
+            display: inline-block;
+        }
+
+        .card h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem;
+        }
+
+        .card-icon {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            color: var(--accent-color);
+            opacity: 0.3;
+        }
+
+        .widget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .widget {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .widget:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .widget-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .widget-icon {
+            background-color: var(--accent-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .widget-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin: 0;
+        }
+
+        .widget-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0.5rem 0;
+        }
+
+        .widget-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0;
+        }
+
+        .chart-container {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin: 0;
+        }
+
+        .chart-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-placeholder {
+            width: 100%;
+            height: 250px;
+            background-color: #f5f7fa;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-style: italic;
+        }
+
+        .code-block {
+            background-color: #272822;
+            color: #f8f8f2;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block pre {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .code-header {
+            background-color: #20211c;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.8rem;
+            color: #75715e;
+            margin-top: -1.5rem;
+            margin-left: -1.5rem;
+            margin-right: -1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-item {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-item h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-icon {
+            margin-right: 0.75rem;
+            background-color: var(--accent-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .note {
+            background-color: #fff8e1;
+            border-left: 4px solid var(--warning-color);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .note-title {
+            font-weight: 600;
+            color: var(--warning-color);
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .note-title i {
+            margin-right: 0.5rem;
+        }
+
+        .screenshot {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            box-shadow: var(--box-shadow);
+        }
+
+        @media (max-width: 768px) {
+            .widget-grid, .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content animate__animated animate__fadeIn">
+            <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+            <p>Comprehensive documentation on the system's central analytics and information hub</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a>
+            <span class="separator"><i class="fas fa-chevron-right"></i></span>
+            <span>Dashboard</span>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp">
+            <i class="fas fa-info-circle card-icon"></i>
+            <h2>Overview</h2>
+            <p>
+                The Dashboard serves as the central command center of the Educational Management System, providing administrators, faculty, and staff with real-time insights into attendance patterns, student performance, and departmental metrics.
+            </p>
+            <p>
+                Designed with a focus on usability and information hierarchy, the Dashboard presents critical data through a combination of summary widgets, interactive charts, and actionable alerts. This page documents the Dashboard's components, functionality, and customization options.
+            </p>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <i class="fas fa-th-large card-icon"></i>
+            <h2>Dashboard Components</h2>
+            <p>
+                The Dashboard is organized into several key sections to provide a comprehensive overview of the educational system's status and performance.
+            </p>
+            
+            <h3>Summary Widgets</h3>
+            <p>
+                The top section of the Dashboard features a collection of summary widgets that provide at-a-glance metrics for key system indicators.
+            </p>
+            
+            <div class="widget-grid">
+                <div class="widget">
+                    <div class="widget-header">
+                        <div class="widget-icon"><i class="fas fa-user-graduate"></i></div>
+                        <h3 class="widget-title">Total Students</h3>
+                    </div>
+                    <div class="widget-value">1,248</div>
+                    <p class="widget-description">+5% from last semester</p>
+                </div>
+                
+                <div class="widget">
+                    <div class="widget-header">
+                        <div class="widget-icon"><i class="fas fa-calendar-check"></i></div>
+                        <h3 class="widget-title">Attendance Rate</h3>
+                    </div>
+                    <div class="widget-value">87.3%</div>
+                    <p class="widget-description">+2.1% from previous month</p>
+                </div>
+                
+                <div class="widget">
+                    <div class="widget-header">
+                        <div class="widget-icon"><i class="fas fa-book"></i></div>
+                        <h3 class="widget-title">Active Subjects</h3>
+                    </div>
+                    <div class="widget-value">54</div>
+                    <p class="widget-description">Across 8 departments</p>
+                </div>
+                
+                <div class="widget">
+                    <div class="widget-header">
+                        <div class="widget-icon" style="background-color: var(--warning-color);"><i class="fas fa-exclamation-triangle"></i></div>
+                        <h3 class="widget-title">Attendance Alerts</h3>
+                    </div>
+                    <div class="widget-value">12</div>
+                    <p class="widget-description">Students requiring attention</p>
+                </div>
+            </div>
+            
+            <h3>Attendance Analytics</h3>
+            <p>
+                The Dashboard includes interactive charts that visualize attendance trends across departments, subjects, and time periods.
+            </p>
+            
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h4 class="chart-title">Monthly Attendance Trends</h4>
+                    <div class="chart-actions">
+                        <span><i class="fas fa-filter"></i> Filter</span>
+                        <span><i class="fas fa-download"></i> Export</span>
+                    </div>
+                </div>
+                <div class="chart-placeholder">
+                    [Interactive line chart showing attendance trends over the past academic year]
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h4 class="chart-title">Attendance by Department</h4>
+                    <div class="chart-actions">
+                        <span><i class="fas fa-filter"></i> Filter</span>
+                        <span><i class="fas fa-download"></i> Export</span>
+                    </div>
+                </div>
+                <div class="chart-placeholder">
+                    [Interactive bar chart comparing attendance rates across departments]
+                </div>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+            <i class="fas fa-cogs card-icon"></i>
+            <h2>Dashboard Functionality</h2>
+            <p>
+                The Dashboard provides a range of interactive features designed to help users efficiently monitor and manage attendance data.
+            </p>
+            
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>
+                        <div class="feature-icon"><i class="fas fa-filter"></i></div>
+                        Data Filtering
+                    </h3>
+                    <p>
+                        Filter dashboard data by time period (today, this week, this month, custom range), department, subject, or student group to focus on specific segments of information.
+                    </p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>
+                        <div class="feature-icon"><i class="fas fa-sync-alt"></i></div>
+                        Real-time Updates
+                    </h3>
+                    <p>
+                        Dashboard automatically refreshes every 5 minutes to display the most current data. Manual refresh is also available for immediate updates.
+                    </p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>
+                        <div class="feature-icon"><i class="fas fa-bell"></i></div>
+                        Alert System
+                    </h3>
+                    <p>
+                        Receive notifications about students with attendance issues, enabling proactive intervention before problems escalate.
+                    </p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>
+                        <div class="feature-icon"><i class="fas fa-file-export"></i></div>
+                        Export Capabilities
+                    </h3>
+                    <p>
+                        Export dashboard data and visualizations in multiple formats (PDF, Excel, CSV) for reporting and further analysis.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
+            <i class="fas fa-code card-icon"></i>
+            <h2>Implementation</h2>
+            <p>
+                The Dashboard is implemented using a combination of React components on the frontend and Spring data services on the backend, with real-time data processing and visualization libraries.
+            </p>
+            
+            <h3>Frontend Implementation</h3>
+            <div class="code-block">
+                <div class="code-header">DashboardPage.jsx</div>
+<pre>import React, { useState, useEffect } from 'react';
+import { Layout, Row, Col, Card, Statistic, Spin, Alert, Tabs } from 'antd';
+import { 
+    UserOutlined, 
+    CalendarOutlined, 
+    BookOutlined, 
+    WarningOutlined 
+} from '@ant-design/icons';
+import DashboardService from '@/services/DashboardService';
+import AttendanceChart from '@/components/charts/AttendanceChart';
+import DepartmentChart from '@/components/charts/DepartmentChart';
+import AlertList from '@/components/dashboard/AlertList';
+import FilterPanel from '@/components/dashboard/FilterPanel';
+
+const { TabPane } = Tabs;
+
+const DashboardPage = () => {
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [dashboardData, setDashboardData] = useState(null);
+    const [filterParams, setFilterParams] = useState({
+        timeRange: 'month',
+        departmentId: null,
+        subjectId: null
+    });
+    
+    useEffect(() => {
+        fetchDashboardData();
+        
+        // Set up auto-refresh interval
+        const refreshInterval = setInterval(() => {
+            fetchDashboardData();
+        }, 300000); // 5 minutes
+        
+        return () => clearInterval(refreshInterval);
+    }, [filterParams]);
+    
+    const fetchDashboardData = async () => {
+        try {
+            setLoading(true);
+            const data = await DashboardService.getDashboardData(filterParams);
+            setDashboardData(data);
+            setError(null);
+        } catch (err) {
+            setError('Failed to load dashboard data. Please try again.');
+            console.error('Dashboard data error:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+    
+    const handleFilterChange = (newFilters) => {
+        setFilterParams({...filterParams, ...newFilters});
+    };
+    
+    if (loading && !dashboardData) {
+        return &lt;Spin size="large" tip="Loading dashboard..." /&gt;;
+    }
+    
+    return (
+        &lt;Layout className="dashboard-container"&gt;
+            {error && &lt;Alert message={error} type="error" showIcon closable /&gt;}
+            
+            &lt;FilterPanel onChange={handleFilterChange} /&gt;
+            
+            &lt;Row gutter={[16, 16]} className="summary-widgets"&gt;
+                &lt;Col xs={24} sm={12} md={6}&gt;
+                    &lt;Card&gt;
+                        &lt;Statistic 
+                            title="Total Students" 
+                            value={dashboardData?.totalStudents} 
+                            prefix={&lt;UserOutlined /&gt;} 
+                            suffix={dashboardData?.studentGrowth > 0 ? 
+                                   `+${dashboardData.studentGrowth}%` : 
+                                   `${dashboardData.studentGrowth}%`} 
+                        /&gt;
+                    &lt;/Card&gt;
+                &lt;/Col&gt;
+                
+                {/* Additional statistic cards */}
+            &lt;/Row&gt;
+            
+            &lt;Tabs defaultActiveKey="attendance" className="dashboard-tabs"&gt;
+                &lt;TabPane tab="Attendance Analytics" key="attendance"&gt;
+                    &lt;Row gutter={[16, 16]}&gt;
+                        &lt;Col xs={24} lg={12}&gt;
+                            &lt;Card title="Monthly Attendance Trends"&gt;
+                                &lt;AttendanceChart data={dashboardData?.attendanceTrends} /&gt;
+                            &lt;/Card&gt;
+                        &lt;/Col&gt;
+                        &lt;Col xs={24} lg={12}&gt;
+                            &lt;Card title="Attendance by Department"&gt;
+                                &lt;DepartmentChart data={dashboardData?.departmentStats} /&gt;
+                            &lt;/Card&gt;
+                        &lt;/Col&gt;
+                    &lt;/Row&gt;
+                &lt;/TabPane&gt;
+                
+                &lt;TabPane tab="Alerts & Notifications" key="alerts"&gt;
+                    &lt;AlertList alerts={dashboardData?.alerts} /&gt;
+                &lt;/TabPane&gt;
+            &lt;/Tabs&gt;
+        &lt;/Layout&gt;
+    );
+};
+
+export default DashboardPage;</pre>
+            </div>
+            
+            <h3>Backend Service</h3>
+            <div class="code-block">
+                <div class="code-header">DashboardService.java</div>
+<pre>@Service
+public class DashboardService {
+    private final StudentRepository studentRepository;
+    private final AttendanceRepository attendanceRepository;
+    private final DepartmentRepository departmentRepository;
+    private final SubjectRepository subjectRepository;
+    
+    @Autowired
+    public DashboardService(StudentRepository studentRepository,
+                           AttendanceRepository attendanceRepository,
+                           DepartmentRepository departmentRepository,
+                           SubjectRepository subjectRepository) {
+        this.studentRepository = studentRepository;
+        this.attendanceRepository = attendanceRepository;
+        this.departmentRepository = departmentRepository;
+        this.subjectRepository = subjectRepository;
+    }
+    
+    public DashboardDTO getDashboardData(DashboardFilterDTO filter) {
+        DashboardDTO dashboard = new DashboardDTO();
+        
+        // Calculate date ranges based on filter
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate;
+        
+        switch(filter.getTimeRange()) {
+            case "week":
+                startDate = endDate.minusWeeks(1);
+                break;
+            case "month":
+                startDate = endDate.minusMonths(1);
+                break;
+            case "semester":
+                startDate = endDate.minusMonths(6);
+                break;
+            default: // day
+                startDate = endDate.minusDays(1);
+        }
+        
+        // Set summary statistics
+        dashboard.setTotalStudents(getTotalStudents(filter));
+        dashboard.setStudentGrowth(calculateStudentGrowth());
+        dashboard.setAttendanceRate(getAttendanceRate(startDate, endDate, filter));
+        dashboard.setTotalSubjects(getTotalSubjects(filter));
+        dashboard.setAlertCount(getAttendanceAlerts(filter).size());
+        
+        // Set chart data
+        dashboard.setAttendanceTrends(getAttendanceTrends(startDate, endDate, filter));
+        dashboard.setDepartmentStats(getDepartmentStatistics(startDate, endDate, filter));
+        
+        // Set alert data
+        dashboard.setAlerts(getAttendanceAlerts(filter));
+        
+        return dashboard;
+    }
+    
+    // Additional service methods for each data component...
+}</pre>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.8s;">
+            <i class="fas fa-chart-pie card-icon"></i>
+            <h2>Data Visualization</h2>
+            <p>
+                The Dashboard employs various chart types to visualize attendance data effectively:
+            </p>
+            
+            <ul>
+                <li><strong>Line Charts</strong>: Used for time-series data such as attendance trends over weeks/months.</li>
+                <li><strong>Bar Charts</strong>: Used to compare attendance rates across departments or subjects.</li>
+                <li><strong>Pie/Donut Charts</strong>: Used to show attendance distribution by category.</li>
+                <li><strong>Heat Maps</strong>: Used to identify attendance patterns across days of the week or times of day.</li>
+            </ul>
+            
+            <p>
+                All charts are built using the React ChartJS library with custom configuration for optimal readability and interaction.
+            </p>
+            
+            <div class="code-block">
+                <div class="code-header">AttendanceChart.jsx</div>
+<pre>import React from 'react';
+import { Line } from 'react-chartjs-2';
+import { Card, Spin } from 'antd';
+
+const AttendanceChart = ({ data, loading }) => {
+    if (loading || !data) {
+        return &lt;Spin /&gt;;
+    }
+    
+    const chartData = {
+        labels: data.map(item => item.date),
+        datasets: [
+            {
+                label: 'Attendance Rate (%)',
+                data: data.map(item => item.rate),
+                borderColor: '#4dabf7',
+                backgroundColor: 'rgba(77, 171, 247, 0.1)',
+                borderWidth: 2,
+                pointBackgroundColor: '#4dabf7',
+                pointRadius: 4,
+                tension: 0.3,
+                fill: true
+            }
+        ]
+    };
+    
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            tooltip: {
+                mode: 'index',
+                intersect: false,
+            },
+        },
+        scales: {
+            y: {
+                beginAtZero: false,
+                min: Math.max(0, Math.min(...data.map(item => item.rate)) - 10),
+                max: 100,
+                ticks: {
+                    callback: value => `${value}%`
+                }
+            }
+        },
+        interaction: {
+            mode: 'nearest',
+            axis: 'x',
+            intersect: false
+        }
+    };
+    
+    return (
+        &lt;div className="chart-wrapper" style={{ height: '300px' }}&gt;
+            &lt;Line data={chartData} options={options} /&gt;
+        &lt;/div&gt;
+    );
+};
+
+export default AttendanceChart;</pre>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 1s;">
+            <i class="fas fa-user-cog card-icon"></i>
+            <h2>Customization Options</h2>
+            <p>
+                The Dashboard offers several customization options to adapt to different user roles and preferences.
+            </p>
+            
+            <h3>User-Specific Views</h3>
+            <p>
+                The system adjusts dashboard content based on the logged-in user's role:
+            </p>
+            
+            <ul>
+                <li><strong>Administrators</strong>: See institution-wide statistics and have access to all departments.</li>
+                <li><strong>Department Heads</strong>: See statistics limited to their department and the subjects within it.</li>
+                <li><strong>Faculty</strong>: See statistics limited to the subjects they teach and their respective students.</li>
+            </ul>
+            
+            <h3>Layout Customization</h3>
+            <p>
+                Users can personalize their dashboard experience in several ways:
+            </p>
+            
+            <ul>
+                <li>Rearranging widgets via drag-and-drop functionality</li>
+                <li>Showing/hiding specific charts or data sections</li>
+                <li>Setting default filters for time periods and departments</li>
+                <li>Configuring alert thresholds for attendance monitoring</li>
+            </ul>
+            
+            <div class="note">
+                <div class="note-title"><i class="fas fa-info-circle"></i> Note</div>
+                <p>
+                    User customizations are saved to their profile and persist across sessions. The system also respects role-based access controls, ensuring users only see data they have permission to access.
+                </p>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeInUp" style="animation-delay: 1.2s;">
+            <i class="fas fa-link card-icon"></i>
+            <h2>Integration with Other Modules</h2>
+            <p>
+                The Dashboard integrates seamlessly with other components of the attendance management system:
+            </p>
+            
+            <ul>
+                <li><strong>Attendance Management</strong>: Real-time attendance data flows directly to the dashboard, ensuring metrics are always current.</li>
+                <li><strong>Student Management</strong>: Clicking on student-related widgets opens detailed student profiles.</li>
+                <li><strong>Department Management</strong>: Department statistics link directly to department management pages.</li>
+                <li><strong>Reports</strong>: Dashboard charts can be directly exported as reports or included in custom report templates.</li>
+                <li><strong>Natural Language Search</strong>: Dashboard includes a search bar that leverages the natural language search capabilities.</li>
+            </ul>
+            
+            <p>
+                These integrations ensure that the Dashboard functions as both an information hub and a navigation center for the entire system, providing quick access to more detailed views when needed.
+            </p>
+        </div>
+        
+        <footer style="text-align: center; margin-top: 3rem;">
+            <p>© 2025 Educational Management System Documentation</p>
+            <p>Last Updated: May 13, 2025</p>
+        </footer>
+    </div>

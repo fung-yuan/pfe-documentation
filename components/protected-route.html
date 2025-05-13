@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protected Route Component - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb::before {
+            content: '🏠';
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+        
+        .content-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .content-section h2::before {
+            content: '🔐';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .implementation-section h2::before {
+            content: '⚙️';
+        }
+        
+        .usage-section h2::before {
+            content: '🔧';
+        }
+        
+        .security-section h2::before {
+            content: '🛡️';
+        }
+        
+        .content-section h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+        
+        .content-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .code-block::before {
+            content: 'Code Example';
+            display: block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #b8c2cc;
+        }
+        
+        .flow-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .flow-step {
+            background-color: white;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem;
+            text-align: center;
+            min-width: 150px;
+        }
+        
+        .flow-arrow {
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .demo-container {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .demo-screen {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .demo-screen-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .demo-screen-title::before {
+            content: '💼';
+            margin-right: 0.5rem;
+        }
+        
+        .demo-login-required::before {
+            content: '🔒';
+        }
+        
+        .demo-admin-required::before {
+            content: '👑';
+        }
+        
+        .demo-label {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background-color: var(--accent-color);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+        
+        .back-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .component-props {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .component-props th, .component-props td {
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem 1rem;
+            text-align: left;
+        }
+        
+        .component-props th {
+            background-color: #f8fafc;
+            font-weight: 600;
+        }
+        
+        .component-props tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        
+        .code-tag {
+            display: inline-block;
+            background-color: #e5e7eb;
+            color: #4b5563;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.85rem;
+        }
+        
+        @media (max-width: 768px) {
+            .flow-diagram {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Protected Route Component</h1>
+        <p class="subtitle">Securing application routes with role-based access control</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Components</a> &gt; Protected Route
+        </div>
+        
+        <section class="content-section">
+            <h2>Component Overview</h2>
+            <p>
+                The <code>ProtectedRoute</code> component is a key security feature in the ESTLM application that ensures that:
+            </p>
+            <ul>
+                <li>Only authenticated users can access protected parts of the application</li>
+                <li>Users can only access routes they have permission for based on their role</li>
+                <li>Unauthorized access attempts are redirected appropriately</li>
+            </ul>
+            
+            <p>
+                This component works as a wrapper around routes that need protection, evaluating authentication status and permissions 
+                before rendering the protected content or redirecting to an appropriate page.
+            </p>
+            
+            <div class="demo-container">
+                <div class="demo-screen">
+                    <div class="demo-screen-title">Dashboard</div>
+                    <div class="demo-label">All Authenticated Users</div>
+                    <p>General content accessible to all authenticated users</p>
+                </div>
+                
+                <div class="demo-screen">
+                    <div class="demo-screen-title demo-admin-required">Admin Console</div>
+                    <div class="demo-label">Admin Users Only</div>
+                    <p>Restricted content wrapped in a ProtectedRoute with role checking</p>
+                </div>
+                
+                <div class="demo-screen">
+                    <div class="demo-screen-title demo-login-required">Login Page</div>
+                    <div class="demo-label">Unauthenticated Only</div>
+                    <p>Redirect destination for unauthenticated users</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="content-section implementation-section">
+            <h2>Implementation</h2>
+            <p>
+                The <code>ProtectedRoute</code> component is implemented as a functional React component that leverages the 
+                application's authentication context and React Router for navigation control.
+            </p>
+            
+            <div class="code-block">
+<pre>// components/ProtectedRoute.jsx
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
+
+const ProtectedRoute = ({ children, isAllowed = true }) => {
+  const { isAuthenticated } = useAuth();
+  
+  // First check if user is authenticated
+  if (!isAuthenticated) {
+    return &lt;Navigate to="/login" replace /&gt;;
+  }
+  
+  // Then check if user has permission
+  if (!isAllowed) {
+    return &lt;Navigate to="/dashboard" replace /&gt;;
+  }
+
+  // If authenticated and allowed, render the children
+  return children;
+};
+
+export default ProtectedRoute;</pre>
+            </div>
+            
+            <h3>Component Logic Flow</h3>
+            <div class="flow-diagram">
+                <div class="flow-step">Component Mount</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Check Authentication</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Check Permissions</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Render or Redirect</div>
+            </div>
+            
+            <h3>Component Props</h3>
+            <table class="component-props">
+                <thead>
+                    <tr>
+                        <th>Prop</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>children</code></td>
+                        <td><span class="code-tag">React.ReactNode</span></td>
+                        <td>Required</td>
+                        <td>The route component to render if all protection checks pass</td>
+                    </tr>
+                    <tr>
+                        <td><code>isAllowed</code></td>
+                        <td><span class="code-tag">boolean</span></td>
+                        <td><code>true</code></td>
+                        <td>
+                            Permission flag that determines if the user has access to this route. 
+                            Often set based on user role or specific permissions check.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Dependencies</h3>
+            <ul>
+                <li><strong>React Router</strong>: Uses the <code>Navigate</code> component for redirections</li>
+                <li><strong>AuthContext</strong>: Leverages the application's authentication context to check login status</li>
+            </ul>
+        </section>
+        
+        <section class="content-section usage-section">
+            <h2>Usage</h2>
+            <p>
+                The <code>ProtectedRoute</code> component is used within the application routes to wrap components 
+                that require authentication or specific role-based access.
+            </p>
+            
+            <h3>Basic Authentication Protection</h3>
+            <div class="code-block">
+<pre>// Protecting a route that requires authentication but no specific role
+&lt;Route 
+  path="/dashboard" 
+  element={
+    &lt;ProtectedRoute&gt;
+      &lt;DashboardPage /&gt;
+    &lt;/ProtectedRoute&gt;
+  } 
+/&gt;</pre>
+            </div>
+            
+            <h3>Role-Based Protection</h3>
+            <div class="code-block">
+<pre>// Protecting a route that requires admin role
+&lt;Route 
+  path="/admin-console" 
+  element={
+    &lt;ProtectedRoute isAllowed={userRole === 'ADMIN'}&gt;
+      &lt;AdminConsolePage /&gt;
+    &lt;/ProtectedRoute&gt;
+  } 
+/&gt;</pre>
+            </div>
+            
+            <h3>Multiple Conditions</h3>
+            <div class="code-block">
+<pre>// Protecting a route with multiple permission checks
+&lt;Route 
+  path="/department-management" 
+  element={
+    &lt;ProtectedRoute isAllowed={userRole === 'ADMIN' && hasPermission('MANAGE_DEPARTMENTS')}&gt;
+      &lt;DepartmentManagementPage /&gt;
+    &lt;/ProtectedRoute&gt;
+  } 
+/&gt;</pre>
+            </div>
+            
+            <h3>Current Application Usage</h3>
+            <p>
+                In the ESTLM application, the <code>ProtectedRoute</code> component is currently used to protect 
+                administrative features such as the email announcement functionality:
+            </p>
+            
+            <div class="code-block">
+<pre>// From AppRoutes.jsx
+&lt;Route path="send-email-announcement" element={
+  &lt;ProtectedRoute isAllowed={userRole === 'ADMIN'}&gt;
+    &lt;SendEmailAnnouncementPage /&gt;
+  &lt;/ProtectedRoute&gt;
+} /&gt;</pre>
+            </div>
+        </section>
+        
+        <section class="content-section security-section">
+            <h2>Security Considerations</h2>
+            <p>
+                The <code>ProtectedRoute</code> component provides client-side protection for routes, but it's important 
+                to understand its limitations and proper usage:
+            </p>
+            
+            <h3>Client-Side vs. Server-Side Protection</h3>
+            <p>
+                The <code>ProtectedRoute</code> component provides client-side protection only. While it prevents unauthorized 
+                users from navigating to protected pages in the UI, it does not secure the underlying data or API endpoints.
+            </p>
+            <ul>
+                <li><strong>Always implement server-side protection</strong> for all API endpoints</li>
+                <li><strong>Validate authentication tokens on every request</strong> to prevent tampering</li>
+                <li><strong>Check permissions on the server</strong> before processing any protected operations</li>
+            </ul>
+            
+            <h3>Current Limitations</h3>
+            <p>
+                In the current implementation, there are some limitations to be aware of:
+            </p>
+            <ul>
+                <li><strong>Role Hardcoding</strong>: The application currently sets the user role to 'ADMIN' upon successful login. In a production environment, this should be replaced with actual role retrieval from the backend.</li>
+                <li><strong>Basic Auth Storage</strong>: The authentication state is maintained using the Basic Auth string stored in localStorage, which could be vulnerable to XSS attacks. Consider using more secure authentication methods for production.</li>
+                <li><strong>Role Granularity</strong>: Currently, the application only uses a single 'ADMIN' role. For more complex applications, consider implementing a more granular permission system.</li>
+            </ul>
+        </section>
+        
+        <section class="content-section">
+            <h2>Integration with Other Components</h2>
+            <p>
+                The <code>ProtectedRoute</code> component works in conjunction with several other components in the system:
+            </p>
+            <ul>
+                <li><strong>AuthContext</strong>: Provides the authentication state and methods</li>
+                <li><strong>Layout</strong>: Protected routes are typically rendered within the application layout</li>
+                <li><strong>Login Page</strong>: Unauthenticated users are redirected to the login page</li>
+                <li><strong>Dashboard</strong>: Users without specific permissions are redirected to the dashboard</li>
+            </ul>
+            
+            <p>
+                For more detailed information about how the <code>ProtectedRoute</code> component integrates with the overall 
+                routing system, refer to the <a href="../routing/protected-routes.html">Protected Routes - Routing Documentation</a>.
+            </p>
+        </section>
+        
+        <div class="back-section">
+            <a href="index.html" class="back-button">Back to Components</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lib Utilities - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --dark-bg: #121212;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb::before {
+            content: '🏠';
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+        
+        .content-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .content-section h2::before {
+            content: '🛠️';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .cn-section h2::before {
+            content: '🎨';
+        }
+        
+        .axios-section h2::before {
+            content: '🔄';
+        }
+        
+        .content-section h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+        
+        .content-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .code-block::before {
+            content: 'Code Example';
+            display: block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #b8c2cc;
+        }
+        
+        .usage-example {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            background-color: rgba(67, 97, 238, 0.05);
+            padding: 1rem;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .usage-example h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .note::before {
+            content: '📝 Note';
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .utility-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .utility-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .utility-card h3 {
+            display: flex;
+            align-items: center;
+            margin-top: 0;
+        }
+        
+        .utility-card h3::before {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .utility-card.cn h3::before {
+            content: '🎨';
+        }
+        
+        .utility-card.axios h3::before {
+            content: '🔄';
+        }
+        
+        .diagram {
+            width: 100%;
+            max-width: 700px;
+            margin: 2rem auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            background-color: white;
+        }
+        
+        .diagram-title {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .diagram-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .diagram-box {
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem;
+            min-width: 180px;
+            text-align: center;
+            background-color: white;
+            position: relative;
+        }
+        
+        .diagram-arrow {
+            width: 2px;
+            height: 30px;
+            background-color: var(--primary-color);
+            position: relative;
+            margin: 5px 0;
+        }
+        
+        .diagram-arrow::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -4px;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 8px solid var(--primary-color);
+        }
+        
+        .back-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .file-structure {
+            font-family: monospace;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .file-structure pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem 1rem;
+            }
+            
+            .content-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Lib Utilities</h1>
+        <p class="subtitle">Essential utility functions for styling and API communication</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="../services/index.html">Services</a> &gt; Lib Utilities
+        </div>
+        
+        <section class="content-section">
+            <h2>Overview</h2>
+            <p>
+                The <code>lib</code> folder contains essential utility functions and modules that are used throughout the application. 
+                These utilities provide core functionality for styling components with Tailwind CSS and handling API requests with consistent 
+                configuration and authentication.
+            </p>
+            
+            <div class="file-structure">
+                <pre>
+src/
+└── lib/
+    ├── axiosInstance.js - HTTP client with auth token management
+    └── utils.ts - CSS utility functions for component styling
+                </pre>
+            </div>
+            
+            <p>
+                The utilities in this folder are fundamental to the application's functionality and are imported 
+                by many components and services across the codebase.
+            </p>
+            
+            <div class="diagram">
+                <div class="diagram-title">Lib Utilities in Application Architecture</div>
+                <div class="diagram-content">
+                    <div class="diagram-box">Lib Utilities</div>
+                    <div class="diagram-arrow"></div>
+                    <div style="display: flex; justify-content: space-between; width: 100%;">
+                        <div style="display: flex; flex-direction: column; align-items: center;">
+                            <div class="diagram-box" style="border-color: #3a0ca3;">UI Components<br/><small>(using utils.ts)</small></div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: center;">
+                            <div class="diagram-box" style="border-color: #3a0ca3;">Service Modules<br/><small>(using axiosInstance.js)</small></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="content-section cn-section">
+            <h2>utils.ts - CSS Utility Functions</h2>
+            <p>
+                The <code>utils.ts</code> file provides essential utility functions for managing CSS class names and Tailwind CSS integration. 
+                It exports the <code>cn</code> function which is used extensively throughout the UI components for conditional 
+                class application and composition.
+            </p>
+            
+            <div class="utility-card cn">
+                <h3>cn() Function</h3>
+                <p>
+                    The <code>cn()</code> function is a utility for conditionally joining CSS class names together. It leverages 
+                    two libraries: <code>clsx</code> for conditional class merging, and <code>tailwind-merge</code> for resolving 
+                    Tailwind CSS class conflicts.
+                </p>
+                
+                <div class="code-block">
+<pre>import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}</pre>
+                </div>
+                
+                <h4>Why It's Important</h4>
+                <ul>
+                    <li><strong>Conditional Styling:</strong> Allows components to conditionally apply classes based on props and state</li>
+                    <li><strong>Conflict Resolution:</strong> Resolves conflicts between Tailwind classes when multiple are applied</li>
+                    <li><strong>Composition:</strong> Makes it easy to compose classes from multiple sources (props, defaults, conditions)</li>
+                </ul>
+                
+                <div class="usage-example">
+                    <h4>Usage Example</h4>
+                    <p>Here's how the <code>cn()</code> function is used in components:</p>
+                    <div class="code-block">
+<pre>// From button.tsx
+const buttonVariants = cva(
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md...",
+  {
+    variants: { /* variant definitions */ },
+    defaultVariants: { /* defaults */ },
+  }
+)
+
+const Button = React.forwardRef(({ className, variant, size, ...props }, ref) => {
+  return (
+    &lt;button
+      className={cn(
+        buttonVariants({ variant, size }),
+        className
+      )}
+      ref={ref}
+      {...props}
+    /&gt;
+  )
+})</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="content-section axios-section">
+            <h2>axiosInstance.js - HTTP Client</h2>
+            <p>
+                The <code>axiosInstance.js</code> file creates a configured Axios instance for making HTTP requests to the backend API. 
+                It includes request and response interceptors for handling authentication and error management consistently 
+                across the application.
+            </p>
+            
+            <div class="utility-card axios">
+                <h3>axiosInstance</h3>
+                <p>
+                    The <code>axiosInstance</code> is a pre-configured Axios client that handles:
+                </p>
+                <ul>
+                    <li>Setting the base URL for all API requests</li>
+                    <li>Managing authentication tokens</li>
+                    <li>Setting appropriate headers for different request types</li>
+                    <li>Intercepting responses to handle authentication errors</li>
+                </ul>
+                
+                <div class="code-block">
+<pre>import axios from 'axios';
+
+// Base URL for the API
+const API_URL = 'http://localhost:8080/api';
+
+// Create a dedicated Axios instance
+const axiosInstance = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  }
+});
+
+// Request Interceptor
+axiosInstance.interceptors.request.use(
+  (config) => {
+    // Get the token from localStorage
+    const token = localStorage.getItem('authToken'); 
+    
+    // If the token exists, add it to the Authorization header
+    if (token) {
+      config.headers['Authorization'] = token;
+    }
+    
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Response Interceptor
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // Unauthorized - Token invalid or expired
+      localStorage.removeItem('authToken');
+      // Could redirect to login
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default axiosInstance;</pre>
+                </div>
+                
+                <h4>Key Features</h4>
+                <ul>
+                    <li><strong>Automatic Token Injection:</strong> Adds the authentication token to request headers</li>
+                    <li><strong>Unauthorized Handling:</strong> Clears invalid tokens on 401 responses</li>
+                    <li><strong>Consistent Headers:</strong> Applies proper Content-Type headers for all requests</li>
+                    <li><strong>Error Processing:</strong> Provides a centralized way to handle API errors</li>
+                </ul>
+                
+                <div class="usage-example">
+                    <h4>Usage Example</h4>
+                    <p>Here's how services use the <code>axiosInstance</code> for API calls:</p>
+                    <div class="code-block">
+<pre>// From studentService.js
+import axiosInstance from '@/lib/axiosInstance';
+
+export const studentService = {
+    getAllStudents: () => {
+        return axiosInstance.get('/students');
+    },
+    getStudentById: (id) => {
+        return axiosInstance.get(`/students/${id}`);
+    },
+    createStudent: (studentData) => {
+        return axiosInstance.post('/students', studentData);
+    }
+    // Additional methods...
+};</pre>
+                    </div>
+                </div>
+                
+                <div class="note">
+                    <p>The axiosInstance configuration centralizes authentication logic, making it easier to maintain consistent API communication 
+                    patterns throughout the application. For production environments, consider adding additional features like:</p>
+                    <ul>
+                        <li>Retrying failed requests</li>
+                        <li>Request and response transformation</li>
+                        <li>Response caching</li>
+                        <li>Rate limiting protection</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section class="content-section">
+            <h2>Integration with the Absence Management System</h2>
+            <p>
+                The utilities in the lib folder are fundamental to the functionality of the Absence Management System:
+            </p>
+            
+            <ul>
+                <li>
+                    <strong>CSS Utility (cn):</strong> Used throughout the UI components to maintain consistent styling for attendance 
+                    recording forms, student management interfaces, and absence report displays.
+                </li>
+                <li>
+                    <strong>API Communication (axiosInstance):</strong> Used by all service modules to interact with the backend API for:
+                    <ul>
+                        <li>Fetching student absence data</li>
+                        <li>Recording attendance</li>
+                        <li>Generating absence reports</li>
+                        <li>Maintaining user authentication during these operations</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <p>
+                These utilities ensure that the application maintains consistent behavior and appearance while securely 
+                communicating with the backend services that manage student attendance data.
+            </p>
+        </section>
+        
+        <section class="content-section">
+            <h2>Best Practices for Using Lib Utilities</h2>
+            
+            <h3>For CSS Utility (cn)</h3>
+            <ul>
+                <li>Always use <code>cn</code> for class composition rather than string concatenation</li>
+                <li>Take advantage of conditional classes with the <code>&&</code> operator</li>
+                <li>Pass component-specific className props through to maintain extensibility</li>
+                <li>Leverage Tailwind's utility classes for rapid styling</li>
+            </ul>
+            
+            <div class="code-block">
+<pre>// Recommended pattern
+&lt;div className={cn(
+  "base-styles",
+  isActive && "active-styles",
+  isDisabled && "disabled-styles",
+  className // from props
+)} /&gt;</pre>
+            </div>
+            
+            <h3>For API Client (axiosInstance)</h3>
+            <ul>
+                <li>Create service modules that import and use axiosInstance</li>
+                <li>Handle API-specific logic in the service layer, not in components</li>
+                <li>Catch and process errors appropriately</li>
+                <li>Use proper HTTP methods for different operations (GET, POST, PUT, DELETE)</li>
+            </ul>
+            
+            <div class="code-block">
+<pre>// Recommended pattern
+// In service file:
+export const someService = {
+  getData: async () => {
+    try {
+      const response = await axiosInstance.get('/endpoint');
+      return response.data;
+    } catch (error) {
+      // Handle or propagate error
+      console.error('Error fetching data:', error);
+      throw error;
+    }
+  }
+};
+
+// In component:
+import { someService } from '@/services/someService';
+
+// Use the service
+const data = await someService.getData();</pre>
+            </div>
+        </section>
+        
+        <div class="back-section">
+            <a href="../services/index.html" class="back-button">Back to Services</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+    </footer>
+</body>
+</html>

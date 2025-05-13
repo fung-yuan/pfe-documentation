@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Tables Component - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb::before {
+            content: '🏠';
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+        
+        .content-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .content-section h2::before {
+            content: '📊';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .usage-section h2::before {
+            content: '🔧';
+        }
+        
+        .implementation-section h2::before {
+            content: '⚙️';
+        }
+        
+        .examples-section h2::before {
+            content: '📝';
+        }
+        
+        .content-section h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+        
+        .content-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .code-block::before {
+            content: 'Code Example';
+            display: block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #b8c2cc;
+        }
+        
+        .table-components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .table-component-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+        
+        .component-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .component-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .table-demo {
+            margin: 2rem 0;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .table-demo table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table-demo th {
+            background-color: #f8f9fa;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .table-demo td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .table-demo tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .table-demo tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .table-demo tr:hover {
+            background-color: #f1f3f5;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .badge-green {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        
+        .badge-red {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        
+        .badge-yellow {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .back-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .table-components-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Data Tables Component</h1>
+        <p class="subtitle">Components for displaying and managing student and absence data</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Components</a> &gt; Data Tables
+        </div>
+        
+        <section class="content-section">
+            <h2>Overview</h2>
+            <p>
+                The ESTLM Application uses a versatile set of table components to display and manage student absence information and attendance records.
+                These data tables are designed to be responsive, interactive, and capable of displaying complex student and absence data in a clear, structured format.
+            </p>
+            
+            <div class="table-demo">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>ID</th>
+                            <th>Department</th>
+                            <th>Semester</th>
+                            <th>Total Absence</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Marie Dubois</td>
+                            <td>STU12345</td>
+                            <td>Computer Engineering</td>
+                            <td>S3</td>
+                            <td>4 hours</td>
+                            <td><span class="badge badge-green">Normal</span></td>
+                        </tr>
+                        <tr>
+                            <td>Thomas Martin</td>
+                            <td>STU23456</td>
+                            <td>Computer Engineering</td>
+                            <td>S3</td>
+                            <td>8 hours</td>
+                            <td><span class="badge badge-yellow">Warning</span></td>
+                        </tr>
+                        <tr>
+                            <td>Sophie Leclerc</td>
+                            <td>STU34567</td>
+                            <td>Electrical Engineering</td>
+                            <td>S3</td>
+                            <td>12 hours</td>
+                            <td><span class="badge badge-red">Exceeded</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h3>Key Table Component Features</h3>
+            <ul>
+                <li><strong>Modular Structure</strong> - Composed of individual components that can be combined as needed</li>
+                <li><strong>Responsive Design</strong> - Tables adapt to different screen sizes</li>
+                <li><strong>Semantic Markup</strong> - Uses proper HTML table elements for accessibility</li>
+                <li><strong>Visual Feedback</strong> - Includes hover states and status indicators</li>
+                <li><strong>Filtering</strong> - Built-in search and filtering capabilities</li>
+                <li><strong>Status Visualization</strong> - Color-coded badges for status indication</li>
+            </ul>
+        </section>
+        
+        <section class="content-section implementation-section">
+            <h2>Implementation</h2>
+            <p>
+                The table implementation in the ESTLM application is based on a set of modular React components. 
+                The base table components are defined in <code>client/src/components/ui/table.tsx</code> and follow 
+                a compositional pattern where each part of the table (header, body, row, cell) is defined as a separate component.
+            </p>
+            
+            <h3>Base Table Components</h3>
+            <div class="table-components-grid">
+                <div class="table-component-card">
+                    <div class="component-icon">📋</div>
+                    <div class="component-name">Table</div>
+                    <p>Root container wrapping the table element</p>
+                </div>
+                <div class="table-component-card">
+                    <div class="component-icon">📑</div>
+                    <div class="component-name">TableHeader</div>
+                    <p>Container for table head elements</p>
+                </div>
+                <div class="table-component-card">
+                    <div class="component-icon">📝</div>
+                    <div class="component-name">TableBody</div>
+                    <p>Container for table data rows</p>
+                </div>
+                <div class="table-component-card">
+                    <div class="component-icon">📄</div>
+                    <div class="component-name">TableRow</div>
+                    <p>Individual table row with hover effects</p>
+                </div>
+                <div class="table-component-card">
+                    <div class="component-icon">📌</div>
+                    <div class="component-name">TableHead</div>
+                    <p>Header cell within a table header</p>
+                </div>
+                <div class="table-component-card">
+                    <div class="component-icon">📎</div>
+                    <div class="component-name">TableCell</div>
+                    <p>Standard data cell within a row</p>
+                </div>
+                <div class="table-component-card">
+                    <div class="component-icon">📰</div>
+                    <div class="component-name">TableFooter</div>
+                    <p>Optional footer section for the table</p>
+                </div>
+                <div class="table-component-card">
+                    <div class="component-icon">📢</div>
+                    <div class="component-name">TableCaption</div>
+                    <p>Caption describing the table contents</p>
+                </div>
+            </div>
+            
+            <div class="code-block">
+<pre>// Base table components implementation (client/src/components/ui/table.tsx)
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+const Table = React.forwardRef<
+  HTMLTableElement,
+  React.HTMLAttributes<HTMLTableElement>
+>(({ className, ...props }, ref) => (
+  &lt;div className="relative w-full overflow-auto"&gt;
+    &lt;table
+      ref={ref}
+      className={cn("w-full caption-bottom text-sm", className)}
+      {...props}
+    /&gt;
+  &lt;/div&gt;
+))
+Table.displayName = "Table"
+
+const TableHeader = React.forwardRef<
+  HTMLTableSectionElement,
+  React.HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+  &lt;thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} /&gt;
+))
+TableHeader.displayName = "TableHeader"
+
+// Additional table components (TableBody, TableFooter, TableRow, etc.) follow the same pattern...</pre>
+            </div>
+        </section>
+        
+        <section class="content-section usage-section">
+            <h2>Usage Examples</h2>
+            <p>
+                The table components are used throughout the application to display different types of data. 
+                Below are examples of how these components are used in specific contexts.
+            </p>
+            
+            <h3>Absence Reports Table</h3>
+            <p>
+                The Absence Reports Table displays a list of students with their absence information, including total absence hours 
+                and status indicators. It also includes filtering capabilities and action buttons.
+            </p>
+            
+            <div class="code-block">
+<pre>// From AbsenceReports.jsx
+import React, { useState } from 'react';
+import { Table, TableBody, TableCell, TableHead, TableRow } from './TableComponents';
+import { Badge } from './Badge';
+import { Button } from './Button';
+
+const AbsenceReportsTable = ({ reports }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredReports = reports.filter((report) =>
+    report.studentName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    &lt;div&gt;
+      &lt;input
+        type="text"
+        placeholder="Search by student name"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className="mb-4 p-2 border rounded"
+      /&gt;
+      &lt;Table&gt;
+        &lt;TableHead&gt;
+          &lt;TableRow&gt;
+            &lt;TableCell&gt;Student Name&lt;/TableCell&gt;
+            &lt;TableCell&gt;Student Identifier&lt;/TableCell&gt;
+            &lt;TableCell&gt;Department&lt;/TableCell&gt;
+            &lt;TableCell&gt;Semester&lt;/TableCell&gt;
+            &lt;TableCell className="text-center"&gt;Total Absence Hours&lt;/TableCell&gt;
+            &lt;TableCell&gt;Status&lt;/TableCell&gt;
+            &lt;TableCell className="text-right"&gt;Actions&lt;/TableCell&gt;
+          &lt;/TableRow&gt;
+        &lt;/TableHead&gt;
+        &lt;TableBody&gt;
+          {filteredReports.length > 0 ? (
+            filteredReports.map((report) => (
+              &lt;TableRow key={report.studentId}&gt;
+                &lt;TableCell className="font-medium"&gt;{report.studentName}&lt;/TableCell&gt;
+                &lt;TableCell&gt;{report.studentIdentifier}&lt;/TableCell&gt;
+                &lt;TableCell&gt;{report.departmentName}&lt;/TableCell&gt;
+                &lt;TableCell&gt;{report.semesterName}&lt;/TableCell&gt;
+                &lt;TableCell className="text-center"&gt;{report.totalAbsenceHours}&lt;/TableCell&gt;
+                &lt;TableCell&gt;
+                  &lt;Badge
+                    variant={report.totalAbsenceHours > 9 ? 'destructive' : 'secondary'}
+                  &gt;
+                    {report.totalAbsenceHours > 9 ? 'Exceeded Limit' : 'Normal'}
+                  &lt;/Badge&gt;
+                &lt;/TableCell&gt;
+                &lt;TableCell className="text-right"&gt;
+                  &lt;Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleViewDetails(report.studentId)}
+                  &gt;
+                    View Details
+                  &lt;/Button&gt;
+                &lt;/TableCell&gt;
+              &lt;/TableRow&gt;
+            ))
+          ) : (
+            &lt;TableRow&gt;
+              &lt;TableCell colSpan={7} className="h-24 text-center"&gt;
+                {searchQuery ? 'No reports match your search.' : 'No absence reports found.'}
+              &lt;/TableCell&gt;
+            &lt;/TableRow&gt;
+          )}
+        &lt;/TableBody&gt;
+      &lt;/Table&gt;
+    &lt;/div&gt;
+  );
+};</pre>
+            </div>
+            
+            <h3>Attendance Record Form</h3>
+            <p>
+                The Attendance Record Form uses tables to display and manage student attendance during a specific class session. 
+                It provides toggles for marking students as present or absent.
+            </p>
+            
+            <div class="code-block">
+<pre>// From AttendanceRecordForm.jsx
+&lt;Table&gt;
+  &lt;TableCaption&gt;
+    List of students for attendance on {format(date, 'PPP')}
+  &lt;/TableCaption&gt;
+  &lt;TableHeader&gt;
+    &lt;TableRow&gt;
+      &lt;TableHead className="w-[400px] text-base"&gt;Student Name&lt;/TableHead&gt;
+      &lt;TableHead className="text-base"&gt;Attendance Status&lt;/TableHead&gt;
+    &lt;/TableRow&gt;
+  &lt;/TableHeader&gt;
+  &lt;TableBody&gt;
+    {attendanceRecords.map(record => (
+      &lt;TableRow key={record.studentId}&gt;
+        &lt;TableCell className="font-medium text-sm"&gt;
+          {record.studentName}
+        &lt;/TableCell&gt;
+        &lt;TableCell&gt;
+          &lt;Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className={`gap-2 px-4 py-1 rounded-md border font-medium transition-colors duration-200 ${
+              record.present 
+                ? 'border-green-500 text-green-600 hover:bg-green-50' 
+                : 'border-red-500 text-red-600 hover:bg-red-50'
+            }`}
+            onClick={() => toggleAttendance(record.studentId)}
+          &gt;
+            {record.present ? (
+              &lt;&gt;
+                &lt;span&gt;Present&lt;/span&gt;
+              &lt;/&gt;
+            ) : (
+              &lt;&gt;
+                &lt;span&gt;Absent&lt;/span&gt;
+              &lt;/&gt;
+            )}
+          &lt;/Button&gt;
+        &lt;/TableCell&gt;
+      &lt;/TableRow&gt;
+    ))}
+  &lt;/TableBody&gt;
+&lt;/Table&gt;</pre>
+            </div>
+        </section>
+        
+        <section class="content-section examples-section">
+            <h2>Best Practices</h2>
+            <p>
+                When working with the table components in the ESTLM application, follow these best practices:
+            </p>
+            
+            <h3>Structural Guidelines</h3>
+            <ul>
+                <li><strong>Always use semantic structure</strong> - Include proper TableHeader, TableBody, TableHead, etc. elements for accessibility</li>
+                <li><strong>Provide captions</strong> - Use TableCaption to describe the purpose and content of tables</li>
+                <li><strong>Include empty state handling</strong> - Always handle the case when no data is available</li>
+                <li><strong>Consistent column widths</strong> - Set appropriate column widths to prevent layout shifts</li>
+                <li><strong>Responsive considerations</strong> - For mobile, consider which columns can be hidden or collapsed</li>
+            </ul>
+            
+            <h3>Interaction Guidelines</h3>
+            <ul>
+                <li><strong>Search and filtering</strong> - For large tables, always provide search functionality</li>
+                <li><strong>Status indicators</strong> - Use badges for status to provide visual cues</li>
+                <li><strong>Action buttons</strong> - Place consistent action buttons in a dedicated column</li>
+                <li><strong>Sorting</strong> - Support column sorting for tables with many rows</li>
+                <li><strong>Use hover effects</strong> - Apply hover effects to rows to aid in tracking</li>
+            </ul>
+            
+            <h3>Visual Design Guidelines</h3>
+            <ul>
+                <li><strong>Zebra striping</strong> - Use alternating row colors to aid readability in larger tables</li>
+                <li><strong>Emphasis for important data</strong> - Use font-weight to emphasize primary identifiers</li>
+                <li><strong>Color-coding thresholds</strong> - Use consistent color coding for status indicators (green/yellow/red)</li>
+                <li><strong>Text alignment</strong> - Left-align text, center numeric values, and right-align actions</li>
+                <li><strong>Consistent padding</strong> - Apply consistent padding to cells for better readability</li>
+            </ul>
+        </section>
+        
+        <section class="content-section">
+            <h2>Accessibility Considerations</h2>
+            <p>
+                The data tables in the ESTLM application are built with accessibility in mind:
+            </p>
+            <ul>
+                <li><strong>Semantic HTML</strong> - Uses proper table elements (table, thead, tbody, th) for screen readers</li>
+                <li><strong>Keyboard navigation</strong> - Supports standard keyboard navigation through rows and cells</li>
+                <li><strong>Color contrast</strong> - Maintains sufficient contrast between text and background</li>
+                <li><strong>Text alternatives</strong> - Includes clear text alternatives for visual indicators</li>
+                <li><strong>Descriptive captions</strong> - Uses TableCaption to describe the table contents</li>
+                <li><strong>Responsive design</strong> - Tables adapt to different screen sizes and zoom levels</li>
+            </ul>
+        </section>
+        
+        <div class="back-section">
+            <a href="index.html" class="back-button">Back to Components</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+    </footer>
+</body>
+</html>

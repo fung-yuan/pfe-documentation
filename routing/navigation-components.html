@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Components - Routing Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: rotate 20s linear infinite;
+            z-index: 1;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb::before {
+            content: '🏠';
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+        
+        .intro::before {
+            content: '🧭';
+            font-size: 2.5rem;
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            opacity: 0.2;
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .intro h2::before {
+            content: '🔗';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .content-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .content-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .content-card h2::before {
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .content-card:nth-of-type(1) h2::before { content: '🧩'; }
+        .content-card:nth-of-type(2) h2::before { content: '📱'; }
+        .content-card:nth-of-type(3) h2::before { content: '🔄'; }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .code-block::before {
+            content: 'Code Example';
+            display: block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #b8c2cc;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+        }
+        
+        .prev-next {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        
+        .prev-link, .next-link {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .prev-link:hover, .next-link:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-button:hover::before {
+            left: 100%;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: rotate 20s linear infinite reverse;
+            z-index: 1;
+        }
+        
+        footer p {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .sidebar-demo {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 2rem 0;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .sidebar-collapsed, .sidebar-expanded {
+            background-color: #2b2d42;
+            color: white;
+            padding: 1rem;
+        }
+        
+        .sidebar-collapsed {
+            width: 70px;
+        }
+        
+        .sidebar-expanded {
+            width: 250px;
+        }
+        
+        .sidebar-logo {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sidebar-icon {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            transition: background-color 0.3s;
+        }
+        
+        .sidebar-nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-nav-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .sidebar-nav-item-text {
+            margin-left: 0.5rem;
+        }
+        
+        .sidebar-content {
+            background-color: white;
+            padding: 1rem;
+            flex: 1;
+            min-height: 400px;
+        }
+        
+        .routes-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .routes-table th, 
+        .routes-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        .routes-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .routes-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .routes-table tr:hover {
+            background-color: #e9ecef;
+        }
+        
+        .note {
+            background-color: rgba(76, 201, 240, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar-demo {
+                flex-direction: column;
+            }
+            
+            .sidebar-collapsed, .sidebar-expanded {
+                width: 100%;
+                max-height: 150px;
+                overflow-y: auto;
+            }
+            
+            .prev-next {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .prev-link, .next-link {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Navigation Components</h1>
+        <p class="subtitle">Implementing navigation in the ESTLM application</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Routing</a> &gt; Navigation Components
+        </div>
+        
+        <section class="intro">
+            <h2>Navigation in the ESTLM Application</h2>
+            <p>
+                The ESTLM application implements a responsive sidebar navigation system using React Router's 
+                navigation components with active route highlighting and a collapsible sidebar interface.
+            </p>
+            <p>
+                This document explains the navigation components used in the application, how they're integrated with 
+                React Router, and how the sidebar navigation system works.
+            </p>
+        </section>
+        
+        <section class="content-card">
+            <h2>NavLink Component</h2>
+            <p>
+                The application uses React Router's <code>NavLink</code> component for navigation links. This component 
+                extends the basic <code>Link</code> component with additional features for styling active links:
+            </p>
+            
+            <div class="code-block">
+<pre>// From Sidebar.jsx - Using NavLink with active styling
+import { NavLink } from 'react-router-dom';
+
+// Inside the Sidebar component
+{routes.map((route) => {
+  const IconComponent = Icons[route.icon] || Icons.Package;
+  return (
+    &lt;NavLink
+      key={route.path}
+      to={route.path}
+      title={collapsed ? route.name : undefined}
+      className={({ isActive }) => cn(
+        "flex items-center p-2 rounded-md hover:bg-accent hover:text-accent-foreground",
+        isActive ? "bg-accent/20 text-primary font-medium border-l-4 border-primary pl-[10px]" : 
+                  "text-muted-foreground hover:text-foreground",
+        collapsed ? "justify-center" : "justify-start"
+      )}
+    &gt;
+      {IconComponent && &lt;IconComponent className="w-5 h-5" /&gt;}
+      {!collapsed && &lt;span className="ml-2 whitespace-nowrap"&gt;{route.name}&lt;/span&gt;}
+    &lt;/NavLink&gt;
+  );
+})}</pre>
+            </div>
+            
+            <p>
+                Key features of this implementation:
+            </p>
+            <ul>
+                <li>The <code>isActive</code> parameter from NavLink indicates when a route is active</li>
+                <li>Conditional styling applies different classes based on active state</li>
+                <li>Active links have a left border, different background color, and bold text</li>
+                <li>Hover states are defined for all navigation items</li>
+            </ul>
+        </section>
+        
+        <section class="content-card">
+            <h2>Collapsible Sidebar</h2>
+            <p>
+                The application implements a collapsible sidebar component that preserves its state in localStorage:
+            </p>
+            
+            <div class="sidebar-demo">
+                <div class="sidebar-collapsed">
+                    <div class="sidebar-icon">🏠</div>
+                    <div class="sidebar-icon">📝</div>
+                    <div class="sidebar-icon active">👥</div>
+                    <div class="sidebar-icon">📊</div>
+                    <div class="sidebar-icon">🏢</div>
+                </div>
+                <div class="sidebar-expanded">
+                    <div class="sidebar-logo">
+                        ESTLAMS <span>◀</span>
+                    </div>
+                    <div class="sidebar-nav-item">
+                        <span>🏠</span>
+                        <span class="sidebar-nav-item-text">Dashboard</span>
+                    </div>
+                    <div class="sidebar-nav-item">
+                        <span>📝</span>
+                        <span class="sidebar-nav-item-text">Attendance</span>
+                    </div>
+                    <div class="sidebar-nav-item active">
+                        <span>👥</span>
+                        <span class="sidebar-nav-item-text">Students</span>
+                    </div>
+                    <div class="sidebar-nav-item">
+                        <span>📊</span>
+                        <span class="sidebar-nav-item-text">Reports</span>
+                    </div>
+                    <div class="sidebar-nav-item">
+                        <span>🏢</span>
+                        <span class="sidebar-nav-item-text">Departments</span>
+                    </div>
+                </div>
+                <div class="sidebar-content">
+                    <h3>Main Content Area</h3>
+                    <p>This area displays the route content based on the selected navigation item.</p>
+                </div>
+            </div>
+            
+            <p>
+                The sidebar implementation includes:
+            </p>
+            <ul>
+                <li>Toggle functionality to collapse or expand the sidebar</li>
+                <li>Persistence of collapsed state in localStorage</li>
+                <li>Responsive design that adapts to different screen sizes</li>
+                <li>Icon-only view when collapsed, full text labels when expanded</li>
+                <li>Tooltips for navigation items when in collapsed mode</li>
+            </ul>
+            
+            <div class="code-block">
+<pre>// From Sidebar.jsx - Collapsible sidebar implementation
+const [collapsed, setCollapsed] = useState(() => {
+  const savedState = localStorage.getItem('sidebarCollapsed');
+  return savedState ? JSON.parse(savedState) : false;
+});
+
+// Save collapsed state to localStorage whenever it changes
+useEffect(() => {
+  localStorage.setItem('sidebarCollapsed', JSON.stringify(collapsed));
+}, [collapsed]);
+
+// Toggle sidebar collapse state
+const toggleSidebar = () => {
+  setCollapsed(!collapsed);
+};</pre>
+            </div>
+        </section>
+        
+        <section class="content-card">
+            <h2>Route Configuration</h2>
+            <p>
+                The application uses a centralized routes configuration array defined in <code>routes.jsx</code>:
+            </p>
+            
+            <div class="code-block">
+<pre>// From routes.jsx - Route definitions
+export const routes = [
+  {
+    path: '/',
+    name: 'Dashboard',
+    component: Dashboard,
+    icon: 'Home'
+  },
+  {
+    path: '/send-email-announcement',
+    name: 'Send Email',
+    component: SendEmailAnnouncementPage,
+    icon: 'Mail'
+  },
+  // Additional routes...
+];</pre>
+            </div>
+            
+            <p>
+                This route configuration:
+            </p>
+            <ul>
+                <li>Centralizes all route definitions in one file</li>
+                <li>Includes both route paths and UI metadata (names and icons)</li>
+                <li>Associates each route with its component</li>
+                <li>Is used by both the router configuration and the sidebar navigation</li>
+            </ul>
+            
+            <div class="routes-table">
+                <thead>
+                    <tr>
+                        <th>Path</th>
+                        <th>Name</th>
+                        <th>Icon</th>
+                        <th>Component</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>/</code></td>
+                        <td>Dashboard</td>
+                        <td>Home</td>
+                        <td>Dashboard</td>
+                    </tr>
+                    <tr>
+                        <td><code>/send-email-announcement</code></td>
+                        <td>Send Email</td>
+                        <td>Mail</td>
+                        <td>SendEmailAnnouncementPage</td>
+                    </tr>
+                    <tr>
+                        <td><code>/attendance</code></td>
+                        <td>Attendance</td>
+                        <td>ClipboardCheck</td>
+                        <td>AttendanceManagement</td>
+                    </tr>
+                    <tr>
+                        <td><code>/students</code></td>
+                        <td>Students</td>
+                        <td>Users</td>
+                        <td>StudentManagement</td>
+                    </tr>
+                    <tr>
+                        <td><code>/departments</code></td>
+                        <td>Departments</td>
+                        <td>Building2</td>
+                        <td>DepartmentManagement</td>
+                    </tr>
+                    <tr>
+                        <td><code>/subjects</code></td>
+                        <td>Subjects</td>
+                        <td>BookOpen</td>
+                        <td>SubjectManagement</td>
+                    </tr>
+                    <tr>
+                        <td><code>/reports</code></td>
+                        <td>Reports</td>
+                        <td>BarChart</td>
+                        <td>Reports</td>
+                    </tr>
+                    <tr>
+                        <td><code>/search</code></td>
+                        <td>AI Search</td>
+                        <td>Search</td>
+                        <td>NaturalLanguageSearchPage</td>
+                    </tr>
+                </tbody>
+            </div>
+            
+            <p class="note">
+                <strong>Note:</strong> The AI Search feature integrates natural language processing to find students and their absence information, 
+                with special handling for zero absence queries, French accented characters, and optimized JPQL queries.
+            </p>
+        </section>
+        
+        <div class="navigation-links">
+            <div class="prev-next">
+                <a href="role-based-access.html" class="prev-link">← Role-Based Access</a>
+                <a href="route-configuration.html" class="next-link">Route Configuration →</a>
+            </div>
+        </div>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="index.html" class="back-button">Back to Routing</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+    </footer>
+</body>
+</html>

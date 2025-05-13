@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pages - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .page-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .page-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .page-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .page-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        .page-header h3 {
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .page-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+        
+        .page-content {
+            padding: 1.5rem;
+        }
+        
+        .page-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .page-features {
+            margin-bottom: 1.5rem;
+        }
+        
+        .page-features h4 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .page-features ul {
+            padding-left: 1.5rem;
+        }
+        
+        .card-link {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .card-link:hover {
+            background-color: var(--primary-color);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .page-preview {
+            background-color: #f0f4f8;
+            border-radius: 4px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .page-preview-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+        }
+        
+        .page-preview-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.5));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        .common-patterns {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .pattern-card {
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .pattern-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .pattern-card h3 .emoji {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+            position: static;
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .page-grid, .pattern-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Pages</h1>
+        <p class="subtitle">Application screens and their functionality</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; Pages
+        </div>
+        
+        <section class="intro">
+            <h2>Pages Overview</h2>
+            <p>
+                The Absence Management System contains multiple pages, each dedicated to a specific 
+                functionality in the application. These pages are React components that handle user 
+                interactions, data fetching, and render the appropriate UI components.
+            </p>
+            <p>
+                Each page follows a consistent structure, integrating with the service layer for 
+                data operations and using reusable components to build the user interface.
+            </p>
+        </section>
+        
+        <section class="common-patterns">
+            <h2>Common Page Patterns</h2>
+            <p>
+                The pages in the application follow several common patterns that provide consistency 
+                and maintainability across the codebase:
+            </p>
+            
+            <div class="pattern-grid">
+                <div class="pattern-card">
+                    <h3><span class="emoji">🔄</span> Data Fetching</h3>
+                    <p>
+                        Pages use React hooks (useEffect) to fetch data from services 
+                        when the component mounts or when dependencies change.
+                    </p>
+                </div>
+                
+                <div class="pattern-card">
+                    <h3><span class="emoji">💾</span> State Management</h3>
+                    <p>
+                        Local state is managed with useState hooks, while global state 
+                        is accessed through React Context (useContext).
+                    </p>
+                </div>
+                
+                <div class="pattern-card">
+                    <h3><span class="emoji">📊</span> Data Display</h3>
+                    <p>
+                        Pages use consistent patterns for displaying data, including 
+                        tables, lists, and charts for visualization.
+                    </p>
+                </div>
+                
+                <div class="pattern-card">
+                    <h3><span class="emoji">📝</span> Form Handling</h3>
+                    <p>
+                        Forms follow a consistent pattern with controlled inputs, 
+                        validation, and submission handling.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <h2>Main Pages</h2>
+        <div class="page-grid">
+            <div class="page-card">
+                <div class="page-header">
+                    <div class="page-icon">📊</div>
+                    <h3>Dashboard</h3>
+                    <div class="emoji">📈</div>
+                </div>
+                <div class="page-content">
+                    <div class="page-preview">
+                        <div class="page-preview-overlay">Dashboard Preview</div>
+                    </div>
+                    <p>
+                        The Dashboard page provides an overview of key metrics and status 
+                        information for the absence management system.
+                    </p>
+                    <div class="page-features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Attendance statistics overview</li>
+                            <li>Recent absences summary</li>
+                            <li>Department attendance rates</li>
+                            <li>Quick access to common functions</li>
+                        </ul>
+                    </div>
+                    <a href="dashboard.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            <div class="page-card">
+                <div class="page-header">
+                    <div class="page-icon">👨‍🎓</div>
+                    <h3>Student Management</h3>
+                    <div class="emoji">📋</div>
+                </div>
+                <div class="page-content">
+                    <div class="page-preview">
+                        <div class="page-preview-overlay">Student Management Preview</div>
+                    </div>
+                    <p>
+                        The Student Management page handles all student-related operations,
+                        including viewing, adding, editing, and filtering student records.
+                    </p>
+                    <div class="page-features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Student list with filtering and sorting</li>
+                            <li>Student detail view</li>
+                            <li>Add/edit student forms</li>
+                            <li>Department and semester filters</li>
+                        </ul>
+                    </div>
+                    <a href="student-management.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            <div class="page-card">
+                <div class="page-header">
+                    <div class="page-icon">✓</div>
+                    <h3>Attendance Management</h3>
+                    <div class="emoji">📝</div>
+                </div>
+                <div class="page-content">
+                    <div class="page-preview">
+                        <div class="page-preview-overlay">Attendance Management Preview</div>
+                    </div>
+                    <p>
+                        The Attendance Management page allows tracking and recording
+                        student attendance for different courses and time periods.
+                    </p>
+                    <div class="page-features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Attendance recording interface</li>
+                            <li>Batch attendance entry</li>
+                            <li>Historical attendance records</li>
+                            <li>Absence justification handling</li>
+                        </ul>
+                    </div>
+                    <a href="attendance-management.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            <div class="page-card">
+                <div class="page-header">
+                    <div class="page-icon">🏢</div>
+                    <h3>Department Management</h3>
+                    <div class="emoji">🏫</div>
+                </div>
+                <div class="page-content">
+                    <div class="page-preview">
+                        <div class="page-preview-overlay">Department Management Preview</div>
+                    </div>
+                    <p>
+                        The Department Management page handles organization of academic
+                        departments within the educational institution.
+                    </p>
+                    <div class="page-features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Department listing and details</li>
+                            <li>Create and edit departments</li>
+                            <li>Department statistics</li>
+                            <li>Subject association management</li>
+                        </ul>
+                    </div>
+                    <a href="department-management.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            <div class="page-card">
+                <div class="page-header">
+                    <div class="page-icon">📚</div>
+                    <h3>Subject Management</h3>
+                    <div class="emoji">📘</div>
+                </div>
+                <div class="page-content">
+                    <div class="page-preview">
+                        <div class="page-preview-overlay">Subject Management Preview</div>
+                    </div>
+                    <p>
+                        The Subject Management page handles academic subjects or courses,
+                        their details, and associations with departments.
+                    </p>
+                    <div class="page-features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Subject listing and details</li>
+                            <li>Create and edit subjects</li>
+                            <li>Associate subjects with departments</li>
+                            <li>Subject scheduling</li>
+                        </ul>
+                    </div>
+                    <a href="subject-management.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            <div class="page-card">
+                <div class="page-header">
+                    <div class="page-icon">📊</div>
+                    <h3>Reports</h3>
+                    <div class="emoji">📉</div>
+                </div>
+                <div class="page-content">
+                    <div class="page-preview">
+                        <div class="page-preview-overlay">Reports Preview</div>
+                    </div>
+                    <p>
+                        The Reports page provides analytics and reporting features
+                        for attendance and other key metrics in the system.
+                    </p>
+                    <div class="page-features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Attendance reports by student/department</li>
+                            <li>Absence rate analysis</li>
+                            <li>Trend visualization</li>
+                            <li>Export to PDF/Excel</li>
+                        </ul>
+                    </div>
+                    <a href="reports.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            
+            <div class="page-card">
+                <div class="page-header" style="background: linear-gradient(135deg, #2a9d8f, #264653);">
+                    <div class="page-icon">🔍</div>
+                    <h3>Natural Language Search</h3>
+                    <div class="emoji">🤖</div>
+                </div>
+                <div class="page-content">
+                    <div class="page-preview">
+                        <div class="page-preview-overlay">Natural Language Search Preview</div>
+                    </div>
+                    <p>
+                        The Natural Language Search page allows users to query student absence information
+                        using everyday language instead of complex database queries.
+                    </p>
+                    <div class="page-features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>AI-powered query processing</li>
+                            <li>Recent search history</li>
+                            <li>Zero absence detection</li>
+                            <li>French language support</li>
+                            <li>Schema-aware prompting</li>
+                        </ul>
+                    </div>
+                    <a href="NaturalLanguageSearchPage.html" class="card-link" style="background-color: #2a9d8f;">View Details</a>
+                </div>
+            </div>
+            
+
+            
+            
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="../index.html" class="back-button">Back to Documentation Home</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation © 2025</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcement Service - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .method-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .method-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .method-header h3 {
+            margin: 0;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+        }
+        
+        .method-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+        }
+        
+        .method-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .method-content p {
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        .method-code {
+            background-color: #f0f4f8;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.8rem;
+            color: var(--text-color);
+        }
+        
+        .data-structure {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .data-example {
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .notification-types {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .notification-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .notification-card {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 4px;
+            padding: 1.5rem;
+        }
+        
+        .notification-title {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            font-weight: bold;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .methods-grid, .notification-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Announcement Service</h1>
+        <p class="subtitle">Managing system announcements and notifications</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Services</a> &gt; Announcement Service
+        </div>
+        
+        <section class="intro">
+            <h2>Announcement Service Overview</h2>
+            <p>
+                The Announcement Service provides functionality for managing system announcements and notifications 
+                within the Absence Management System. It handles operations related to creating, retrieving, and 
+                updating announcements, as well as targeting announcements to specific user groups.
+            </p>
+            <p>
+                Announcements are used to communicate important information to users, such as system updates, 
+                policy changes, upcoming events, or deadline reminders. This service helps ensure that all 
+                stakeholders remain informed about relevant developments.
+            </p>
+        </section>
+        
+        <section class="notification-types">
+            <h2>Announcement Types</h2>
+            <p>
+                The Announcement Service supports different types of announcements to meet various communication needs:
+            </p>
+            
+            <div class="notification-grid">
+                <div class="notification-card">
+                    <div class="notification-title">System Announcements</div>
+                    <p>
+                        General notifications about system updates, maintenance windows, or new features.
+                        These are typically visible to all users of the system.
+                    </p>
+                </div>
+                
+                <div class="notification-card">
+                    <div class="notification-title">Department Announcements</div>
+                    <p>
+                        Notifications targeted to specific academic departments, such as departmental
+                        events, policy changes, or staff updates.
+                    </p>
+                </div>
+                
+                <div class="notification-card">
+                    <div class="notification-title">Deadline Reminders</div>
+                    <p>
+                        Time-sensitive notifications about upcoming deadlines, such as attendance
+                        submission deadlines or reporting cut-off dates.
+                    </p>
+                </div>
+                
+                <div class="notification-card">
+                    <div class="notification-title">Absence Alerts</div>
+                    <p>
+                        Notifications related to absence thresholds or patterns that require
+                        attention from administrators or teachers.
+                    </p>
+                </div>
+                
+                <div class="notification-card">
+                    <div class="notification-title">Emergency Announcements</div>
+                    <p>
+                        High-priority notifications for urgent situations such as campus closures
+                        or schedule changes due to unexpected circumstances.
+                    </p>
+                </div>
+                
+                <div class="notification-card">
+                    <div class="notification-title">Targeted Notifications</div>
+                    <p>
+                        Custom announcements directed to specific users or user groups based on
+                        roles, departments, or other criteria.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="intro">
+            <h2>Implementation</h2>
+            <p>
+                The Announcement Service is implemented in <code>announcementService.js</code> and uses the API instance to 
+                communicate with the backend API for announcement-related operations.
+            </p>
+            
+            <div class="code-block">
+<pre>// File: src/services/announcementService.js
+import axiosInstance from '@/lib/axiosInstance';
+
+const announcementService = {
+    // Get all announcements
+    getAllAnnouncements: async () => {
+        try {
+            const response = await axiosInstance.get('/announcements');
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching announcements:", error);
+            throw error;
+        }
+    },
+    
+    // Get recent announcements (limited count)
+    getRecentAnnouncements: async (limit = 5) => {
+        try {
+            const response = await axiosInstance.get(`/announcements/recent?limit=${limit}`);
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching recent announcements:", error);
+            throw error;
+        }
+    },
+    
+    // Get announcement by ID
+    getAnnouncementById: async (id) => {
+        try {
+            const response = await axiosInstance.get(`/announcements/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching announcement ${id}:`, error);
+            throw error;
+        }
+    },
+    
+    // Get announcements by type
+    getAnnouncementsByType: async (type) => {
+        try {
+            const response = await axiosInstance.get(`/announcements/type/${type}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching announcements of type ${type}:`, error);
+            throw error;
+        }
+    },
+    
+    // Get announcements for a specific department
+    getAnnouncementsByDepartment: async (departmentId) => {
+        try {
+            const response = await axiosInstance.get(`/announcements/department/${departmentId}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching announcements for department ${departmentId}:`, error);
+            throw error;
+        }
+    },
+    
+    // Create a new announcement
+    createAnnouncement: async (announcement) => {
+        try {
+            const response = await axiosInstance.post('/announcements', announcement);
+            return response.data;
+        } catch (error) {
+            console.error("Error creating announcement:", error);
+            throw error;
+        }
+    },
+    
+    // Update an existing announcement
+    updateAnnouncement: async (id, announcement) => {
+        try {
+            const response = await axiosInstance.put(`/announcements/${id}`, announcement);
+            return response.data;
+        } catch (error) {
+            console.error(`Error updating announcement ${id}:`, error);
+            throw error;
+        }
+    },
+    
+    // Delete an announcement
+    deleteAnnouncement: async (id) => {
+        try {
+            const response = await axiosInstance.delete(`/announcements/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error deleting announcement ${id}:`, error);
+            throw error;
+        }
+    },
+    
+    // Mark announcement as read for current user
+    markAsRead: async (announcementId) => {
+        try {
+            const response = await axiosInstance.post(`/announcements/${announcementId}/read`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error marking announcement ${announcementId} as read:`, error);
+            throw error;
+        }
+    }
+};
+
+export default announcementService;</pre>
+            </div>
+        </section>
+        
+        <section class="data-structure">
+            <h2>Announcement Data Structure</h2>
+            <p>
+                The Announcement Service works with announcement objects that have the following structure:
+            </p>
+            
+            <div class="data-example">
+<pre>{
+  "id": 42,
+  "title": "System Maintenance Notice",
+  "content": "The system will be unavailable for maintenance on May 15th from 2:00 AM to 5:00 AM.",
+  "type": "SYSTEM",
+  "priority": "HIGH",
+  "createdAt": "2025-05-10T09:30:00Z",
+  "updatedAt": "2025-05-10T14:15:00Z",
+  "startDate": "2025-05-10T00:00:00Z",
+  "endDate": "2025-05-15T23:59:59Z",
+  "createdBy": {
+    "id": 12,
+    "username": "admin.user",
+    "name": "System Administrator"
+  },
+  "targetDepartments": [
+    {
+      "id": 5,
+      "name": "Computer Science"
+    },
+    {
+      "id": 8,
+      "name": "Engineering"
+    }
+  ],
+  "targetRoles": ["ADMIN", "TEACHER", "STUDENT"],
+  "readBy": 157
+}</pre>
+            </div>
+            
+            <p>
+                When creating or updating announcements, some fields may be optional depending on the 
+                backend validation requirements. The <code>targetDepartments</code> and <code>targetRoles</code> 
+                fields allow for focused delivery of announcements to specific user groups.
+            </p>
+        </section>
+        
+        <h2>Key Methods</h2>
+        <div class="methods-grid">
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">📋</div>
+                    <h3>getAllAnnouncements</h3>
+                    <div class="emoji">📢</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Retrieves a list of all announcements from the system. This method is typically used
+                        in administrative interfaces and announcement management screens.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getAllAnnouncements: async () => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get('/announcements');<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🔍</div>
+                    <h3>getRecentAnnouncements</h3>
+                    <div class="emoji">🕒</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Fetches the most recent announcements, limited to a specified count. Commonly used
+                        on dashboards and homepages to show the latest updates.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getRecentAnnouncements: async (limit = 5) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get(`/announcements/recent?limit=${limit}`);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🏷️</div>
+                    <h3>getAnnouncementsByType</h3>
+                    <div class="emoji">🗃️</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Retrieves announcements filtered by type (e.g., SYSTEM, DEPARTMENT, DEADLINE).
+                        Useful for categorized views in the UI.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getAnnouncementsByType: async (type) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get(`/announcements/type/${type}`);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🏢</div>
+                    <h3>getAnnouncementsByDepartment</h3>
+                    <div class="emoji">🔍</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Fetches announcements targeted to a specific department. This allows for department-specific
+                        communication channels within the application.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            getAnnouncementsByDepartment: async (departmentId) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.get(`/announcements/department/${departmentId}`);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">➕</div>
+                    <h3>createAnnouncement</h3>
+                    <div class="emoji">✏️</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Creates a new announcement in the system. This method is used by administrators
+                        and authorized users to publish new communications.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            createAnnouncement: async (announcement) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.post('/announcements', announcement);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🔄</div>
+                    <h3>updateAnnouncement</h3>
+                    <div class="emoji">📝</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Updates an existing announcement's information. Used when modifying
+                        announcement content, extending dates, or changing target groups.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            updateAnnouncement: async (id, announcement) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.put(`/announcements/${id}`, announcement);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🗑️</div>
+                    <h3>deleteAnnouncement</h3>
+                    <div class="emoji">❌</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Removes an announcement from the system. Used for outdated or incorrect announcements
+                        that need to be retracted.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            deleteAnnouncement: async (id) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.delete(`/announcements/${id}`);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">✓</div>
+                    <h3>markAsRead</h3>
+                    <div class="emoji">👁️</div>
+                </div>
+                <div class="method-content">
+                    <p>
+                        Marks an announcement as read for the current user. This helps track which
+                        announcements have been seen and allows for unread notification indicators.
+                    </p>
+                    <div class="method-code">
+                        <code>
+                            markAsRead: async (announcementId) => {<br>
+                            &nbsp;&nbsp;const response = await axiosInstance.post(`/announcements/${announcementId}/read`);<br>
+                            &nbsp;&nbsp;return response.data;<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <section class="intro">
+            <h2>Usage Example</h2>
+            <p>
+                Here's an example of how to use the Announcement Service in a React component to display announcements on a dashboard:
+            </p>
+            
+            <div class="code-block">
+<pre>import React, { useState, useEffect } from 'react';
+import announcementService from '../services/announcementService';
+import { format } from 'date-fns';
+
+const AnnouncementDashboard = () => {
+    const [announcements, setAnnouncements] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    
+    // Load recent announcements
+    useEffect(() => {
+        const fetchAnnouncements = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                
+                // Get the 10 most recent announcements
+                const data = await announcementService.getRecentAnnouncements(10);
+                setAnnouncements(data);
+            } catch (err) {
+                console.error('Error fetching announcements:', err);
+                setError('Failed to load announcements. Please try again.');
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        fetchAnnouncements();
+    }, []);
+    
+    // Format date for display
+    const formatDate = (dateString) => {
+        if (!dateString) return 'N/A';
+        return format(new Date(dateString), 'MMM d, yyyy');
+    };
+    
+    // Handle marking an announcement as read
+    const handleMarkAsRead = async (id) => {
+        try {
+            await announcementService.markAsRead(id);
+            
+            // Update local state to reflect read status
+            setAnnouncements(prevAnnouncements => 
+                prevAnnouncements.map(announcement => 
+                    announcement.id === id 
+                        ? { ...announcement, isRead: true } 
+                        : announcement
+                )
+            );
+        } catch (err) {
+            console.error('Error marking announcement as read:', err);
+        }
+    };
+    
+    // Get appropriate priority styling
+    const getPriorityClass = (priority) => {
+        switch(priority) {
+            case 'HIGH':
+                return 'priority-high';
+            case 'MEDIUM':
+                return 'priority-medium';
+            default:
+                return 'priority-normal';
+        }
+    };
+    
+    if (loading) return &lt;div&gt;Loading announcements...&lt;/div&gt;;
+    
+    return (
+        &lt;div className="announcement-dashboard"&gt;
+            &lt;h2&gt;Announcements&lt;/h2&gt;
+            
+            {error && &lt;div className="error-message"&gt;{error}&lt;/div&gt;}
+            
+            {announcements.length === 0 ? (
+                &lt;p&gt;No recent announcements found.&lt;/p&gt;
+            ) : (
+                &lt;div className="announcements-list"&gt;
+                    {announcements.map(announcement => (
+                        &lt;div 
+                            key={announcement.id} 
+                            className={`announcement-card ${getPriorityClass(announcement.priority)} ${announcement.isRead ? 'read' : 'unread'}`}
+                        &gt;
+                            &lt;h3 className="announcement-title"&gt;{announcement.title}&lt;/h3&gt;
+                            
+                            &lt;div className="announcement-meta"&gt;
+                                &lt;span className="announcement-type"&gt;{announcement.type}&lt;/span&gt;
+                                &lt;span className="announcement-date"&gt;Posted: {formatDate(announcement.createdAt)}&lt;/span&gt;
+                                {announcement.endDate && (
+                                    &lt;span className="announcement-expiry"&gt;
+                                        Valid until: {formatDate(announcement.endDate)}
+                                    &lt;/span&gt;
+                                )}
+                            &lt;/div&gt;
+                            
+                            &lt;div className="announcement-content"&gt;
+                                {announcement.content}
+                            &lt;/div&gt;
+                            
+                            {announcement.targetDepartments && announcement.targetDepartments.length > 0 && (
+                                &lt;div className="announcement-targets"&gt;
+                                    &lt;span className="target-label"&gt;For departments:&lt;/span&gt;
+                                    {announcement.targetDepartments.map(dept => (
+                                        &lt;span key={dept.id} className="target-tag"&gt;{dept.name}&lt;/span&gt;
+                                    ))}
+                                &lt;/div&gt;
+                            )}
+                            
+                            {!announcement.isRead && (
+                                &lt;button 
+                                    className="mark-read-button"
+                                    onClick={() => handleMarkAsRead(announcement.id)}
+                                &gt;
+                                    Mark as Read
+                                &lt;/button&gt;
+                            )}
+                        &lt;/div&gt;
+                    ))}
+                &lt;/div&gt;
+            )}
+        &lt;/div&gt;
+    );
+};
+
+export default AnnouncementDashboard;</pre>
+            </div>
+        </section>
+        
+        <section class="intro">
+            <h2>Best Practices</h2>
+            <p>
+                When working with the Announcement Service, follow these best practices:
+            </p>
+            <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li>Use appropriate announcement types and priorities to help users filter important information</li>
+                <li>Set clear start and end dates for time-sensitive announcements</li>
+                <li>Target announcements to specific departments or roles when the information isn't relevant to all users</li>
+                <li>Keep announcement content concise and use formatting to improve readability</li>
+                <li>Implement read tracking to avoid overwhelming users with notifications they've already seen</li>
+                <li>Regularly clean up expired announcements to maintain system performance</li>
+                <li>Consider implementing push notifications for high-priority announcements</li>
+            </ol>
+        </section>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="index.html" class="back-button">Back to Services</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation © 2025</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Last updated: May 13, 2025</p>
+    </footer>
+</body>
+</html>

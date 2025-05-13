@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assets - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .asset-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .asset-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .asset-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .asset-preview {
+            height: 200px;
+            background-color: #f0f4f8;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .asset-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+        }
+        
+        .asset-details {
+            padding: 1.5rem;
+        }
+        
+        .asset-details h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .directory-structure {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .directory-list {
+            font-family: 'Consolas', 'Monaco', monospace;
+            margin: 1.5rem 0;
+            line-height: 1.7;
+            border-left: 2px solid var(--primary-color);
+            padding-left: 1.5rem;
+        }
+        
+        .directory {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .file {
+            color: var(--text-color);
+        }
+        
+        .indent {
+            margin-left: 1.5rem;
+        }
+        
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .section-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-header h3 {
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-link {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .card-link:hover {
+            background-color: var(--primary-color);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .best-practices {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .best-practices ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .best-practices li {
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .section-grid, .asset-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Assets</h1>
+        <p class="subtitle">Static resources and media files</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; Assets
+        </div>
+        
+        <section class="intro">
+            <h2>Assets Overview</h2>
+            <p>
+                The Absence Management System manages various static assets including images, icons, fonts, 
+                and other media files. These assets are organized in a structured way to maintain consistency 
+                and optimize performance.
+            </p>
+            <p>
+                This documentation outlines the asset organization, usage guidelines, and best practices for 
+                maintaining and extending the asset library.
+            </p>
+        </section>
+        
+        <section class="directory-structure">
+            <h2>Asset Directory Structure</h2>
+            <p>
+                Assets are organized in a clear directory structure to facilitate management and access:
+            </p>
+            
+            <div class="directory-list">
+                <div class="directory">src/assets/</div>
+                <div class="indent">
+                    <div class="directory">images/</div>
+                    <div class="indent">
+                        <div class="file">logo.svg</div>
+                        <div class="file">logo-dark.svg</div>
+                        <div class="file">hero-background.jpg</div>
+                        <div class="file">placeholder-user.png</div>
+                        <div class="file">login-background.jpg</div>
+                        <div class="file">404-illustration.svg</div>
+                    </div>
+                    <div class="directory">icons/</div>
+                    <div class="indent">
+                        <div class="file">dashboard.svg</div>
+                        <div class="file">students.svg</div>
+                        <div class="file">attendance.svg</div>
+                        <div class="file">departments.svg</div>
+                        <div class="file">subjects.svg</div>
+                        <div class="file">announcements.svg</div>
+                        <div class="file">settings.svg</div>
+                        <div class="file">logout.svg</div>
+                    </div>
+                    <div class="directory">fonts/</div>
+                    <div class="indent">
+                        <div class="file">segoe-ui-regular.woff2</div>
+                        <div class="file">segoe-ui-semibold.woff2</div>
+                        <div class="file">segoe-ui-bold.woff2</div>
+                    </div>
+                    <div class="directory">animations/</div>
+                    <div class="indent">
+                        <div class="file">loading-spinner.json</div>
+                        <div class="file">success-animation.json</div>
+                        <div class="file">error-animation.json</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <h2>Key Assets</h2>
+        <div class="asset-gallery">
+            <div class="asset-card">
+                <div class="asset-preview">
+                    <div class="asset-icon">🖼️</div>
+                </div>
+                <div class="asset-details">
+                    <h3>Logo</h3>
+                    <p>
+                        The primary application logo, available in light and dark versions 
+                        for different background contexts.
+                    </p>
+                    <p>
+                        <strong>Location:</strong> src/assets/images/logo.svg
+                    </p>
+                    <p>
+                        <strong>Usage:</strong> Header, login screen, documentation
+                    </p>
+                </div>
+            </div>
+            
+            <div class="asset-card">
+                <div class="asset-preview">
+                    <div class="asset-icon">📊</div>
+                </div>
+                <div class="asset-details">
+                    <h3>Navigation Icons</h3>
+                    <p>
+                        A consistent set of SVG icons used throughout the application for 
+                        navigation and action buttons.
+                    </p>
+                    <p>
+                        <strong>Location:</strong> src/assets/icons/
+                    </p>
+                    <p>
+                        <strong>Usage:</strong> Sidebar navigation, action buttons, interactive elements
+                    </p>
+                </div>
+            </div>
+            
+            <div class="asset-card">
+                <div class="asset-preview">
+                    <div class="asset-icon">🔠</div>
+                </div>
+                <div class="asset-details">
+                    <h3>Typography</h3>
+                    <p>
+                        The application uses Segoe UI as its primary font, with different 
+                        weights for various text elements.
+                    </p>
+                    <p>
+                        <strong>Location:</strong> src/assets/fonts/
+                    </p>
+                    <p>
+                        <strong>Usage:</strong> All text content, optimized for readability
+                    </p>
+                </div>
+            </div>
+            
+            <div class="asset-card">
+                <div class="asset-preview">
+                    <div class="asset-icon">✨</div>
+                </div>
+                <div class="asset-details">
+                    <h3>Animations</h3>
+                    <p>
+                        Lottie animation files used for loading states, success/error feedback, 
+                        and interactive elements.
+                    </p>
+                    <p>
+                        <strong>Location:</strong> src/assets/animations/
+                    </p>
+                    <p>
+                        <strong>Usage:</strong> Loading states, feedback messages, onboarding
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <section class="intro">
+            <h2>Asset Usage in Code</h2>
+            <p>
+                Assets are imported and used in components following React's asset import patterns:
+            </p>
+            
+            <div class="code-block">
+<pre>// Importing image assets
+import logo from '@/assets/images/logo.svg';
+import placeholderUser from '@/assets/images/placeholder-user.png';
+
+// Usage in component
+const Header = () => {
+  return (
+    &lt;header&gt;
+      &lt;img src={logo} alt="Absence Management System Logo" /&gt;
+      {/* other header content */}
+    &lt;/header&gt;
+  );
+};
+
+// Importing and using SVG icons
+import { ReactComponent as DashboardIcon } from '@/assets/icons/dashboard.svg';
+
+const Sidebar = () => {
+  return (
+    &lt;nav&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;DashboardIcon className="icon" /&gt;
+          &lt;span&gt;Dashboard&lt;/span&gt;
+        &lt;/li&gt;
+        {/* other nav items */}
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  );
+};</pre>
+            </div>
+        </section>
+        
+        <section class="best-practices">
+            <h2>Asset Best Practices</h2>
+            <ul>
+                <li>
+                    <strong>Optimization</strong>: All images are optimized for web using appropriate formats:
+                    <ul>
+                        <li>SVG for icons and logos</li>
+                        <li>WebP or optimized JPG/PNG for photos</li>
+                        <li>WOFF2 for font files</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Lazy Loading</strong>: Non-critical images are lazy-loaded to improve initial load performance:
+                    <div class="code-block">
+                        <pre>&lt;img src={image} loading="lazy" alt="Description" /&gt;</pre>
+                    </div>
+                </li>
+                <li>
+                    <strong>Responsive Images</strong>: Images are made responsive using appropriate CSS techniques:
+                    <div class="code-block">
+                        <pre>img {
+  max-width: 100%;
+  height: auto;
+}</pre>
+                    </div>
+                </li>
+                <li>
+                    <strong>Alt Text</strong>: All images include descriptive alt text for accessibility</li>
+                <li>
+                    <strong>Theme Support</strong>: Where appropriate, assets have light and dark versions to support theming
+                </li>
+                <li>
+                    <strong>Vector Priority</strong>: SVG is preferred for icons and logos for crisp rendering at any size
+                </li>
+            </ul>
+        </section>
+        
+        
+        
+        <section class="intro" style="margin-top: 2rem;">
+            <h2>Adding New Assets</h2>
+            <p>
+                When adding new assets to the application, follow these guidelines:
+            </p>
+            <ol>
+                <li><strong>Directory Structure</strong>: Place the asset in the appropriate directory based on its type</li>
+                <li><strong>Naming Conventions</strong>: Use kebab-case for file names (e.g., student-profile.jpg)</li>
+                <li><strong>Optimization</strong>: Optimize all assets before adding them to the repository</li>
+                <li><strong>Documentation</strong>: Update the asset documentation to include new assets</li>
+                <li><strong>Version Control</strong>: Commit the assets separately from code changes for clearer history</li>
+            </ol>
+        </section>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="../index.html" class="back-button">Back to Documentation Home</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation © 2025</p>
+    </footer>
+</body>
+</html>

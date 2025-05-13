@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services Layer - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .diagram {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+        
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .service-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #e9ecef;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .flow-item {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .section-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-header h3 {
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-link {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .card-link:hover {
+            background-color: var(--primary-color);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .service-flow {
+                flex-direction: column;
+            }
+            
+            .flow-item {
+                margin-bottom: 1rem;
+                width: 100%;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Services Layer</h1>
+        <p class="subtitle">The data communication backbone of the application</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; Services
+        </div>
+        
+        <section class="intro">
+            <h2>What is the Service Layer?</h2>
+            <p>
+                The service layer in the Absence Management System handles all communication between the frontend and backend API. 
+                It provides a clean, consistent interface for components to fetch data, submit updates, and manage application state.
+            </p>
+            <p>
+                This layer abstracts away the complexities of API calls, error handling, and data formatting, allowing the 
+                component layer to focus on rendering UI and user interactions rather than data fetching logic.
+            </p>
+        </section>
+        
+        <section class="service-flow">
+            <div class="flow-item">React Component</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-item">Service Layer</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-item">API Client</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-item">Backend Server</div>
+        </section>
+        
+        <h2>Service Components</h2>
+        <div class="section-grid">
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">🔌</div>
+                    <h3>API Core</h3>
+                    <div class="emoji">🔄</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        The foundation of the service layer - configures Axios HTTP client and 
+                        sets up request/response interceptors.
+                    </p>
+                    <a href="api-core.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">🔐</div>
+                    <h3>Authentication</h3>
+                    <div class="emoji">👤</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Handles user login, token management, and session handling through the 
+                        authentication service.
+                    </p>
+                    <a href="auth-service.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">👨‍🎓</div>
+                    <h3>Student Service</h3>
+                    <div class="emoji">📊</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Manages student data retrieval, filtering, and operations for the 
+                        Student Management module.
+                    </p>
+                    <a href="student-service.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">✓</div>
+                    <h3>Attendance Service</h3>
+                    <div class="emoji">📋</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Handles attendance record operations, including saving records, bulk updates, 
+                        and attendance reports.
+                    </p>
+                    <a href="attendance-service.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">🏢</div>
+                    <h3>Department Service</h3>
+                    <div class="emoji">🏫</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Manages department data for organizing students, subjects, 
+                        and academic structures.
+                    </p>
+                    <a href="department-service.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">📚</div>
+                    <h3>Subject Service</h3>
+                    <div class="emoji">📘</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Handles subject-related operations for managing courses and 
+                        their relationships with departments.
+                    </p>
+                    <a href="subject-service.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">🗓️</div>
+                    <h3>Semester Service</h3>
+                    <div class="emoji">📅</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Manages academic semesters, current period tracking, and 
+                        time-based operations.
+                    </p>
+                    <a href="semester-service.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">🔍</div>
+                    <h3>Search Service</h3>
+                    <div class="emoji">🕵️</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Provides natural language search capabilities for finding students 
+                        based on various criteria.
+                    </p>
+                    <a href="search-service.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">📢</div>
+                    <h3>Announcement Service</h3>
+                    <div class="emoji">📣</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Manages system announcements and email communications.
+                    </p>
+                    <a href="announcement-service.html" class="card-link">View Details</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-grid">
+            <div class="section-card">
+                <div class="card-header">
+                    <div class="card-icon">🛠️</div>
+                    <h3>Lib Utilities</h3>
+                    <div class="emoji">🧰</div>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Essential utility functions for styling components and managing API requests throughout the application.
+                    </p>
+                    <a href="lib-utilities.html" class="card-link">View Details</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="../index.html" class="back-button">Back to Documentation Home</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation © 2025</p>
+    </footer>
+</body>
+</html>

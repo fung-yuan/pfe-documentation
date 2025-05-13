@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Configuration - Routing Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: rotate 20s linear infinite;
+            z-index: 1;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb::before {
+            content: '🏠';
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+        
+        .intro::before {
+            content: '⚙️';
+            font-size: 2.5rem;
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            opacity: 0.2;
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .intro h2::before {
+            content: '🛣️';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .content-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .content-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .content-card h2::before {
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .content-card:nth-of-type(1) h2::before { content: '📦'; }
+        .content-card:nth-of-type(2) h2::before { content: '🔄'; }
+        .content-card:nth-of-type(3) h2::before { content: '⚠️'; }
+        .content-card:nth-of-type(4) h2::before { content: '📝'; }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .code-block::before {
+            content: 'Code Example';
+            display: block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #b8c2cc;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+        }
+        
+        .prev-next {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        
+        .prev-link, .next-link {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .prev-link:hover, .next-link:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-button:hover::before {
+            left: 100%;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: rotate 20s linear infinite reverse;
+            z-index: 1;
+        }
+        
+        footer p {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .route-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+        }
+        
+        .route-block {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+            min-width: 200px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .route-arrow {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .route-block.login {
+            background-color: var(--secondary-color);
+        }
+        
+        .route-block.auth-check {
+            background-color: var(--accent-color);
+        }
+        
+        .route-block.layout {
+            width: 80%;
+            position: relative;
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            padding: 2rem;
+        }
+        
+        .route-block.route {
+            background-color: rgba(255, 255, 255, 0.2);
+            width: 80%;
+        }
+        
+        .route-block.layout::before {
+            content: 'Layout Wrapper';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background-color: var(--accent-color);
+            padding: 0 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .note {
+            background-color: rgba(76, 201, 240, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .note strong {
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .prev-next {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .prev-link, .next-link {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Route Configuration</h1>
+        <p class="subtitle">Organizing routes in the ESTLM application</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Routing</a> &gt; Route Configuration
+        </div>
+        
+        <section class="intro">
+            <h2>Route Configuration in the ESTLM Application</h2>
+            <p>
+                The ESTLM application uses React Router v6 with a structured route configuration to manage navigation 
+                between different pages. This configuration includes a centralized route definition, authentication 
+                protection, layout wrapping, and error boundaries.
+            </p>
+            <p>
+                This document explains how routes are configured and organized in the application.
+            </p>
+        </section>
+        
+        <section class="content-card">
+            <h2>Centralized Route Definition</h2>
+            <p>
+                The application uses a centralized route configuration defined in <code>routes.jsx</code>. This 
+                creates a single source of truth for all route information:
+            </p>
+            
+            <div class="code-block">
+<pre>// From routes.jsx
+import Dashboard from './pages/Dashboard';
+import AttendanceManagement from './pages/AttendanceManagement';
+// Other component imports...
+
+import {
+  Home,
+  ClipboardCheck as ClipboardDocumentList,
+  // Other icon imports...
+} from 'lucide-react';
+
+export const routes = [
+  {
+    path: '/',
+    name: 'Dashboard',
+    component: Dashboard,
+    icon: 'Home'
+  },
+  {
+    path: '/send-email-announcement',
+    name: 'Send Email',
+    component: SendEmailAnnouncementPage,
+    icon: 'Mail'
+  },
+  // Additional routes...
+];</pre>
+            </div>
+            
+            <p>
+                Benefits of this approach:
+            </p>
+            <ul>
+                <li>Centralized route management in a single file</li>
+                <li>Consistent route metadata across the application</li>
+                <li>Reuse of route information in both the router and navigation components</li>
+                <li>Simplified addition of new routes</li>
+            </ul>
+            
+            <p>
+                Each route has:
+            </p>
+            <ul>
+                <li><code>path</code>: The URL path for the route</li>
+                <li><code>name</code>: The display name used in navigation</li>
+                <li><code>component</code>: The React component to render</li>
+                <li><code>icon</code>: The icon name from Lucide React for visual navigation</li>
+            </ul>
+        </section>
+        
+        <section class="content-card">
+            <h2>Main Router Configuration</h2>
+            <p>
+                The application's main router is configured in <code>AppRoutes.jsx</code>, which implements a two-layer
+                approach:
+            </p>
+            
+            <div class="route-diagram">
+                <div class="route-block login">Login Route (/login)</div>
+                <div class="route-arrow">↓</div>
+                <div class="route-block auth-check">Authentication Check</div>
+                <div class="route-arrow">↓</div>
+                <div class="route-block layout">
+                    <div class="route-block route">Dashboard (/)</div>
+                    <div class="route-block route">Students (/students)</div>
+                    <div class="route-block route">Attendance (/attendance)</div>
+                    <div class="route-block route">...</div>
+                </div>
+            </div>
+            
+            <div class="code-block">
+<pre>// From AppRoutes.jsx
+const AppRoutes = () => {
+  const { isAuthenticated, userRole } = useAuth();
+
+  return (
+    &lt;ErrorBoundary&gt;
+      &lt;Routes&gt;
+        {/* Public login route */}
+        &lt;Route path="/login" element={&lt;LoginPage /&gt;} /&gt;
+
+        {/* Protected routes wrapped by Layout */}
+        &lt;Route 
+          path="/*"
+          element={
+            isAuthenticated ? (
+              &lt;Layout&gt;
+                &lt;Routes&gt;
+                  &lt;Route path="/" element={&lt;Navigate to="/dashboard" replace /&gt;} /&gt;
+                  &lt;Route path="dashboard" element={&lt;Dashboard /&gt;} /&gt;
+                  &lt;Route path="send-email-announcement" element={
+                    &lt;ProtectedRoute isAllowed={userRole === 'ADMIN'}&gt;
+                      &lt;SendEmailAnnouncementPage /&gt;
+                    &lt;/ProtectedRoute&gt;
+                  } /&gt;
+                  &lt;Route path="students" element={&lt;StudentManagement /&gt;} /&gt;
+                  {/* Other routes... */}
+                  &lt;Route path="*" element={&lt;div&gt;Page Not Found&lt;/div&gt;} /&gt;
+                &lt;/Routes&gt;
+              &lt;/Layout&gt;
+            ) : (
+              &lt;Navigate to="/login" replace /&gt;
+            )
+          }
+        /&gt;
+      &lt;/Routes&gt;
+    &lt;/ErrorBoundary&gt;
+  );
+};</pre>
+            </div>
+            
+            <p>
+                Key aspects of this configuration:
+            </p>
+            <ul>
+                <li><strong>Public Routes</strong>: The login page is accessible without authentication</li>
+                <li><strong>Authentication Check</strong>: All other routes are wrapped in an authentication check</li>
+                <li><strong>Layout Wrapper</strong>: Authenticated routes share a common layout with navigation</li>
+                <li><strong>Nested Routes</strong>: Secondary routes are defined within the layout wrapper</li>
+                <li><strong>Default Redirect</strong>: Root path '/' redirects to the dashboard</li>
+                <li><strong>404 Handler</strong>: Catch-all route for missing pages</li>
+            </ul>
+        </section>
+        
+        <section class="content-card">
+            <h2>Error Handling</h2>
+            <p>
+                All routes are wrapped in an <code>ErrorBoundary</code> component to catch and handle any errors that occur during rendering:
+            </p>
+            
+            <div class="code-block">
+<pre>// From AppRoutes.jsx
+return (
+  &lt;ErrorBoundary&gt;
+    &lt;Routes&gt;
+      {/* Routes defined here */}
+    &lt;/Routes&gt;
+  &lt;/ErrorBoundary&gt;
+);</pre>
+            </div>
+            
+            <p>
+                This error boundary:
+            </p>
+            <ul>
+                <li>Prevents the entire application from crashing if a route component throws an error</li>
+                <li>Displays a fallback UI when errors occur</li>
+                <li>Can log errors for debugging purposes</li>
+            </ul>
+            
+            <p class="note">
+                <strong>Note:</strong> The specific implementation of the <code>ErrorBoundary</code> component would include 
+                lifecycle methods to catch JavaScript errors in children, log those errors, and display a fallback UI.
+            </p>
+        </section>
+        
+        <section class="content-card">
+            <h2>Route Protection Layers</h2>
+            <p>
+                The application implements route protection at two levels:
+            </p>
+            
+            <ol>
+                <li>
+                    <strong>Application-Level Authentication</strong>: The entire application (except the login page) is protected 
+                    by an authentication check that redirects unauthenticated users to the login page.
+                    <div class="code-block">
+<pre>// Application-level authentication check
+&lt;Route 
+  path="/*"
+  element={
+    isAuthenticated ? (
+      &lt;Layout&gt;{/* Authenticated routes */}&lt;/Layout&gt;
+    ) : (
+      &lt;Navigate to="/login" replace /&gt;
+    )
+  }
+/&gt;</pre>
+                    </div>
+                </li>
+                <li>
+                    <strong>Route-Level Role Protection</strong>: Specific routes have additional protection based on user roles.
+                    <div class="code-block">
+<pre>// Route-level role protection using ProtectedRoute
+&lt;Route path="send-email-announcement" element={
+  &lt;ProtectedRoute isAllowed={userRole === 'ADMIN'}&gt;
+    &lt;SendEmailAnnouncementPage /&gt;
+  &lt;/ProtectedRoute&gt;
+} /&gt;</pre>
+                    </div>
+                </li>
+            </ol>
+            
+            <p>
+                This layered approach ensures:
+            </p>
+            <ul>
+                <li>Only authenticated users can access the application</li>
+                <li>Only users with specific roles can access sensitive functionality</li>
+                <li>Users are appropriately redirected when they lack required permissions</li>
+            </ul>
+            
+            <p class="note">
+                <strong>Implementation Note:</strong> Currently, the user role is hardcoded to 'ADMIN' in the 
+                <code>AuthContext.jsx</code> after successful login. In a production environment, this should be replaced 
+                with actual role retrieval from the backend server.
+            </p>
+        </section>
+        
+        <div class="navigation-links">
+            <div class="prev-next">
+                <a href="navigation-components.html" class="prev-link">← Navigation Components</a>
+                <a href="../components/index.html" class="next-link">Components →</a>
+            </div>
+        </div>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="index.html" class="back-button">Back to Routing</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Service - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .auth-flow {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+        
+        .auth-flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .step-details {
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            padding: 1rem;
+            flex-grow: 1;
+            position: relative;
+        }
+        
+        .step-details::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 20px;
+            background-color: var(--primary-color);
+        }
+        
+        .flow-step:last-child .step-details::after {
+            display: none;
+        }
+        
+        .key-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .feature-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .feature-header h3 {
+            margin: 0;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+        }
+        
+        .feature-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .feature-content p {
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        .feature-code {
+            background-color: #f0f4f8;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.8rem;
+            color: var(--text-color);
+        }
+        
+        .methods-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .method-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .method-tab {
+            background-color: #f0f4f8;
+            color: var(--text-color);
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .method-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .method-content {
+            display: none;
+        }
+        
+        .method-content.active {
+            display: block;
+        }
+        
+        .method-description {
+            margin-bottom: 1.5rem;
+        }
+        
+        .method-signature {
+            background-color: #f0f4f8;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        
+        .param-table th, .param-table td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        .param-table th {
+            background-color: #f0f4f8;
+            font-weight: 600;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .key-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .method-tabs {
+                flex-direction: column;
+            }
+            
+            .method-tab {
+                width: 100%;
+            }
+            
+            .param-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Authentication Service</h1>
+        <p class="subtitle">Secure authentication and user management</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Services</a> &gt; Authentication Service
+        </div>
+        
+        <section class="intro">
+            <h2>Authentication Service Overview</h2>
+            <p>
+                The Authentication Service is responsible for user authentication, token management, 
+                and session handling in the Absence Management System. It implements Basic Authentication 
+                to secure access to the application and its protected resources.
+            </p>
+            <p>
+                This service provides methods for logging in users, validating credentials, securing API 
+                requests, and managing user sessions. It also handles error cases such as invalid credentials 
+                and network failures.
+            </p>
+        </section>
+        
+        <section class="auth-flow">
+            <h2>Authentication Flow</h2>
+            <div class="auth-flow-diagram">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-details">
+                        <strong>User Enters Credentials</strong>
+                        <p>Username and password are submitted through the login form</p>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-details">
+                        <strong>Create Basic Auth Token</strong>
+                        <p>Username:password is Base64 encoded to create the Basic Auth token</p>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-details">
+                        <strong>API Authentication Request</strong>
+                        <p>The service makes a GET request to a protected endpoint with the Basic Auth token</p>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-details">
+                        <strong>Server Validates Credentials</strong>
+                        <p>Backend verifies credentials and returns a response</p>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-details">
+                        <strong>Update Authentication State</strong>
+                        <p>On success, the app updates authentication state and redirects to the dashboard</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="intro">
+            <h2>Implementation</h2>
+            <p>
+                The Authentication Service is implemented in <code>authService.js</code>, which provides several methods 
+                for handling authentication-related operations and exporting them through a unified interface.
+            </p>
+            
+            <div class="code-block">
+<pre>// File: src/services/authService.js
+import axiosInstance from '@/lib/axiosInstance';
+
+// Helper function to create the Basic Auth token
+const createBasicAuthToken = (username, password) => {
+  return `Basic ${btoa(`${username}:${password}`)}`;
+};
+
+// Login function
+const login = async (username, password) => {
+  try {
+    // Spring Security might intercept a GET request to a protected endpoint
+    // when using Basic Auth, rather than requiring a specific POST to /login.
+    // Let's try hitting a known protected endpoint like /students to trigger the auth.
+    const response = await axiosInstance.get('/students', {
+      headers: {
+        'Authorization': createBasicAuthToken(username, password)
+      }
+    });
+
+    // If we get here, authentication succeeded
+    console.log('AuthService: Basic Auth successful', response.status);
+    // Return minimal user info or just confirmation
+    return { username: username }; 
+
+  } catch (error) {
+    console.error('AuthService: Login failed', error.response || error.message);
+    // If error.response exists, it's likely an HTTP error (e.g., 401 Unauthorized)
+    if (error.response && error.response.status === 401) {
+      throw new Error('Invalid username or password.');
+    } else {
+      // Network error or other issue
+      throw new Error('Login failed. Please try again later.');
+    }
+  }
+};
+
+// Logout function
+const logout = () => {
+  // With Basic Auth, the browser often caches credentials.
+  // True logout often requires closing the browser or specific browser handling.
+  // We mainly clear the client-side state.
+  console.log('AuthService: Logout called (clearing client state)');
+};
+
+// Change password function
+const changePassword = async (currentPassword, newPassword) => {
+  try {
+    // Implementation depends on backend API
+    const response = await axiosInstance.post('/user/change-password', {
+      currentPassword,
+      newPassword
+    });
+    return response.data;
+  } catch (error) {
+    console.error('AuthService: Password change failed', error.response || error.message);
+    throw error;
+  }
+};
+
+export const authService = {
+  login,
+  logout,
+  changePassword,
+  createBasicAuthToken // Expose this if needed elsewhere
+};</pre>
+            </div>
+        </section>
+        
+        <h2>Key Features</h2>
+        <div class="key-features">
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">🔑</div>
+                    <h3>Basic Authentication</h3>
+                    <div class="emoji">🔒</div>
+                </div>
+                <div class="feature-content">
+                    <p>
+                        Uses HTTP Basic Authentication, a simple but effective authentication method
+                        where credentials are Base64-encoded and sent in the Authorization header.
+                    </p>
+                    <div class="feature-code">
+                        <code>
+                            Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Error Handling</h3>
+                    <div class="emoji">❌</div>
+                </div>
+                <div class="feature-content">
+                    <p>
+                        Provides clear, user-friendly error messages for common authentication 
+                        failures, such as invalid credentials or network issues.
+                    </p>
+                    <div class="feature-code">
+                        <code>
+                            if (error.response && error.response.status === 401) {<br>
+                            &nbsp;&nbsp;throw new Error('Invalid username or password.');<br>
+                            } else {<br>
+                            &nbsp;&nbsp;throw new Error('Login failed. Please try again later.');<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Session Management</h3>
+                    <div class="emoji">👤</div>
+                </div>
+                <div class="feature-content">
+                    <p>
+                        Handles user sessions by leveraging the browser's automatic handling of 
+                        Basic Auth credentials, which persist until the browser is closed.
+                    </p>
+                    <div class="feature-code">
+                        <code>
+                            // Basic Auth is maintained by the browser<br>
+                            // No token storage needed in client code
+                        </code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Password Management</h3>
+                    <div class="emoji">🔏</div>
+                </div>
+                <div class="feature-content">
+                    <p>
+                        Supports password change functionality, allowing users to update their 
+                        credentials securely while maintaining existing authentication.
+                    </p>
+                    <div class="feature-code">
+                        <code>
+                            const changePassword = async (currentPassword, newPassword) => {<br>
+                            &nbsp;&nbsp;// Implementation with secure API call<br>
+                            };
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <section class="methods-section">
+            <h2>API Methods</h2>
+            <div class="method-tabs">
+                <button class="method-tab active" onclick="showMethod('login')">login()</button>
+                <button class="method-tab" onclick="showMethod('logout')">logout()</button>
+                <button class="method-tab" onclick="showMethod('change-password')">changePassword()</button>
+                <button class="method-tab" onclick="showMethod('create-token')">createBasicAuthToken()</button>
+            </div>
+            
+            <div id="login" class="method-content active">
+                <h3>login()</h3>
+                <div class="method-description">
+                    <p>
+                        Authenticates a user with the provided username and password, returning 
+                        user information on success or throwing an error on failure.
+                    </p>
+                </div>
+                
+                <div class="method-signature">
+                    <code>async login(username: string, password: string): Promise&lt;{ username: string }&gt;</code>
+                </div>
+                
+                <h4>Parameters</h4>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>username</td>
+                            <td>string</td>
+                            <td>The user's username or email</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>password</td>
+                            <td>string</td>
+                            <td>The user's password</td>
+                            <td>Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h4>Returns</h4>
+                <p>
+                    A Promise that resolves to an object containing user information, such as the username.
+                </p>
+                
+                <h4>Throws</h4>
+                <ul>
+                    <li><code>Error</code> - If credentials are invalid (with message 'Invalid username or password')</li>
+                    <li><code>Error</code> - If there's a network or server error (with message 'Login failed...')</li>
+                </ul>
+                
+                <h4>Example</h4>
+                <div class="code-block">
+<pre>import { authService } from '../services/authService';
+
+// In a login component
+const handleLogin = async (event) => {
+  event.preventDefault();
+  try {
+    const result = await authService.login(username, password);
+    console.log('Login successful:', result);
+    // Update auth state, redirect, etc.
+  } catch (error) {
+    console.error('Login error:', error.message);
+    // Show error message to user
+  }
+};</pre>
+                </div>
+            </div>
+            
+            <div id="logout" class="method-content">
+                <h3>logout()</h3>
+                <div class="method-description">
+                    <p>
+                        Logs out the current user by clearing client-side state. Note that with Basic Auth,
+                        true logout usually requires closing the browser or special server-side handling.
+                    </p>
+                </div>
+                
+                <div class="method-signature">
+                    <code>logout(): void</code>
+                </div>
+                
+                <h4>Parameters</h4>
+                <p>None</p>
+                
+                <h4>Returns</h4>
+                <p>Void</p>
+                
+                <h4>Example</h4>
+                <div class="code-block">
+<pre>import { authService } from '../services/authService';
+
+// In a navigation component
+const handleLogout = () => {
+  authService.logout();
+  // Update auth state, redirect to login page, etc.
+};</pre>
+                </div>
+            </div>
+            
+            <div id="change-password" class="method-content">
+                <h3>changePassword()</h3>
+                <div class="method-description">
+                    <p>
+                        Changes the password for the currently authenticated user.
+                    </p>
+                </div>
+                
+                <div class="method-signature">
+                    <code>async changePassword(currentPassword: string, newPassword: string): Promise&lt;any&gt;</code>
+                </div>
+                
+                <h4>Parameters</h4>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>currentPassword</td>
+                            <td>string</td>
+                            <td>The user's current password</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>newPassword</td>
+                            <td>string</td>
+                            <td>The desired new password</td>
+                            <td>Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h4>Returns</h4>
+                <p>
+                    A Promise that resolves to the response data from the server, typically a success message.
+                </p>
+                
+                <h4>Throws</h4>
+                <ul>
+                    <li><code>Error</code> - If there's an error changing the password (incorrect current password, server error, etc.)</li>
+                </ul>
+                
+                <h4>Example</h4>
+                <div class="code-block">
+<pre>import { authService } from '../services/authService';
+
+// In a password change component
+const handlePasswordChange = async (event) => {
+  event.preventDefault();
+  try {
+    const result = await authService.changePassword(currentPassword, newPassword);
+    console.log('Password changed successfully:', result);
+    // Show success message, redirect, etc.
+  } catch (error) {
+    console.error('Password change error:', error.message);
+    // Show error message to user
+  }
+};</pre>
+                </div>
+            </div>
+            
+            <div id="create-token" class="method-content">
+                <h3>createBasicAuthToken()</h3>
+                <div class="method-description">
+                    <p>
+                        Creates a Basic Authentication token from a username and password.
+                        This is a helper function used internally by the service but may be exported
+                        for other components that need to create auth tokens.
+                    </p>
+                </div>
+                
+                <div class="method-signature">
+                    <code>createBasicAuthToken(username: string, password: string): string</code>
+                </div>
+                
+                <h4>Parameters</h4>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>username</td>
+                            <td>string</td>
+                            <td>The user's username</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>password</td>
+                            <td>string</td>
+                            <td>The user's password</td>
+                            <td>Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h4>Returns</h4>
+                <p>
+                    A string containing the Basic Authentication token in the format <code>Basic {base64-encoded-credentials}</code>
+                </p>
+                
+                <h4>Example</h4>
+                <div class="code-block">
+<pre>import { authService } from '../services/authService';
+
+// Creating a manual request with Basic Auth
+const makeAuthenticatedRequest = async () => {
+  const token = authService.createBasicAuthToken('username', 'password');
+  const response = await fetch('/api/resource', {
+    headers: {
+      'Authorization': token
+    }
+  });
+  return response.json();
+};</pre>
+                </div>
+            </div>
+        </section>
+        
+        <section class="intro">
+            <h2>Security Considerations</h2>
+            <p>
+                When working with the Authentication Service, keep these security considerations in mind:
+            </p>
+            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li><strong>HTTPS Required</strong>: Basic Authentication sends credentials encoded (not encrypted), so always use HTTPS to protect them during transmission.</li>
+                <li><strong>Credential Storage</strong>: Never store passwords in local storage or cookies. Basic Auth is handled by the browser's auth cache.</li>
+                <li><strong>Logout Limitations</strong>: With Basic Auth, true logout requires server-side handling or closing the browser.</li>
+                <li><strong>Error Messages</strong>: Use generic error messages that don't reveal whether a username exists or not.</li>
+                <li><strong>Password Requirements</strong>: Implement frontend validation for password strength before sending to the server.</li>
+                <li><strong>Rate Limiting</strong>: Consider implementing rate limiting on the backend to prevent brute force attacks.</li>
+            </ul>
+        </section>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="index.html" class="back-button">Back to Services</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation © 2025</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Last updated: May 13, 2025</p>
+    </footer>
+    
+    <script>
+        function showMethod(methodId) {
+            // Hide all method contents and deactivate tabs
+            document.querySelectorAll('.method-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.method-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected method content and activate tab
+            document.getElementById(methodId).classList.add('active');
+            document.querySelector(`.method-tab[onclick="showMethod('${methodId}')"]`).classList.add('active');
+        }
+    </script>
+</body>
+</html>

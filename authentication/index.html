@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .flow-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        
+        .flow-step {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin: 0.5rem;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin: 0 0.5rem;
+        }
+        
+        .auth-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .auth-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .auth-card h3 .emoji {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+            position: static;
+            opacity: 1;
+        }
+        
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .section-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-header h3 {
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-link {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .card-link:hover {
+            background-color: var(--primary-color);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        /* Animation for login flow */
+        .auth-animation {
+            height: 200px;
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            position: relative;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+        
+        .auth-user {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            position: absolute;
+            top: 75px;
+            left: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            animation: userMove 5s infinite;
+        }
+        
+        .auth-server {
+            width: 80px;
+            height: 120px;
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            position: absolute;
+            top: 40px;
+            right: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .auth-token {
+            width: 40px;
+            height: 20px;
+            background-color: var(--accent-color);
+            border-radius: 4px;
+            position: absolute;
+            top: 90px;
+            left: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            animation: tokenMove 5s infinite;
+            animation-delay: 2.5s;
+            opacity: 0;
+        }
+        
+        @keyframes userMove {
+            0% { left: 50px; }
+            20% { left: 250px; }
+            40% { left: 250px; }
+            60% { left: 250px; }
+            80% { left: 50px; }
+            100% { left: 50px; }
+        }
+        
+        @keyframes tokenMove {
+            0% { left: 400px; opacity: 0; }
+            10% { left: 400px; opacity: 1; }
+            50% { left: 150px; opacity: 1; }
+            90% { left: 150px; opacity: 1; }
+            100% { left: 150px; opacity: 0; }
+        }
+        
+        @media (max-width: 768px) {
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-diagram {
+                flex-direction: column;
+            }
+            
+            .flow-step {
+                width: 100%;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+                margin: 0.5rem 0;
+            }
+            
+            .auth-animation {
+                height: 300px;
+            }
+            
+            .auth-user, .auth-token {
+                top: 40px;
+            }
+            
+            .auth-server {
+                top: 200px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            @keyframes userMove {
+                0% { left: 50px; top: 40px; }
+                20% { left: 50px; top: 140px; }
+                40% { left: 50px; top: 140px; }
+                60% { left: 50px; top: 140px; }
+                80% { left: 50px; top: 40px; }
+                100% { left: 50px; top: 40px; }
+            }
+            
+            @keyframes tokenMove {
+                0% { left: 200px; top: 200px; opacity: 0; }
+                10% { left: 200px; top: 200px; opacity: 1; }
+                50% { left: 50px; top: 100px; opacity: 1; }
+                90% { left: 50px; top: 100px; opacity: 1; }
+                100% { left: 50px; top: 100px; opacity: 0; }
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Authentication</h1>
+        <p class="subtitle">User authentication and security</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; Authentication
+        </div>
+        
+        <section class="intro">
+            <h2>Authentication System</h2>
+            <p>
+                The Absence Management System implements an authentication system to ensure
+                that only authorized users can access the application and its features. This section explains
+                how the authentication system works, the components involved, and the security measures in place.
+            </p>
+            <p>
+                The system utilizes a <strong>persistent Basic Authentication</strong> mechanism. Upon a successful login,
+                the Basic Authentication header string (e.g., "Basic dXNlcjpwYXNzd29yZA==") is itself stored locally
+                in the browser's <code>localStorage</code>. This stored string is then automatically included in the
+                <code>Authorization</code> header for all subsequent API requests via the shared <code>axiosInstance</code>.
+                User roles are currently assigned statically on the client-side after a successful login.
+            </p>
+        </section>
+        
+        <section class="auth-card">
+            <h3><span class="emoji">🔄</span> Authentication Flow</h3>
+            <p>
+                The authentication process follows these steps:
+            </p>
+            
+            <div class="flow-diagram">
+                <div class="flow-step">User Enters Credentials</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Credentials Sent (Basic Auth)</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Backend Validates</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Client Stores Basic Auth String</div>
+            </div>
+            
+            <ol>
+                <li><strong>Login Form</strong>: The user provides their username and password through the login interface.</li>
+                <li><strong>Credential Validation</strong>: The <code>AuthContext</code> initiates the login process by calling <code>authService.login(username, password)</code>. This service sends the credentials via an HTTP Basic Authentication header to a backend endpoint (e.g., <code>/students</code>) for validation.</li>
+                <li><strong>Client-Side "Token" Creation</strong>: If the backend confirms the credentials are valid (e.g., by returning a 2xx HTTP status), the <code>AuthContext</code> then re-creates the Basic Authentication string using <code>authService.createBasicAuthToken(username, password)</code>.</li>
+                <li><strong>Local Storage</strong>: This newly created Basic Auth string (e.g., "Basic dXNlcjpwYXNzd29yZA==") is stored in the browser's <code>localStorage</code> under the key 'authToken'.</li>
+                <li><strong>Role Assignment</strong>: Upon successful login, the user's role is currently <strong>hardcoded to 'ADMIN'</strong> within the <code>AuthContext</code>.</li>
+                <li><strong>Subsequent Requests</strong>: For all future API calls made through the application's shared <code>axiosInstance</code>, an interceptor automatically retrieves the stored Basic Auth string from <code>localStorage</code> and includes it in the <code>Authorization</code> header, effectively authenticating each request.</li>
+                <li><strong>Logout</strong>: The logout process involves removing the Basic Auth string from <code>localStorage</code>, which prevents subsequent requests from being authenticated.</li>
+            </ol>
+        </section>
+        
+        <section class="auth-card">
+            <h3><span class="emoji">👨‍💻</span> Core Implementation: AuthContext & AuthService</h3>
+            <p>
+                Authentication state and logic are primarily managed by <code>AuthContext.jsx</code>, which utilizes <code>authService.js</code> for backend communication.
+            </p>
+            
+            <h4>AuthContext.jsx</h4>
+            <p><code>AuthContext.jsx</code> (located at <code>client/src/context/AuthContext.jsx</code>) provides authentication state (<code>isAuthenticated</code>, <code>user</code>, <code>authToken</code>, <code>userRole</code>) and functions (<code>login</code>, <code>logout</code>) to the rest of the application. It initializes its state from <code>localStorage</code>, allowing session persistence.</p>
+            <div class="code-block">
+<pre><code class="language-jsx">
+// client/src/context/AuthContext.jsx (Simplified for documentation)
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import { authService } from '@/services/authService';
+
+const AuthContext = createContext(null);
+const AUTH_TOKEN_KEY = 'authToken';
+
+export const AuthProvider = ({ children }) => {
+  const [authToken, setAuthToken] = useState(() => localStorage.getItem(AUTH_TOKEN_KEY));
+  const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem(AUTH_TOKEN_KEY));
+  const [user, setUser] = useState(() => (
+    localStorage.getItem(AUTH_TOKEN_KEY) 
+      ? { username: 'admin', role: 'ADMIN' } // Role hardcoded on init if token exists
+      : null
+  ));
+  // ... other states like loading, error
+
+  useEffect(() => {
+    if (authToken) {
+      localStorage.setItem(AUTH_TOKEN_KEY, authToken);
+    } else {
+      localStorage.removeItem(AUTH_TOKEN_KEY);
+    }
+  }, [authToken]);
+
+  const login = async (username, password) => {
+    // ... setLoading(true), setError(null)
+    try {
+      const loggedInUser = await authService.login(username, password); // Validates credentials
+      
+      // IMPORTANT: Role is hardcoded here
+      loggedInUser.role = 'ADMIN';
+
+      // Create the Basic Auth string to be stored
+      const token = authService.createBasicAuthToken(username, password);
+      
+      setIsAuthenticated(true);
+      setUser(loggedInUser);
+      setAuthToken(token); // This triggers the useEffect to save to localStorage
+      // ... setLoading(false)
+      return true;
+    } catch (error) {
+      // ... error handling, clear states
+      return false;
+    }
+  };
+
+  const logout = () => {
+    authService.logout(); // Service-level logout (currently a placeholder)
+    setIsAuthenticated(false);
+    setUser(null);
+    setAuthToken(null); // This triggers the useEffect to remove from localStorage
+  };
+
+  const userRole = user?.role;
+
+  const value = {
+    isAuthenticated, user, userRole, authToken, /* loading, error, */ login, logout,
+  };
+
+  return &lt;AuthContext.Provider value={value}&gt;{children}&lt;/AuthContext.Provider&gt;;
+};
+
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
+</code></pre>
+            </div>
+            
+            <h4>authService.js</h4>
+            <p><code>authService.js</code> (located at <code>client/src/services/authService.js</code>) handles the direct API interaction for logging in and includes helper functions like creating the Basic Auth token string. It does not manage state or tokens itself.</p>
+            <div class="code-block">
+<pre><code class="language-javascript">
+// client/src/services/authService.js (Simplified for documentation)
+import axiosInstance from '@/lib/axiosInstance';
+
+// Function to create the Basic Auth header value
+const createBasicAuthToken = (username, password) => {
+  return 'Basic ' + btoa(username + ":" + password);
+}
+
+const login = async (username, password) => {
+  try {
+    // Hit a protected endpoint with Basic Auth to validate credentials.
+    // Spring Security often handles this by checking credentials on such a request.
+    const response = await axiosInstance.get('/students', { // Example protected endpoint
+      headers: {
+        'Authorization': createBasicAuthToken(username, password)
+      }
+    });
+    // If status is 2xx, credentials are valid.
+    // This call itself might not return user data or a token from the server.
+    return { username: username }; // Return minimal confirmation
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      throw new Error('Invalid username or password.');
+    } else {
+      throw new Error('Login failed. Please try again later.');
+    }
+  }
+};
+
+const logout = () => {
+  // Client-side, the main action is clearing the stored Basic Auth string (done in AuthContext).
+  // True Basic Auth logout is browser-dependent.
+  console.log('AuthService: Logout called (primarily client-state clear)');
+};
+
+// Placeholder for future functionality
+const changePassword = async (currentPassword, newPassword) => {
+    throw new Error("Password change functionality not available.");
+}
+
+export const authService = {
+  login,
+  logout,
+  changePassword,
+  createBasicAuthToken
+};
+</code></pre>
+            </div>
+        </section>
+
+        <section class="auth-card">
+            <h3><span class="emoji">🧩</span> Authentication Components & Usage</h3>
+            <p>
+                The authentication system is made available to React components through the Context API:
+            </p>
+            <ul>
+                <li>
+                    <strong><code>&lt;AuthProvider&gt;</code></strong>: This component should wrap the parts of your application that need access to authentication state (ideally, wrap your entire application at the root level, e.g., in <code>App.js</code> or <code>main.jsx</code>).
+<pre><code class="language-jsx">
+// Example: src/main.jsx or App.jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import { AuthProvider } from './context/AuthContext'; // Adjust path as needed
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  &lt;React.StrictMode&gt;
+    &lt;AuthProvider&gt;
+      &lt;App /&gt;
+    &lt;/AuthProvider&gt;
+  &lt;/React.StrictMode&gt;,
+);
+</code></pre>
+                </li>
+                <li>
+                    <strong><code>useAuth()</code></strong>: This custom hook is used within functional components to access authentication data (like <code>isAuthenticated</code>, <code>user</code>, <code>userRole</code>) and methods (<code>login</code>, <code>logout</code>).
+<pre><code class="language-jsx">
+// Example: A component that needs auth information
+import React from 'react';
+import { useAuth } from '@/context/AuthContext'; // Adjust path as needed
+
+const MyComponent = () => {
+  const { isAuthenticated, user, userRole, logout } = useAuth();
+
+  if (!isAuthenticated) {
+    return &lt;p&gt;Please log in.&lt;/p&gt;;
+  }
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Welcome, {user?.username}! (Role: {userRole})&lt;/p&gt;
+      &lt;button onClick={logout}&gt;Logout&lt;/button&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default MyComponent;
+</code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section class="auth-card">
+            <h3><span class="emoji">🛡️</span> Security Considerations</h3>
+            <ul>
+                <li><strong>Storage of Basic Auth String</strong>: Storing the Base64 encoded Basic Authentication string in <code>localStorage</code> means that the username and password (though not plain text, they are easily decodable) are accessible to any client-side JavaScript running on the same origin. This makes the application vulnerable to Cross-Site Scripting (XSS) attacks, which could steal these credentials. Standard security practice typically favors HttpOnly cookies for session tokens or JWTs to mitigate this specific risk.</li>
+                <li><strong>Hardcoded Admin Role</strong>: A significant security concern is that the user role is <strong>currently hardcoded to 'ADMIN'</strong> in <code>AuthContext.jsx</code> for any user who successfully authenticates. This grants administrative privileges to all users, regardless of their actual permissions on the backend. This must be addressed by fetching the true user role from the backend after login.</li>
+                <li><strong>HTTPS Enforcement</strong>: It is absolutely critical that the application is served exclusively over HTTPS in production. Basic Authentication transmits credentials in the headers of every authenticated request. Without HTTPS, these credentials (even though Base64 encoded) would be sent in plain text over the network, making them easily interceptable.</li>
+                <li><strong>Session Invalidation</strong>: Logout primarily clears the client-side stored Basic Auth string. True server-side invalidation for Basic Authentication is not straightforward, as the server typically does not maintain session state for Basic Auth. The browser might cache credentials, potentially requiring a browser restart for a full "logout" in some scenarios, though clearing the stored string is effective for the application's own logic.</li>
+                 <li><strong><code>axiosInstance</code> 401 Handling</strong>: The <code>axiosInstance.js</code> includes a response interceptor that, on a 401 (Unauthorized) error, removes the 'authToken' from <code>localStorage</code> and redirects to <code>/login</code>. This is good practice for handling expired or invalid Basic Auth strings that might be stored.</li>
+            </ul>
+        </section>
+        
+        <h2>Additional Notes</h2>
+        
+        <div class="back-section" style="text-align: center; margin-top: 2rem;">
+            <a href="../index.html" class="back-button">Back to Documentation Home</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+    </footer>
+</body>
+</html>

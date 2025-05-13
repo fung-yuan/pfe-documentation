@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State Management - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2.5rem 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb::before {
+            content: '🏠';
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+        
+        .intro-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .intro-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .intro-section h2::before {
+            content: '🧠';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .intro-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .card-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-description {
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        .card-link {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+        
+        .card-link:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .features-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .features-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .features-section h2::before {
+            content: '✨';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .feature-card {
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .feature-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .highlight-box {
+            background-color: #f0f9ff;
+            border-left: 4px solid #4cc9f0;
+            border-radius: 4px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .highlight-box h3 {
+            color: var(--secondary-color);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .highlight-box h3::before {
+            content: '🔍';
+            margin-right: 0.5rem;
+        }
+        
+        .back-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .cards-grid, .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>State Management</h1>
+        <p class="subtitle">Managing application data and UI state</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; State Management
+        </div>
+        
+        <section class="intro-section">
+            <h2>Overview</h2>
+            <p>
+                The ESTLM Absence Management System uses a pragmatic approach to state management that combines React's built-in state management 
+                tools with custom solutions. This hybrid approach allows for both localized and global state management depending on the scope and 
+                requirements of each feature.
+            </p>
+            
+            <p>
+                The application employs three main patterns for state management:
+            </p>
+            
+            <ol>
+                <li><strong>Context API:</strong> For global application state like authentication and user preferences</li>
+                <li><strong>Component-level State:</strong> For UI state, form data, and temporary data that doesn't need to be shared widely</li>
+                <li><strong>Custom Hooks:</strong> For reusable state logic that can be shared across components</li>
+            </ol>
+            
+            <p>
+                This multi-tiered approach makes the application more maintainable by keeping state close to where it's needed 
+                while still providing global state access when necessary.
+            </p>
+        </section>
+        
+        <h2 style="margin-bottom: 1.5rem; color: var(--primary-color);">State Management Components</h2>
+        
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🔐</div>
+                    <h3 class="card-title">Authentication Context</h3>
+                    <p class="card-subtitle">Global authentication state</p>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">
+                        The AuthContext provides authentication state and functions throughout the component tree,
+                        managing user login, logout, and role-based access control.
+                    </p>
+                    <a href="components/auth-context.html" class="card-link">View Details</a>
+                </div>
+            </div>
+            
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🪝</div>
+                    <h3 class="card-title">Custom Hooks</h3>
+                    <p class="card-subtitle">Reusable state logic</p>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">
+                        Custom hooks like useToast, usePagination, and useForm provide reusable state logic
+                        that can be shared across components for consistent behavior.
+                    </p>
+                    <a href="components/custom-hooks.html" class="card-link">View Details</a>
+                </div>
+            </div>
+        </div>
+        
+        <section class="features-section">
+            <h2>State Management Best Practices</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <h3 class="feature-title">Locality Principle</h3>
+                    <p>
+                        State is kept as close as possible to where it's used. 
+                        Global state is only used when necessary.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Single Source of Truth</h3>
+                    <p>
+                        Each piece of state has a single definitive source, 
+                        avoiding synchronization issues.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⬆️</div>
+                    <h3 class="feature-title">Lifting State Up</h3>
+                    <p>
+                        When multiple components need the same state, it's lifted to their 
+                        common ancestor or to context.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3 class="feature-title">Immutable Updates</h3>
+                    <p>
+                        State is always updated using immutable patterns to avoid side effects
+                        and ensure predictable behavior.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🧩</div>
+                    <h3 class="feature-title">Component-level State</h3>
+                    <p>
+                        Component-specific state is kept local using useState hooks
+                        for better encapsulation and maintainability.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔌</div>
+                    <h3 class="feature-title">Service Layer</h3>
+                    <p>
+                        Business logic and API calls are abstracted into service modules, 
+                        keeping components focused on rendering.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <div class="highlight-box">
+            <h3>Natural Language Search Improvements</h3>
+            <p>The Natural Language Search feature has received several state management improvements:</p>
+            <ul style="margin-top: 0.75rem;">
+                <li><strong>Zero Absence Queries:</strong> Implemented direct "NOT EXISTS" approach in JPQL queries for accurate student attendance tracking</li>
+                <li><strong>French Character Support:</strong> Added special handling for accented characters in search queries</li>
+                <li><strong>Data Validation:</strong> Implemented validation for absence hour values to maintain data integrity</li>
+                <li><strong>AI Model Upgrade:</strong> Upgraded from GPT-3.5-turbo to GPT-4 for more accurate query generation</li>
+                <li><strong>Schema-Aware Prompting:</strong> Enhanced AI prompts with database schema information for better query generation</li>
+            </ul>
+            <p style="margin-top: 0.75rem;"><a href="components/natural-language-search.html" style="color: #4361ee; text-decoration: none; font-weight: 500;">View detailed documentation →</a></p>
+        </div>
+        
+        <div class="back-section">
+            <a href="../index.html" class="back-button">Back to Documentation Home</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State Management - Documentation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-bg: #f8f9fa;
+            --dark-bg: #121212;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem 2rem;
+        }
+        
+        .breadcrumb {
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb::before {
+            content: '🏠';
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+        
+        .content-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .content-section h2::before {
+            content: '🧠';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .context-section h2::before {
+            content: '🔄';
+        }
+        
+        .component-section h2::before {
+            content: '⚛️';
+        }
+        
+        .toast-section h2::before {
+            content: '💬';
+        }
+        
+        .content-section h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+        
+        .content-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background-color: #2b2d42;
+            color: #edf2f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .code-block::before {
+            content: 'Code Example';
+            display: block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #b8c2cc;
+        }
+        
+        .usage-example {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            background-color: rgba(67, 97, 238, 0.05);
+            padding: 1rem;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .usage-example h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .note::before {
+            content: '📝 Note';
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .security-note {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .security-note::before {
+            content: '🔒 Security Consideration';
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .improvement-note {
+            background-color: #d1e7dd;
+            border-left: 4px solid #198754;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .improvement-note::before {
+            content: '✅ Improvement';
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .approach-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .approach-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .approach-card h3 {
+            display: flex;
+            align-items: center;
+            margin-top: 0;
+        }
+        
+        .approach-card h3::before {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .approach-card.auth h3::before {
+            content: '🔐';
+        }
+        
+        .approach-card.component h3::before {
+            content: '🧩';
+        }
+        
+        .approach-card.toast h3::before {
+            content: '🔔';
+        }
+        
+        .approach-card.natural-language h3::before {
+            content: '🔍';
+        }
+        
+        .diagram {
+            width: 100%;
+            max-width: 700px;
+            margin: 2rem auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            background-color: white;
+        }
+        
+        .diagram-title {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .diagram-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .diagram-box {
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem;
+            min-width: 180px;
+            text-align: center;
+            background-color: white;
+            position: relative;
+        }
+        
+        .diagram-arrow {
+            width: 2px;
+            height: 30px;
+            background-color: var(--primary-color);
+            position: relative;
+            margin: 5px 0;
+        }
+        
+        .diagram-arrow::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -4px;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 8px solid var(--primary-color);
+        }
+        
+        .back-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem 1rem;
+            }
+            
+            .content-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>State Management</h1>
+        <p class="subtitle">Managing application state across components</p>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> &gt; <a href="index.html">Services</a> &gt; State Management
+        </div>
+        
+        <section class="content-section">
+            <h2>Overview</h2>
+            <p>
+                The ESTLM Absence Management System uses a pragmatic approach to state management that combines React's built-in state management 
+                tools with custom solutions. This hybrid approach allows for both localized and global state management depending on the scope and 
+                requirements of each feature.
+            </p>
+            
+            <div class="diagram">
+                <div class="diagram-title">State Management Architecture</div>
+                <div class="diagram-content">
+                    <div class="diagram-box" style="border-color: #4361ee; width: 250px;">Application State</div>
+                    <div class="diagram-arrow"></div>
+                    <div style="display: flex; justify-content: space-between; width: 100%; max-width: 600px;">
+                        <div style="display: flex; flex-direction: column; align-items: center;">
+                            <div class="diagram-box" style="border-color: #3a0ca3;">Global State<br><small>Context API</small></div>
+                            <div style="font-size: 0.8rem; margin-top: 0.5rem;">
+                                • Authentication<br>
+                                • Notifications
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: center;">
+                            <div class="diagram-box" style="border-color: #3a0ca3;">Component State<br><small>useState & useEffect</small></div>
+                            <div style="font-size: 0.8rem; margin-top: 0.5rem;">
+                                • Data Tables<br>
+                                • Forms<br>
+                                • UI Controls
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <p>
+                The application employs three main patterns for state management:
+            </p>
+            
+            <ol>
+                <li><strong>Context API:</strong> For global application state like authentication and user preferences</li>
+                <li><strong>Component-level State:</strong> For UI state, form data, and temporary data that doesn't need to be shared widely</li>
+                <li><strong>Custom Hooks:</strong> For reusable state logic that can be shared across components</li>
+            </ol>
+            
+            <p>
+                This multi-tiered approach makes the application more maintainable by keeping state close to where it's needed 
+                while still providing global state access when necessary.
+            </p>
+        </section>
+        
+        <section class="content-section context-section">
+            <h2>Context API for Global State</h2>
+            <p>
+                The React Context API is used to manage global state that needs to be accessed by multiple components across the application. 
+                This approach avoids prop drilling and keeps the state management logic centralized.
+            </p>
+            
+            <div class="approach-card auth">
+                <h3>Authentication Context</h3>
+                <p>
+                    The <code>AuthContext</code> is a central piece of the application's state management, providing authentication 
+                    state and functions throughout the component tree.
+                </p>
+                
+                <div class="code-block">
+<pre>// AuthContext.jsx
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import { authService } from '@/services/authService';
+
+const AuthContext = createContext(null);
+
+// Key for storing the token in localStorage
+const AUTH_TOKEN_KEY = 'authToken';
+
+export const AuthProvider = ({ children }) => {
+  const [authToken, setAuthToken] = useState(() => localStorage.getItem(AUTH_TOKEN_KEY));
+  const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem(AUTH_TOKEN_KEY));
+  const [user, setUser] = useState(() => (
+    localStorage.getItem(AUTH_TOKEN_KEY) 
+      ? { username: 'admin', role: 'ADMIN' } 
+      : null
+  ));
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Login/logout functions...
+
+  const value = {
+    isAuthenticated,
+    user,
+    userRole: user?.role,
+    authToken,
+    loading,
+    error,
+    login,
+    logout,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};</pre>
+                </div>
+                
+                <h4>Key Features</h4>
+                <ul>
+                    <li><strong>Persistent Authentication:</strong> Uses localStorage to maintain the authentication state across page reloads</li>
+                    <li><strong>User Role Management:</strong> Tracks the user's role for role-based access control</li>
+                    <li><strong>Loading & Error States:</strong> Manages loading and error states for authentication operations</li>
+                    <li><strong>Authentication API:</strong> Provides login and logout functions that update the global state</li>
+                </ul>
+                
+                <div class="usage-example">
+                    <h4>Usage Example</h4>
+                    <p>Here's how components access the authentication state:</p>
+                    <div class="code-block">
+<pre>// In a component
+import { useAuth } from '@/context/AuthContext';
+
+const MyProtectedComponent = () => {
+  const { isAuthenticated, user, logout } = useAuth();
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+  
+  return (
+    <div>
+      <h1>Welcome, {user.username}</h1>
+      <button onClick={logout}>Logout</button>
+    </div>
+  );
+};</pre>
+                    </div>
+                </div>
+                
+                <div class="security-note">
+                    <p>The current implementation hardcodes the user role as 'ADMIN' for development purposes. For production, this should be replaced with proper role retrieval from the backend API. Additionally, the authentication token is stored in localStorage, which may be vulnerable to XSS attacks. Consider using HTTP-only cookies for enhanced security in production environments.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="content-section component-section">
+            <h2>Component-level State Management</h2>
+            <p>
+                Most of the application's state is managed at the component level using React's <code>useState</code> and <code>useEffect</code> hooks. 
+                This approach is used for:
+            </p>
+            
+            <ul>
+                <li>Form input values and validation state</li>
+                <li>Data table state (sorting, filtering, pagination)</li>
+                <li>UI controls (modals, accordions, tabs)</li>
+                <li>Component-specific data fetching</li>
+            </ul>
+            
+            <div class="approach-card component">
+                <h3>Data Table State</h3>
+                <p>
+                    Each data management page (Students, Departments, Subjects, etc.) manages its own state for data tables, 
+                    including the list of items, filtering, sorting, and CRUD operations.
+                </p>
+                
+                <div class="code-block">
+<pre>// Example from StudentManagement.jsx
+const StudentManagement = () => {
+    const [students, setStudents] = useState([]);
+    const [departments, setDepartments] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [selectedStudent, setSelectedStudent] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+    
+    // Form state
+    const [fullName, setFullName] = useState("");
+    const [studentId, setStudentId] = useState("");
+    const [email, setEmail] = useState("");
+    const [departmentId, setDepartmentId] = useState("");
+    const [semesterId, setSemesterId] = useState("");
+    
+    // Data fetching with useEffect
+    useEffect(() => {
+        fetchStudents();
+        fetchDepartments();
+    }, []);
+    
+    // Search filtering with useEffect
+    useEffect(() => {
+        if (searchTerm) {
+            // Filter students based on search term
+        }
+    }, [searchTerm, students]);
+    
+    // CRUD operations and handlers
+    // ...
+};</pre>
+                </div>
+                
+                <h4>Key Aspects of Component State</h4>
+                <ul>
+                    <li><strong>Data Fetching:</strong> Each component fetches its own data on mount</li>
+                    <li><strong>Form State:</strong> Form inputs are controlled by component state</li>
+                    <li><strong>UI State:</strong> Modals, editing mode, and loading states are managed locally</li>
+                    <li><strong>Search & Filter:</strong> Search terms and filters are applied within the component</li>
+                </ul>
+            </div>
+            
+            <div class="approach-card natural-language">
+                <h3>Natural Language Search State</h3>
+                <p>
+                    The Natural Language Search component maintains its own state for managing user queries, processing results, 
+                    and tracking recent searches.
+                </p>
+                
+                <div class="code-block">
+<pre>// From NaturalLanguageSearch.jsx
+const NaturalLanguageSearch = () => {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [recentSearches, setRecentSearches] = useState(() => {
+    const saved = localStorage.getItem('recentSearches');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const handleSearch = async () => {
+    try {
+      // Save to recent searches
+      const trimmedQuery = query.trim();
+      const updatedSearches = [trimmedQuery, ...recentSearches.filter(s => s !== trimmedQuery)].slice(0, 5);
+      setRecentSearches(updatedSearches);
+      localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+      
+      // Use the search service
+      const searchResults = await SearchService.naturalLanguageSearch(trimmedQuery);
+      
+      if (searchResults) {
+        setResults(searchResults);
+      }
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Component JSX
+};</pre>
+                </div>
+                
+                <h4>Special Considerations for Natural Language Search</h4>
+                <ul>
+                    <li><strong>Local Storage:</strong> Recent searches are persisted in localStorage for user convenience</li>
+                    <li><strong>Error Handling:</strong> Robust error handling for API communication</li>
+                    <li><strong>Loading States:</strong> Visual feedback during search operations</li>
+                    <li><strong>Zero Absence Handling:</strong> Special case handling for students with perfect attendance using direct "NOT EXISTS" approach</li>
+                    <li><strong>French Character Support:</strong> Improved handling of accented characters in search queries</li>
+                    <li><strong>Advanced Query Generation:</strong> Using GPT-4 for more accurate and contextual query generation</li>
+                </ul>
+                
+                <div class="improvement-note">
+                    <p>Recent improvements to the Natural Language Search include:</p>
+                    <ul>
+                        <li><strong>Zero Absence Queries:</strong> Fixed issues with finding students with perfect attendance by implementing a direct "NOT EXISTS" approach in JPQL queries, ensuring accurate results for zero absence cases</li>
+                        <li><strong>French Character Support:</strong> Improved handling of accented characters (é, è, ê, à, etc.) in search queries to better support French language input</li>
+                        <li><strong>Data Validation:</strong> Added validation and capping for unreasonable absence hour values to prevent incorrect calculations and ensure data integrity</li>
+                        <li><strong>Enhanced Debugging:</strong> Added better logging throughout the system to facilitate troubleshooting and performance monitoring</li>
+                        <li><strong>AI Model Upgrade:</strong> Upgraded from GPT-3.5-turbo to GPT-4 for more accurate query generation with improved understanding of complex natural language requests</li>
+                        <li><strong>Schema-Aware Prompting:</strong> Added detailed database schema information to the AI prompt to generate more accurate SQL/JPQL queries</li>
+                        <li><strong>Summary Generation:</strong> Enhanced the summary generation for search results to provide more meaningful context to users</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section class="content-section toast-section">
+            <h2>Toast Notifications with Custom Hooks</h2>
+            <p>
+                The application uses a custom toast notification system implemented with a specialized hook. This provides a consistent 
+                way to display feedback throughout the application.
+            </p>
+            
+            <div class="approach-card toast">
+                <h3>useToast Hook</h3>
+                <p>
+                    The <code>useToast</code> hook provides a global notification system that any component can access. It manages a 
+                    queue of toast messages with automatic dismissal.
+                </p>
+                
+                <div class="code-block">
+<pre>// From use-toast.ts
+// Simplified version
+export function useToast() {
+  const [state, setState] = useState&lt;State&gt;({ toasts: [] })
+
+  return {
+    toast: (props) => {
+      const id = genId()
+      const newToast = {
+        id,
+        ...props,
+        open: true,
+        onOpenChange: (open) => {
+          if (!open) {
+            dismissToast(id)
+          }
+        },
+      }
+      setState({ toasts: [...state.toasts, newToast] })
+    },
+    dismiss: (toastId) => dismissToast(toastId),
+    toasts: state.toasts,
+  }
+}</pre>
+                </div>
+                
+                <div class="usage-example">
+                    <h4>Usage Example</h4>
+                    <p>Component using the toast notification system:</p>
+                    <div class="code-block">
+<pre>// In a component
+import { useToast } from "@/hooks/use-toast";
+
+const MyComponent = () => {
+  const { toast } = useToast();
+  
+  const handleSubmit = async (data) => {
+    try {
+      await submitData(data);
+      toast({
+        title: "Success",
+        description: "Data was successfully submitted",
+        variant: "success",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to submit data",
+        variant: "destructive",
+      });
+    }
+  };
+  
+  // Component JSX
+};</pre>
+                    </div>
+                </div>
+                
+                <h4>Benefits of the Toast System</h4>
+                <ul>
+                    <li><strong>Consistent UI:</strong> Standardized appearance for all notifications</li>
+                    <li><strong>Global Access:</strong> Can be used from any component without prop drilling</li>
+                    <li><strong>Automatic Management:</strong> Toast messages are queued and automatically removed</li>
+                    <li><strong>Variants:</strong> Different styles for success, error, and information messages</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="content-section">
+            <h2>State Management Best Practices</h2>
+            <p>
+                The ESTLM Application follows several best practices for state management:
+            </p>
+            
+            <ol>
+                <li>
+                    <strong>Locality Principle:</strong> State is kept as close as possible to where it's used. 
+                    Global state is only used when necessary.
+                </li>
+                <li>
+                    <strong>Single Source of Truth:</strong> Each piece of state has a single definitive source, 
+                    avoiding synchronization issues.
+                </li>
+                <li>
+                    <strong>Lifting State Up:</strong> When multiple components need the same state, it's lifted to their 
+                    common ancestor or to context.
+                </li>
+                <li>
+                    <strong>Immutable Updates:</strong> State is always updated using immutable patterns to avoid side effects.
+                </li>
+                <li>
+                    <strong>Service Layer:</strong> Business logic and API calls are abstracted into service modules, 
+                    keeping components focused on rendering.
+                </li>
+            </ol>
+            
+            <div class="note">
+                <p>The application uses a pragmatic mix of state management techniques rather than over-engineering with complex state management libraries. This approach prioritizes simplicity and maintainability while still providing effective solutions for more complex state requirements.</p>
+            </div>
+            
+            <h3>Future Improvements</h3>
+            <p>
+                Potential improvements to the state management approach could include:
+            </p>
+            
+            <ul>
+                <li>
+                    <strong>State Machines:</strong> For complex form workflows and multi-step processes, implementing finite state 
+                    machines with libraries like XState could improve predictability.
+                </li>
+                <li>
+                    <strong>Server State Management:</strong> Adopting a library like React Query for better handling of server state, 
+                    caching, and background updates.
+                </li>
+                <li>
+                    <strong>Enhanced Form Management:</strong> More consistent form state management using solutions like 
+                    React Hook Form (already partially implemented).
+                </li>
+                <li>
+                    <strong>Global State Optimization:</strong> For scale, consider more advanced global state management like 
+                    Zustand or Jotai if the application grows significantly.
+                </li>
+            </ul>
+        </section>
+        
+        <div class="back-section">
+            <a href="index.html" class="back-button">Back to Services</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Absence Management System Documentation &copy; 2025</p>
+    </footer>
+</body>
+</html>
